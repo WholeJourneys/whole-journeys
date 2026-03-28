@@ -1,0 +1,21 @@
+packages:
+  "framer-motion": "For premium, smooth scroll animations and page transitions"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility function to efficiently merge Tailwind CSS classes in JS without style conflicts"
+  "@radix-ui/react-dialog": "For accessible, unstyled modal dialogs for tour details"
+
+images:
+  - path: "artifacts/whole-journeys/public/images/logo.png"
+    description: "A minimal, elegant luxury travel company logo for 'Whole Journeys'. Simple typography with a subtle compass or globe motif, deep navy blue on a transparent background."
+    aspect_ratio: "16:9"
+  - path: "artifacts/whole-journeys/public/images/virtuoso-badge.png"
+    description: "A luxury travel agency network badge, metallic gold and navy blue, sophisticated emblem."
+    aspect_ratio: "1:1"
+  - path: "artifacts/whole-journeys/public/images/texture-bg.png"
+    description: "A very subtle, light beige/sand watercolor paper texture background, extremely low contrast, suitable for a luxury website background."
+    aspect_ratio: "16:9"
+
+notes:
+  - Using mocked data for tours via a local React Query hook since specific sample data was provided but no backend schema exists for it.
+  - Using framer-motion for high-end staggered reveal animations.
+  - External booking links use a placeholder URL as requested.

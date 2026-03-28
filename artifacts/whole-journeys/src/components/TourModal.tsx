@@ -128,12 +128,6 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                   >
                     View Full Itinerary <ExternalLink className="w-4 h-4" />
                   </a>
-                  <a
-                    href="mailto:kathy@wholejourneys.com"
-                    className="w-full py-3 border border-primary text-primary rounded-md font-medium hover:bg-primary/5 transition-colors flex items-center justify-center gap-2"
-                  >
-                    Enquire About This Trip
-                  </a>
                   <p className="text-xs text-center text-muted-foreground italic">
                     All itineraries are sample tours — fully customizable for your group.
                   </p>

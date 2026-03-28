@@ -162,7 +162,7 @@ export default function Home() {
             Know exactly what you want?
           </h2>
           <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-            As a Coastline Virtuoso agency, we offer exclusive access to our TravelPro 365 booking platform. Book top-tier hotels, cruises, and partner tours directly, while enjoying our VIP perks and amenities.
+            As a Coastline Virtuoso agency, we offer exclusive access to our TravelPro 365 booking platform. Book top-tier hotels directly, while enjoying our VIP Virtuoso perks and amenities.
           </p>
           <a 
             href="https://book.wholejourneys.com" 

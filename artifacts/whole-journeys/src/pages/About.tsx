@@ -48,7 +48,7 @@ export default function About() {
               <div>
                 <h2 className="text-3xl font-display text-primary mb-4">Two Ways to Travel</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We cater to distinct travel styles. Through our <a href="https://book.wholejourneys.com" className="text-secondary hover:underline">Coastline Booking Portal</a>, confident travelers can directly reserve luxury hotels and partner tours with our embedded perks. Alternatively, our bespoke planning service constructs entirely custom, ground-up itineraries utilizing our global network of destination specialists.
+                  We cater to distinct travel styles. Through our <a href="https://book.wholejourneys.com" className="text-secondary hover:underline">Coastline Booking Portal</a>, confident travelers can directly reserve luxury hotels with our embedded Virtuoso perks. Alternatively, our bespoke planning service constructs entirely custom, ground-up itineraries utilizing our global network of destination specialists.
                 </p>
               </div>
             </div>

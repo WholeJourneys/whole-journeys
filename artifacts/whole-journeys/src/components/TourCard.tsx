@@ -1,23 +1,22 @@
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, ExternalLink } from "lucide-react";
 import { type Tour } from "@/hooks/use-tours";
-import { formatPrice } from "@/lib/utils";
 
 interface TourCardProps {
   tour: Tour;
   onClick: (tour: Tour) => void;
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  "Adventure":      "bg-orange-500/90 text-white",
-  "Country Estates":"bg-amber-700/90 text-white",
-  "Culture":        "bg-violet-600/90 text-white",
-  "Family":         "bg-sky-500/90 text-white",
-  "Self-Drive":     "bg-lime-600/90 text-white",
-  "Self-Guided":    "bg-teal-600/90 text-white",
-  "Ski & Snow":     "bg-blue-500/90 text-white",
-  "Wellness":       "bg-rose-500/90 text-white",
-  "Wildlife":       "bg-green-600/90 text-white",
-  "Women's":        "bg-pink-500/90 text-white",
+export const CATEGORY_COLORS: Record<string, string> = {
+  "Adventure":       "bg-orange-500/90 text-white",
+  "Country Estates": "bg-amber-700/90 text-white",
+  "Culture":         "bg-violet-600/90 text-white",
+  "Family":          "bg-sky-500/90 text-white",
+  "Self-Drive":      "bg-lime-600/90 text-white",
+  "Self-Guided":     "bg-teal-600/90 text-white",
+  "Ski & Snow":      "bg-blue-500/90 text-white",
+  "Wellness":        "bg-rose-500/90 text-white",
+  "Wildlife":        "bg-green-600/90 text-white",
+  "Women's":         "bg-pink-500/90 text-white",
 };
 
 export default function TourCard({ tour, onClick }: TourCardProps) {
@@ -45,20 +44,15 @@ export default function TourCard({ tour, onClick }: TourCardProps) {
           ))}
         </div>
 
-        {/* Location Overlay */}
+        {/* Location */}
         <div className="absolute bottom-4 left-4 right-4 flex items-center gap-1.5 text-white/90">
           <MapPin className="w-4 h-4 flex-shrink-0" />
           <span className="text-sm font-medium truncate">{tour.destination}</span>
-          {tour.country.length > 0 && (
-            <span className="text-white/60 text-xs ml-1 truncate">
-              · {tour.country.join(", ")}
-            </span>
-          )}
         </div>
       </div>
 
       <div className="p-6 flex flex-col flex-grow">
-        <h3 className="font-display text-2xl font-medium text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+        <h3 className="font-display text-xl font-medium text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
           {tour.name}
         </h3>
 
@@ -66,16 +60,24 @@ export default function TourCard({ tour, onClick }: TourCardProps) {
           {tour.description}
         </p>
 
-        <div className="pt-4 border-t border-border mt-auto flex items-end justify-between">
-          <div>
-            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">From</div>
-            <div className="font-display text-xl font-semibold text-primary">{formatPrice(tour.price)}</div>
+        <div className="pt-4 border-t border-border mt-auto flex items-center justify-between gap-3">
+          <div className="flex flex-wrap gap-1">
+            {tour.country.map((c) => (
+              <span key={c} className="text-xs text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-md">
+                {c}
+              </span>
+            ))}
           </div>
 
-          <div className="flex items-center gap-1.5 text-muted-foreground text-sm font-medium bg-muted/50 px-3 py-1.5 rounded-lg">
-            <Clock className="w-4 h-4" />
-            {tour.duration} Days
-          </div>
+          <a
+            href={tour.travefyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80 whitespace-nowrap"
+          >
+            View Itinerary <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
     </div>

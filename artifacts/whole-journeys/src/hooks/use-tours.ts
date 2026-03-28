@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export interface Tour {
   id: string;
@@ -6,13 +6,14 @@ export interface Tour {
   destination: string;
   region: string;
   country: string[];
-  duration: number;
-  price: number;
+  duration: number | null;
+  price: number | null;
   groupSize: string;
   categories: string[];
   description: string;
   imageUrl: string;
   highlights: string[];
+  travefyUrl: string;
 }
 
 export const ALL_CATEGORIES = [
@@ -41,314 +42,321 @@ export const ALL_REGIONS = [
 export type Category = (typeof ALL_CATEGORIES)[number];
 export type Region = (typeof ALL_REGIONS)[number];
 
-const MOCK_TOURS: Tour[] = [
+const CDN = "https://d6ham14n5a27z.cloudfront.net/img/c_w1200,h720,mFocusCover";
+const BASE_URL = "https://trips.wholejourneys.com/discover/trip";
+
+export const TRAVEFY_TOURS: Tour[] = [
   {
-    id: "patagonia",
-    name: "Patagonia: End of the Earth",
-    destination: "Chile & Argentina",
-    region: "South America",
-    country: ["Chile", "Argentina"],
-    duration: 14,
-    price: 8500,
-    groupSize: "Small Group (Max 12)",
-    categories: ["Adventure", "Wildlife", "Self-Guided"],
-    description:
-      "Journey to the edge of the world. Hike beneath the towering granite spires of Torres del Paine, witness the thunderous calving of the Perito Moreno Glacier, and explore vast, untamed wilderness in absolute luxury.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1527004013197-225b2050dd09?q=80&w=2072&auto=format&fit=crop",
-    highlights: [
-      "Torres del Paine National Park",
-      "Perito Moreno Glacier Trek",
-      "Luxury Eco-Camp Stay",
-    ],
-  },
-  {
-    id: "rwanda",
-    name: "Rwanda Gorillas & Beyond",
-    destination: "Rwanda & Uganda",
-    region: "Africa",
-    country: ["Rwanda", "Uganda"],
-    duration: 10,
-    price: 12000,
-    groupSize: "Intimate (Max 6)",
-    categories: ["Wildlife", "Adventure", "Women's"],
-    description:
-      "A profound wildlife encounter. Trek through mist-shrouded volcanic mountains to sit quietly with mountain gorillas, followed by savannah safaris searching for tree-climbing lions.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1583344605912-32b00dc9e4aa?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Private Gorilla Trekking",
-      "Chimpanzee Tracking",
-      "Conservation Briefings",
-    ],
-  },
-  {
-    id: "bhutan",
-    name: "Bhutan: Kingdom in the Clouds",
-    destination: "Bhutan",
-    region: "Asia",
-    country: ["Bhutan"],
-    duration: 12,
-    price: 9200,
-    groupSize: "Private",
-    categories: ["Culture", "Wellness", "Women's"],
-    description:
-      "Discover the last great Himalayan kingdom. Hike to the iconic Tiger's Nest monastery, receive private blessings from local monks, and unwind in world-class wellness retreats hidden in verdant valleys.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1543324673-8a3560f38eb4?q=80&w=2069&auto=format&fit=crop",
-    highlights: [
-      "Tiger's Nest Hike",
-      "Traditional Hot Stone Baths",
-      "Punakha Dzong",
-    ],
-  },
-  {
-    id: "svalbard",
-    name: "Svalbard Arctic Expedition",
-    destination: "Norway (Arctic)",
-    region: "Arctic/Antarctic",
-    country: ["Norway"],
-    duration: 10,
-    price: 11500,
-    groupSize: "Expedition Ship",
-    categories: ["Adventure", "Wildlife"],
-    description:
-      "Navigate the realm of the polar bear under the midnight sun. Kayak past massive glacier faces, zodiac cruise among walruses, and experience the stark, haunting beauty of the high Arctic.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=1974&auto=format&fit=crop",
-    highlights: [
-      "Polar Bear Viewing",
-      "Midnight Sun Kayaking",
-      "Ice Cave Exploration",
-    ],
-  },
-  {
-    id: "galapagos",
-    name: "Galápagos Islands Deep Dive",
-    destination: "Ecuador",
-    region: "South America",
-    country: ["Ecuador"],
-    duration: 8,
-    price: 7800,
-    groupSize: "Small Yacht",
-    categories: ["Wildlife", "Family", "Adventure"],
-    description:
-      "Walk in Darwin's footsteps. Snorkel with playful sea lions, step around ancient giant tortoises, and observe blue-footed boobies in the world's most pristine living laboratory.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1533215886475-7b54a7cc3fc3?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Snorkeling with Sea Lions",
-      "Giant Tortoise Reserves",
-      "Volcanic Landscapes",
-    ],
-  },
-  {
-    id: "morocco",
-    name: "Morocco: Sahara to Medina",
-    destination: "Morocco",
-    region: "Africa",
-    country: ["Morocco"],
-    duration: 10,
-    price: 5400,
-    groupSize: "Small Group (Max 10)",
-    categories: ["Culture", "Adventure", "Self-Drive"],
-    description:
-      "A sensory feast. Wander the labyrinthine souks of Marrakech, traverse the High Atlas Mountains, and sleep under a blanket of stars in a luxury Sahara desert camp.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=2071&auto=format&fit=crop",
-    highlights: [
-      "Luxury Desert Camp",
-      "Private Cooking Masterclass",
-      "Atlas Mountain Trek",
-    ],
-  },
-  {
-    id: "japan",
-    name: "Japan Off the Beaten Path",
-    destination: "Japan",
-    region: "Asia",
-    country: ["Japan"],
-    duration: 16,
-    price: 8900,
-    groupSize: "Small Group (Max 8)",
-    categories: ["Culture", "Wellness", "Self-Guided"],
-    description:
-      "Beyond the neon. Journey through ancient cedar forests on the Nakasendo trail, meditate with Zen monks, and experience omotenashi (hospitality) at remote, historic ryokans.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Nakasendo Trail Hiking",
-      "Exclusive Geisha Encounter",
-      "Onsen Retreats",
-    ],
-  },
-  {
-    id: "antarctica",
-    name: "Antarctica: White Continent",
-    destination: "Antarctica",
-    region: "Arctic/Antarctic",
-    country: ["Antarctica"],
-    duration: 12,
-    price: 18000,
-    groupSize: "Luxury Expedition",
-    categories: ["Adventure", "Wildlife"],
-    description:
-      "The ultimate frontier. Cross the Drake Passage to a world of sculpted icebergs, immense penguin rookeries, and breaching whales. A transformative journey to the bottom of the world.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Zodiac Iceberg Cruising",
-      "Continental Landing",
-      "Whale Watching",
-    ],
-  },
-  {
-    id: "borneo",
-    name: "Borneo Wildlife Safari",
-    destination: "Malaysia",
-    region: "Asia",
-    country: ["Malaysia"],
-    duration: 10,
-    price: 7200,
-    groupSize: "Small Group (Max 8)",
-    categories: ["Wildlife", "Adventure"],
-    description:
-      "Immerse yourself in one of the earth's oldest rainforests. Cruise the Kinabatangan River in search of pygmy elephants and encounter wild orangutans swinging through the primary canopy.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1533587903565-d04b3abce0dc?q=80&w=1974&auto=format&fit=crop",
-    highlights: [
-      "Orangutan Rehabilitation",
-      "River Safaris",
-      "Rainforest Canopy Walk",
-    ],
-  },
-  {
-    id: "peru",
-    name: "Peru: Inca & Amazon",
-    destination: "Peru",
-    region: "South America",
-    country: ["Peru"],
-    duration: 14,
-    price: 6800,
-    groupSize: "Small Group (Max 12)",
-    categories: ["Culture", "Adventure", "Family"],
-    description:
-      "From ancient ruins to the jungle floor. Explore the Sacred Valley, arrive at Machu Picchu aboard the luxury Hiram Bingham train, and venture deep into the pristine Amazon basin.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Machu Picchu Private Tour",
-      "Amazon Eco-Lodge",
-      "Cusco Culinary Tour",
-    ],
-  },
-  {
-    id: "scottish-highlands",
-    name: "Scottish Highlands: Castles & Glens",
-    destination: "Scotland",
-    region: "Europe",
-    country: ["United Kingdom"],
-    duration: 10,
-    price: 6200,
-    groupSize: "Private or Small Group",
-    categories: ["Country Estates", "Self-Drive", "Culture", "Wellness"],
-    description:
-      "Wind through mist-laden glens and past ancient castles in a private car. Stay in legendary country house hotels, distillery lodges, and historic clan estates. Scotland at its most atmospheric.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506377585622-bedcbb5a9baa?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Private Castle Stays",
-      "Single Malt Distillery Trail",
-      "Isle of Skye Driving Tour",
-    ],
-  },
-  {
-    id: "chamonix-ski",
-    name: "Chamonix: Powder & Peaks",
-    destination: "France & Switzerland",
-    region: "Europe",
-    country: ["France", "Switzerland"],
-    duration: 8,
-    price: 7500,
-    groupSize: "Small Group or Private",
-    categories: ["Ski & Snow", "Adventure", "Wellness"],
-    description:
-      "Ski the legendary Vallée Blanche off-piste run, heli-ski untouched Swiss powder, and recover each evening with alpine spa treatments in a 5-star chalet hotel in Chamonix.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Vallée Blanche Off-Piste",
-      "Heli-Skiing Swiss Alps",
-      "5-Star Chalet Spa",
-    ],
-  },
-  {
-    id: "women-costa-rica",
-    name: "Women's Costa Rica Wellness Retreat",
-    destination: "Costa Rica",
-    region: "South America",
-    country: ["Costa Rica"],
-    duration: 9,
-    price: 4900,
-    groupSize: "Women Only (Max 10)",
-    categories: ["Women's", "Wellness", "Wildlife", "Adventure"],
-    description:
-      "A restorative escape designed exclusively for women. Surf Pacific swells at dawn, practice yoga in cloud forest canopy studios, and connect with extraordinary wildlife in one of the world's most biodiverse countries.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Women-Only Expert-Led Surfing",
-      "Cloud Forest Yoga & Meditation",
-      "Sloth Sanctuary Visit",
-    ],
-  },
-  {
-    id: "provence-drive",
-    name: "Provence: Lavender & Châteaux",
-    destination: "France",
-    region: "Europe",
-    country: ["France"],
-    duration: 8,
-    price: 5800,
-    groupSize: "Private",
-    categories: ["Self-Drive", "Country Estates", "Culture", "Wellness"],
-    description:
-      "Cruise through rows of purple lavender in a classic convertible. Lunch at Michelin-starred bastides, sip wine at centuries-old châteaux, and explore hilltop villages untouched by time.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Lavender Field Season",
-      "Private Château Wine Tasting",
-      "Les Baux & Gordes Villages",
-    ],
-  },
-  {
-    id: "dolomites-ski",
-    name: "Dolomites Family Ski Adventure",
+    id: "via-francigena",
+    name: "Italy's Via Francigena: The Road to Rome",
     destination: "Italy",
     region: "Europe",
     country: ["Italy"],
-    duration: 7,
-    price: 5500,
+    duration: null,
+    price: null,
+    groupSize: "Private or Small Group",
+    categories: ["Self-Guided", "Culture", "Adventure", "Wellness"],
+    description: "A shortened version of the famous pilgrimage, Via Francigena, from Florence to Rome. Walk through medieval hill towns, vineyards, and ancient abbeys on one of Europe's great pilgrim routes.",
+    imageUrl: `${CDN}/i_hf49babc7f831cdee3ca0cdc8aaee102dc05a8bf0.jpg`,
+    highlights: ["Florence to Rome on foot", "Medieval hill towns", "Etruscan landscapes"],
+    travefyUrl: `${BASE_URL}/6yw9rqygvnrzqz2a5wrg5wuclvmmetq`,
+  },
+  {
+    id: "rota-vicentina",
+    name: "Portugal's Coastal Camino: Rota Vicentina",
+    destination: "Portugal",
+    region: "Europe",
+    country: ["Portugal"],
+    duration: null,
+    price: null,
+    groupSize: "Private or Small Group",
+    categories: ["Self-Guided", "Adventure", "Wellness"],
+    description: "Hike Europe's wildest Atlantic coastline on Portugal's stunning Fishermen's Trail. Walk clifftop paths above crashing surf, through cork oak forests and whitewashed fishing villages.",
+    imageUrl: `${CDN}/i_h2f3e7406f097c36a22f9519bf506013b90f10513.jpg`,
+    highlights: ["Fishermen's Trail clifftops", "Wild Atlantic surf", "Whitewashed fishing villages"],
+    travefyUrl: `${BASE_URL}/6yw9rqetjmd2qz2allx3gqlgunnjmaq`,
+  },
+  {
+    id: "slovenia-croatia-istanbul",
+    name: "Best of Slovenia + Croatia (Istanbul Extension)",
+    destination: "Slovenia, Croatia & Turkey",
+    region: "Europe",
+    country: ["Slovenia", "Croatia", "Turkey"],
+    duration: null,
+    price: null,
+    groupSize: "Private",
+    categories: ["Culture", "Adventure"],
+    description: "Experience Slovenia and Croatia on a private journey with an optional extension to Istanbul — from the Julian Alps to the Adriatic coast and the magnificence of the Bosphorus.",
+    imageUrl: `${CDN}/i_hc61f0982b9a10f51c3a7625155a22d596c2ae1cb.jpg`,
+    highlights: ["Julian Alps", "Dubrovnik Old Town", "Istanbul Bosphorus"],
+    travefyUrl: `${BASE_URL}/6yw9rqyffb9zqz2axmrs5kgraw9pbqq`,
+  },
+  {
+    id: "slovenia-hiking",
+    name: "Slovenia Hiking",
+    destination: "Slovenia",
+    region: "Europe",
+    country: ["Slovenia"],
+    duration: null,
+    price: null,
+    groupSize: "Small Group",
+    categories: ["Adventure", "Self-Guided", "Wellness"],
+    description: "Sampling the best of Slovenia's hiking including Triglav National Park. Enjoy full days of hikes followed by evenings in boutique properties in one of Europe's most beautiful and undiscovered countries.",
+    imageUrl: `${CDN}/i_hfc407d1cc5982b36f36302f3788f883d5018b588.jpg`,
+    highlights: ["Triglav National Park", "Lake Bled", "Boutique mountain stays"],
+    travefyUrl: `${BASE_URL}/6yw9rqrcnzd2qz2acz24fmfl2h5w7zq`,
+  },
+  {
+    id: "taste-of-tuscany",
+    name: "Taste of Tuscany: An Active Foodie Adventure for Two",
+    destination: "Italy",
+    region: "Europe",
+    country: ["Italy"],
+    duration: null,
+    price: null,
+    groupSize: "Private (Couple)",
+    categories: ["Culture", "Wellness"],
+    description: "A one-week deep local dive into Tuscany's countryside and culture, plus private tours in Florence, Siena, and Rome. Everything is adaptable — this is a sample of a recent trip.",
+    imageUrl: `${CDN}/i_hd50d55abf0b7757f414ff72b916c42353362ac7a.jpg`,
+    highlights: ["Private Florence & Siena tours", "Chianti wine estate stay", "Farm-to-table cooking"],
+    travefyUrl: `${BASE_URL}/6yw9rqrxumb2qz2aqgysjsmj4jcylhq`,
+  },
+  {
+    id: "croatia-sailing",
+    name: "Private Sailing Adventure: Croatia",
+    destination: "Croatia",
+    region: "Europe",
+    country: ["Croatia"],
+    duration: null,
+    price: null,
+    groupSize: "Private Yacht",
+    categories: ["Adventure"],
+    description: "Sail the crystal-clear Adriatic on a private charter yacht, island-hopping between Hvar, Korčula, and the Dalmatian coast. Swim in hidden coves, dine at waterfront konobas, and watch the sun set from the sea.",
+    imageUrl: `${CDN}/i_hea8707f85b409766249b64251f7058e3045a0552.jpg`,
+    highlights: ["Private Yacht Charter", "Dalmatian Islands", "Hidden Adriatic Coves"],
+    travefyUrl: `${BASE_URL}/6yw9rqkrgk8zqz2anmeplsu8sp2gwja`,
+  },
+  {
+    id: "slovenia-womens-hike",
+    name: "Slovenia Women's Hike – Juliana, Alpe Adria & Soča Trails",
+    destination: "Slovenia",
+    region: "Europe",
+    country: ["Slovenia"],
+    duration: null,
+    price: null,
+    groupSize: "Women Only",
+    categories: ["Women's", "Adventure", "Self-Guided", "Wellness"],
+    description: "A women-only hiking journey through Slovenia's most spectacular trails — the Juliana Trail, Alpe Adria, and the emerald Soča Valley. Guided evenings with local women experts.",
+    imageUrl: `${CDN}/i_h2b21e4b5f246df23eefb77d9482ee1cc6fb8c1ce.jpg`,
+    highlights: ["Juliana Trail", "Soča Valley", "Women-Only Expert Guides"],
+    travefyUrl: `${BASE_URL}/6yw9rqkrrgk2qz2amqqsang2n64ghda`,
+  },
+  {
+    id: "alpe-adria",
+    name: "Highlights of the Alpe Adria Trail",
+    destination: "Slovenia, Austria & Italy",
+    region: "Europe",
+    country: ["Slovenia", "Austria", "Italy"],
+    duration: null,
+    price: null,
+    groupSize: "Small Group or Private",
+    categories: ["Adventure", "Self-Guided"],
+    description: "Walk the iconic Alpe Adria Trail from the Grossglockner glacier in Austria through Slovenia's Triglav National Park to the Adriatic Sea in Italy — one of Europe's great long-distance walks.",
+    imageUrl: `${CDN}/i_h3a35c17b67c156981da03fb3d96701dc53f5f109.jpg`,
+    highlights: ["Grossglockner High Alpine Road", "Triglav Crossing", "Adriatic Finish"],
+    travefyUrl: `${BASE_URL}/6yw9rqk43r52qz2adv9blmf6rwftblq`,
+  },
+  {
+    id: "camino-womens-2026",
+    name: "2026: Highlights of the Camino de Santiago (Women's Hike)",
+    destination: "Spain",
+    region: "Europe",
+    country: ["Spain"],
+    duration: null,
+    price: null,
+    groupSize: "Women Only",
+    categories: ["Women's", "Adventure", "Self-Guided", "Wellness"],
+    description: "Walk the most iconic pilgrimage in the world with a community of like-minded women. This highlights version captures the soul of the Camino without the full multi-week commitment.",
+    imageUrl: `${CDN}/i_h9a1fe2f70324cdf8bc17a66936132e555738456d.jpg`,
+    highlights: ["Camino Francés Route", "Arriving in Santiago", "Women's Community"],
+    travefyUrl: `${BASE_URL}/6yw9rqu4t7azqz2a68wqlbvb8gjyzyq`,
+  },
+  {
+    id: "slovenia-family",
+    name: "Slovenia: Family Hand-Crafted Itinerary",
+    destination: "Slovenia",
+    region: "Europe",
+    country: ["Slovenia"],
+    duration: null,
+    price: null,
     groupSize: "Family Groups",
-    categories: ["Ski & Snow", "Family", "Adventure"],
-    description:
-      "Italy's most spectacular ski region, where dramatic pink limestone peaks frame perfectly groomed pistes. Private ski lessons for kids, gourmet mountain lunches, and cosy alpine evenings for the whole family.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1551524163-c5f8b9b0e8e7?q=80&w=2070&auto=format&fit=crop",
-    highlights: [
-      "Sellaronda Ski Circuit",
-      "Private Children's Ski School",
-      "Alta Badia Gourmet Safari",
-    ],
+    categories: ["Family", "Adventure"],
+    description: "A partially or fully guided multi-activity family adventure built around Slovenia's extraordinary natural landscape — think castle hikes, kayaking, waterfalls, and farm stays perfect for all ages.",
+    imageUrl: `${CDN}/i_hd84f42e400e0924410aee64720bf60921668309b~f_w1355,h813,x-31,y-331.jpg`,
+    highlights: ["Bled Castle Hike", "Soča River Kayaking", "Farm-to-Table Family Dinners"],
+    travefyUrl: `${BASE_URL}/6yw9rqyx953zqz2a4dgfj6ff8w9gykq`,
+  },
+  {
+    id: "northern-portugal",
+    name: "Northern Portugal: Private",
+    destination: "Portugal",
+    region: "Europe",
+    country: ["Portugal"],
+    duration: null,
+    price: null,
+    groupSize: "Private",
+    categories: ["Self-Drive", "Self-Guided", "Culture"],
+    description: "A partially guided, self-drive journey through Northern Portugal's wine country, medieval towns, and dramatic coastline. Can also be arranged fully guided.",
+    imageUrl: `${CDN}/i_h593ce8d1a4d2ecca7391cacb98e935b36a9b3c3d.jpg`,
+    highlights: ["Douro Valley Wine Country", "Porto Old Town", "Minho Region"],
+    travefyUrl: `${BASE_URL}/6yw9rqrxuvk2qz2a9hhed3s34urnuka`,
+  },
+  {
+    id: "slovenia-istria-cycling",
+    name: "Slovenia & Istria Cycling: Self-Guided (sample)",
+    destination: "Slovenia & Croatia",
+    region: "Europe",
+    country: ["Slovenia", "Croatia"],
+    duration: null,
+    price: null,
+    groupSize: "Private or Small Group",
+    categories: ["Self-Guided", "Self-Drive", "Adventure"],
+    description: "Self-guided cycling through Slovenia and Istria on quiet back roads through vineyards, truffles farms, and hilltop towns. Can also be arranged as a fully guided multi-activity trip.",
+    imageUrl: `${CDN}/i_h8f937e9efc901a30bd04c0288cfa6b55440ddef6.jpg`,
+    highlights: ["Istrian Wine & Truffle Country", "Julian Alps Cycling", "Piran Coastal Town"],
+    travefyUrl: `${BASE_URL}/6yw9rqy42elzqz2az2ml4be5gs34cma`,
+  },
+  {
+    id: "egypt-family",
+    name: "Family Egypt with Red Sea: Sample",
+    destination: "Egypt",
+    region: "Africa",
+    country: ["Egypt"],
+    duration: null,
+    price: null,
+    groupSize: "Family Groups",
+    categories: ["Family", "Culture"],
+    description: "A private family exploration of Egypt — from the pyramids of Giza and Luxor temples to Red Sea snorkeling. Fully customizable with child-friendly guides and experiences.",
+    imageUrl: `${CDN}/i_hf1f3668470a8ca1c16bab73c9b0bf0f6cb7a4599~f_w1593,h626,x-1,y-282.jpg`,
+    highlights: ["Pyramids of Giza", "Luxor Temples", "Red Sea Snorkeling"],
+    travefyUrl: `${BASE_URL}/6yw9rqys8x3zqz2ayv22dbctrrvr5aa`,
+  },
+  {
+    id: "kenya-family",
+    name: "Kenya Family Adventure: Sample",
+    destination: "Kenya",
+    region: "Africa",
+    country: ["Kenya"],
+    duration: null,
+    price: null,
+    groupSize: "Family Groups",
+    categories: ["Family", "Wildlife", "Adventure"],
+    description: "A family safari adventure in Kenya — tracking the Big Five across the Masai Mara, meeting Maasai communities, and experiencing the Great Migration. Built for families with children of all ages.",
+    imageUrl: `${CDN}/i_h7a36424a1344da5ce42abd8149d774da311be23a.jpg`,
+    highlights: ["Masai Mara Safari", "Great Migration", "Maasai Village Visit"],
+    travefyUrl: `${BASE_URL}/6yw9rqw4zztzqz2ayqztyc74ga8gxla`,
+  },
+  {
+    id: "switzerland-private",
+    name: "Switzerland Private: Sample",
+    destination: "Switzerland",
+    region: "Europe",
+    country: ["Switzerland"],
+    duration: null,
+    price: null,
+    groupSize: "Private",
+    categories: ["Culture", "Self-Drive", "Wellness"],
+    description: "Highlights of Switzerland — Zurich, Basel, Montreux, Gruyère, Grindelwald, Berne, and Lucerne — by first-class rail. Private city guides and curated experiences along the way.",
+    imageUrl: `${CDN}/i_h458270c5b0a19b2c392b1c21bcd70ddcbd8c80b5.jpg`,
+    highlights: ["Swiss First-Class Rail", "Grindelwald Jungfrau", "Lucerne Old Town"],
+    travefyUrl: `${BASE_URL}/6yw9rquszul2qz2a4gk9labmglyhpzq`,
+  },
+  {
+    id: "france-normandy",
+    name: "Springtime in the South of France + Normandy",
+    destination: "France",
+    region: "Europe",
+    country: ["France"],
+    duration: null,
+    price: null,
+    groupSize: "Private (2-4 people)",
+    categories: ["Culture", "Country Estates", "Self-Drive"],
+    description: "Explore Provence, the Côte d'Azur, and Normandy in a relaxed bespoke itinerary. Lavender fields, Riviera villages, D-Day beaches, and Norman abbeys — France at its most evocative.",
+    imageUrl: `${CDN}/i_h70fdb4041c67dd288674bd099ab75323d12dfb86.jpg`,
+    highlights: ["Provence Lavender Season", "Côte d'Azur", "Normandy D-Day Beaches"],
+    travefyUrl: `${BASE_URL}/6yw9rqq3yte2qz2alspwmlpdwmmp5rq`,
+  },
+  {
+    id: "sicily-villa",
+    name: "Sicily's Ionian Riviera: Villa-Based Discovery",
+    destination: "Sicily, Italy",
+    region: "Europe",
+    country: ["Italy"],
+    duration: null,
+    price: null,
+    groupSize: "Private",
+    categories: ["Country Estates", "Culture", "Wellness"],
+    description: "Discover Sicily from a private villa on the Ionian Riviera — Mt. Etna, ancient Greek temples, baroque towns, and local markets. A relaxed, villa-based way to experience one of the Mediterranean's most extraordinary islands.",
+    imageUrl: `${CDN}/i_h54a051b7988e26bbcce850872c1d90311824830f~f_w1996,h784,x-3,y-98.jpg`,
+    highlights: ["Private Villa Base", "Mt. Etna", "Valley of the Temples"],
+    travefyUrl: `${BASE_URL}/6yw9rqu4tpwzqz2ahn3kknantpagxuq`,
+  },
+  {
+    id: "greece-island-hiking",
+    name: "Greece: Island Hiking",
+    destination: "Greece",
+    region: "Europe",
+    country: ["Greece"],
+    duration: null,
+    price: null,
+    groupSize: "Small Group or Private",
+    categories: ["Adventure", "Self-Guided", "Wellness"],
+    description: "Hike the dramatic caldera of Santorini, the mythic trails of Crete's Samaria Gorge, and the ancient paths of the Peloponnese. Island-hop between hikes on ferries with boutique hotel stays.",
+    imageUrl: `${CDN}/i_h52878b5d1af87c7a4eb43335ab75f1de587c66cf.jpg`,
+    highlights: ["Santorini Caldera Trail", "Samaria Gorge", "Peloponnese Ancient Paths"],
+    travefyUrl: `${BASE_URL}/6yw9rqtfxwb2qz2anze8jntcctudy3a`,
   },
 ];
+
+const STORAGE_KEY = "wj_tour_tags";
+
+function loadStoredTags(): Record<string, string[]> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveStoredTags(tags: Record<string, string[]>) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tags));
+}
 
 export function useTours() {
   return useQuery({
     queryKey: ["tours"],
     queryFn: async () => {
-      return MOCK_TOURS;
+      const storedTags = loadStoredTags();
+      return TRAVEFY_TOURS.map((tour) => ({
+        ...tour,
+        categories: storedTags[tour.id] ?? tour.categories,
+      }));
+    },
+  });
+}
+
+export function useUpdateTourTags() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ tourId, categories }: { tourId: string; categories: string[] }) => {
+      const stored = loadStoredTags();
+      stored[tourId] = categories;
+      saveStoredTags(stored);
+      return { tourId, categories };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tours"] });
     },
   });
 }

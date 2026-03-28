@@ -1,5 +1,18 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { X, MapPin, Clock, Users, Check } from "lucide-react";
+import { X, MapPin, Clock, Users, Check, Globe } from "lucide-react";
+
+const CATEGORY_COLORS: Record<string, string> = {
+  "Adventure":       "bg-orange-100 text-orange-700 border-orange-200",
+  "Country Estates": "bg-amber-100 text-amber-800 border-amber-200",
+  "Culture":         "bg-violet-100 text-violet-700 border-violet-200",
+  "Family":          "bg-sky-100 text-sky-700 border-sky-200",
+  "Self-Drive":      "bg-lime-100 text-lime-700 border-lime-200",
+  "Self-Guided":     "bg-teal-100 text-teal-700 border-teal-200",
+  "Ski & Snow":      "bg-blue-100 text-blue-700 border-blue-200",
+  "Wellness":        "bg-rose-100 text-rose-700 border-rose-200",
+  "Wildlife":        "bg-green-100 text-green-700 border-green-200",
+  "Women's":         "bg-pink-100 text-pink-700 border-pink-200",
+};
 import { type Tour } from "@/hooks/use-tours";
 import { formatPrice } from "@/lib/utils";
 
@@ -48,6 +61,18 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
               <div className="lg:col-span-2 space-y-8">
+                {/* Category Tags */}
+                <div className="flex flex-wrap gap-2">
+                  {tour.categories.map((cat) => (
+                    <span
+                      key={cat}
+                      className={`px-3 py-1 text-xs font-semibold rounded-full border ${CATEGORY_COLORS[cat] ?? "bg-muted text-muted-foreground border-border"}`}
+                    >
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+
                 <div>
                   <h3 className="text-2xl font-display font-medium text-foreground mb-4">About this Journey</h3>
                   <p className="text-muted-foreground leading-relaxed">
@@ -98,6 +123,13 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     <div>
                       <div className="text-sm font-medium text-foreground">Region</div>
                       <div className="text-sm text-muted-foreground">{tour.region}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Globe className="w-5 h-5 text-secondary" />
+                    <div>
+                      <div className="text-sm font-medium text-foreground">Countries</div>
+                      <div className="text-sm text-muted-foreground">{tour.country.join(", ")}</div>
                     </div>
                   </div>
                 </div>

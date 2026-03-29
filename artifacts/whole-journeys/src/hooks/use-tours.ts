@@ -35,6 +35,7 @@ export const ALL_REGIONS = [
   "Asia",
   "Europe",
   "Middle East",
+  "North America",
   "Oceania",
   "South America",
 ] as const;

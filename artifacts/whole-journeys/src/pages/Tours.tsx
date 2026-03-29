@@ -35,9 +35,10 @@ export default function Tours() {
 
   const hasFilters = searchQuery || activeCategories.length > 0 || activeRegions.length > 0;
 
-  const filteredTours = useMemo(() => {
-    if (!tours) return [];
-    return tours.filter((tour) => {
+  const { filteredTours, filtersCleared } = useMemo(() => {
+    if (!tours) return { filteredTours: [], filtersCleared: false };
+
+    const filtered = tours.filter((tour) => {
       const matchesSearch =
         !searchQuery ||
         tour.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -53,7 +54,13 @@ export default function Tours() {
 
       return matchesSearch && matchesCategory && matchesRegion;
     });
-  }, [tours, searchQuery, activeCategories, activeRegions]);
+
+    if (filtered.length === 0 && hasFilters) {
+      return { filteredTours: tours, filtersCleared: true };
+    }
+
+    return { filteredTours: filtered, filtersCleared: false };
+  }, [tours, searchQuery, activeCategories, activeRegions, hasFilters]);
 
   const CATEGORY_COLORS: Record<string, { base: string; active: string }> = {
     "Adventure":       { base: "border-orange-400 text-orange-600 hover:bg-orange-50",       active: "bg-orange-500 text-white border-orange-500" },
@@ -152,18 +159,27 @@ export default function Tours() {
           </div>
         </div>
 
-        {/* Active filter summary + clear */}
+        {/* Filter status bar */}
         {hasFilters && (
-          <div className="flex items-center justify-between mb-6 text-sm">
-            <span className="text-muted-foreground">
-              Showing <span className="font-semibold text-foreground">{filteredTours.length}</span> of {tours?.length ?? 0} tours
-            </span>
-            <button
-              onClick={clearAll}
-              className="text-primary hover:underline font-medium flex items-center gap-1"
-            >
-              <X className="w-3.5 h-3.5" /> Clear all filters
-            </button>
+          <div className="flex items-center justify-between mb-6">
+            {filtersCleared ? (
+              <div className="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-200 px-4 py-2 rounded-lg">
+                <span>No tours match those filters — showing all tours instead.</span>
+                <button onClick={clearAll} className="font-semibold underline ml-1">Clear filters</button>
+              </div>
+            ) : (
+              <span className="text-sm text-muted-foreground">
+                Showing <span className="font-semibold text-foreground">{filteredTours.length}</span> of {tours?.length ?? 0} tours
+              </span>
+            )}
+            {!filtersCleared && (
+              <button
+                onClick={clearAll}
+                className="text-primary hover:underline font-medium flex items-center gap-1 text-sm"
+              >
+                <X className="w-3.5 h-3.5" /> Clear all filters
+              </button>
+            )}
           </div>
         )}
 
@@ -173,18 +189,6 @@ export default function Tours() {
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="h-[500px] bg-muted/50 rounded-2xl animate-pulse" />
             ))}
-          </div>
-        ) : filteredTours.length === 0 ? (
-          <div className="text-center py-20 bg-muted/20 rounded-2xl border border-dashed border-border">
-            <X className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-medium text-foreground mb-2">No tours match your filters</h3>
-            <p className="text-muted-foreground">Try removing a filter to see more results.</p>
-            <button
-              onClick={clearAll}
-              className="mt-6 px-6 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
-            >
-              Clear Filters
-            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

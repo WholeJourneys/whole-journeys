@@ -221,7 +221,7 @@ export const TRAVEFY_TOURS: Tour[] = [
     price: null,
     groupSize: "Private or Small Group",
     categories: ["Self-Guided", "Self-Drive", "Adventure"],
-    description: "Self-guided cycling through Slovenia and Istria on quiet back roads through vineyards, truffles farms, and hilltop towns. Can also be arranged as a fully guided multi-activity trip.",
+    description: "Self-guided cycling through Slovenia and Istria on quiet back roads through vineyards, truffle farms, and hilltop towns. Can also be arranged as a fully guided multi-activity trip.",
     imageUrl: `${CDN}/i_h8f937e9efc901a30bd04c0288cfa6b55440ddef6.jpg`,
     highlights: ["Istrian Wine & Truffle Country", "Julian Alps Cycling", "Piran Coastal Town"],
     travefyUrl: `${BASE_URL}/6yw9rqy42elzqz2az2ml4be5gs34cma`,
@@ -318,26 +318,21 @@ export const TRAVEFY_TOURS: Tour[] = [
   },
 ];
 
-const STORAGE_KEY = "wj_tour_tags";
-
-function loadStoredTags(): Record<string, string[]> {
+async function fetchTags(): Promise<Record<string, string[]>> {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
+    const res = await fetch("/api/tours/tags");
+    if (!res.ok) return {};
+    return await res.json();
   } catch {
     return {};
   }
-}
-
-function saveStoredTags(tags: Record<string, string[]>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tags));
 }
 
 export function useTours() {
   return useQuery({
     queryKey: ["tours"],
     queryFn: async () => {
-      const storedTags = loadStoredTags();
+      const storedTags = await fetchTags();
       return TRAVEFY_TOURS.map((tour) => ({
         ...tour,
         categories: storedTags[tour.id] ?? tour.categories,
@@ -350,10 +345,13 @@ export function useUpdateTourTags() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ tourId, categories }: { tourId: string; categories: string[] }) => {
-      const stored = loadStoredTags();
-      stored[tourId] = categories;
-      saveStoredTags(stored);
-      return { tourId, categories };
+      const res = await fetch(`/api/tours/tags/${tourId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ categories }),
+      });
+      if (!res.ok) throw new Error("Failed to save tags");
+      return await res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tours"] });

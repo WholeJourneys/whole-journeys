@@ -1,8 +1,63 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, Check, RotateCcw } from "lucide-react";
+import { ArrowLeft, Check, RotateCcw, Lock } from "lucide-react";
 import { useTours, useUpdateTourTags, ALL_CATEGORIES, TRAVEFY_TOURS } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "@/components/TourCard";
+
+const SESSION_KEY = "wj_admin_auth";
+const CORRECT_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD ?? "";
+
+function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
+  const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (value.trim().toUpperCase() === CORRECT_PASSWORD.toUpperCase()) {
+      sessionStorage.setItem(SESSION_KEY, "1");
+      onSuccess();
+    } else {
+      setError(true);
+      setValue("");
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-primary/10 rounded-full mb-4">
+            <Lock className="w-6 h-6 text-primary" />
+          </div>
+          <h1 className="text-2xl font-display font-semibold text-foreground">Admin Access</h1>
+          <p className="text-sm text-muted-foreground mt-2">Enter your password to continue</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="password"
+            value={value}
+            onChange={(e) => { setValue(e.target.value); setError(false); }}
+            placeholder="Password"
+            autoFocus
+            className={`w-full px-4 py-3 rounded-xl border text-center text-lg tracking-widest font-medium bg-card focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${
+              error ? "border-red-400 bg-red-50" : "border-border"
+            }`}
+          />
+          {error && (
+            <p className="text-sm text-red-600 text-center">Incorrect password. Try again.</p>
+          )}
+          <button
+            type="submit"
+            className="w-full py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-colors"
+          >
+            Enter
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
 
 const CATEGORY_ACTIVE: Record<string, string> = {
   "Adventure":       "bg-orange-500 text-white border-orange-500",
@@ -31,9 +86,12 @@ const CATEGORY_INACTIVE: Record<string, string> = {
 };
 
 export default function Admin() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
   const { data: tours } = useTours();
   const updateTags = useUpdateTourTags();
   const [saved, setSaved] = useState<Record<string, boolean>>({});
+
+  if (!authed) return <PasswordGate onSuccess={() => setAuthed(true)} />;
 
   function toggleTag(tourId: string, cat: string, current: string[]) {
     const next = current.includes(cat)

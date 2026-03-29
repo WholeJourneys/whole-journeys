@@ -88,10 +88,10 @@ export default function Navbar() {
                   "px-6 py-2.5 rounded-sm text-sm font-medium tracking-wide uppercase transition-all duration-300",
                   (!isScrolled && isHome)
                     ? "bg-white text-primary hover:bg-white/90"
-                    : "bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                    : "border border-primary text-primary hover:bg-primary hover:text-white"
                 )}
               >
-                Book Hotels
+                Browse &amp; Book Hotels
               </a>
             </nav>
 
@@ -147,7 +147,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="w-full text-center px-6 py-4 bg-primary text-white rounded-md text-lg font-medium shadow-md"
               >
-                Book Hotels & Partners
+                Browse & Book Hotels
               </a>
             </nav>
           </motion.div>

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown, Compass, Globe, Shield } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,32 +8,103 @@ import TourCard from "@/components/TourCard";
 import TourModal from "@/components/TourModal";
 import { useTours, type Tour } from "@/hooks/use-tours";
 
+const HERO_SLIDES = [
+  {
+    url: "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1920&q=85",
+    caption: "Dalmatian Coast, Croatia",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85",
+    caption: "The Alps, Europe",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1920&q=85",
+    caption: "Cinque Terre, Italy",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=1920&q=85",
+    caption: "The Camino de Santiago, Spain",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1920&q=85",
+    caption: "Alpine Meadows, Switzerland",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1920&q=85",
+    caption: "Masai Mara, Kenya",
+  },
+];
+
+const SLIDE_INTERVAL = 6000;
+
 export default function Home() {
   const { data: tours, isLoading } = useTours();
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Get 3 featured tours
   const featuredTours = tours?.slice(0, 3) || [];
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, SLIDE_INTERVAL);
+    return () => clearInterval(timer);
+  }, []);
+
   const scrollToTours = () => {
-    document.getElementById('signature-tours')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("signature-tours")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
+
       {/* HERO SECTION */}
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-        {/* hero scenic mountain landscape */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&h=1080&fit=crop')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-black/40" />
 
+        {/* Slideshow */}
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={currentSlide}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${HERO_SLIDES[currentSlide].url})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+          />
+        </AnimatePresence>
+
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Caption */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`caption-${currentSlide}`}
+            className="absolute bottom-20 left-8 text-white/70 text-xs font-medium uppercase tracking-widest"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {HERO_SLIDES[currentSlide].caption}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Slide dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+          {HERO_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                i === currentSlide ? "bg-white w-6" : "bg-white/40 hover:bg-white/60"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Hero Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -44,22 +115,22 @@ export default function Home() {
               Curated Luxury Travel
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-semibold text-white mb-6 leading-tight text-balance">
-              Experience the World <br/><span className="text-secondary italic font-light">Differently</span>
+              Experience the World <br /><span className="text-secondary italic font-light">Differently</span>
             </h1>
             <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
               We design extraordinary journeys for the modern explorer. From remote wilderness safaris to exclusive cultural immersions.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-              <a 
-                href="https://book.wholejourneys.com" 
-                target="_blank" 
+              <a
+                href="https://book.wholejourneys.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-4 bg-white text-primary rounded-sm font-medium tracking-wide uppercase hover:bg-white/90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
-                Book Hotels & Partners
+                Browse &amp; Book Hotels
               </a>
-              <button 
+              <button
                 onClick={scrollToTours}
                 className="w-full sm:w-auto px-8 py-4 bg-primary/80 backdrop-blur-md text-white border border-white/20 rounded-sm font-medium tracking-wide uppercase hover:bg-primary transition-all flex items-center justify-center gap-2"
               >
@@ -69,17 +140,13 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <ChevronDown className="w-8 h-8 text-white/50" />
-        </div>
       </section>
 
       {/* PHILOSOPHY/INTRO */}
       <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -87,7 +154,7 @@ export default function Home() {
               className="space-y-6"
             >
               <h2 className="text-4xl md:text-5xl font-display text-primary leading-tight">
-                Travel designed for the <br/>curious soul.
+                Travel designed for the <br />curious soul.
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 As a Virtuoso Coastline travel agent, we unlock doors to the world's most exclusive properties and experiences. Whether you prefer to book your own luxury hotels through our portal or have us curate a bespoke expedition to the ends of the earth, your journey is our passion.
@@ -98,12 +165,10 @@ export default function Home() {
                 </Link>
               </div>
             </motion.div>
-            
+
             <div className="grid grid-cols-2 gap-4">
-              {/* aesthetic travel detail */}
               <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=80" alt="Coffee and maps" className="rounded-2xl h-64 object-cover w-full mt-8" />
-              {/* aesthetic luxury hotel */}
-              <img src="https://pixabay.com/get/g7e0c244c447343bf3b7ca198a4f2195450f6fe5977ea0c48ff8b4cbd9e0a193346c31faa2b6f9061ffac34d3e69dee7c09f16b2bf822ac37a574549eb183d318_1280.jpg" alt="Luxury suite" className="rounded-2xl h-80 object-cover w-full" />
+              <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80" alt="Luxury hotel" className="rounded-2xl h-80 object-cover w-full" />
             </div>
           </div>
         </div>
@@ -124,7 +189,7 @@ export default function Home() {
 
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map(i => (
+              {[1, 2, 3].map((i) => (
                 <div key={i} className="h-[500px] bg-card rounded-2xl animate-pulse" />
               ))}
             </div>
@@ -149,13 +214,12 @@ export default function Home() {
 
       {/* COASTLINE BOOKING SECTION */}
       <section className="py-24 relative overflow-hidden">
-        {/* luxury resort pool */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80')` }}
         />
         <div className="absolute inset-0 bg-primary/90" />
-        
+
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <Compass className="w-12 h-12 text-secondary mx-auto mb-6" />
           <h2 className="text-4xl md:text-5xl font-display text-white mb-6">
@@ -164,9 +228,9 @@ export default function Home() {
           <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
             As a Coastline Virtuoso agency, we offer exclusive access to our TravelPro 365 booking platform. Book top-tier hotels directly, while enjoying our VIP Virtuoso perks and amenities.
           </p>
-          <a 
-            href="https://book.wholejourneys.com" 
-            target="_blank" 
+          <a
+            href="https://book.wholejourneys.com"
+            target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-10 py-5 bg-white text-primary rounded-sm font-semibold tracking-wide uppercase hover:bg-secondary hover:text-white transition-colors shadow-xl"
           >
@@ -206,10 +270,10 @@ export default function Home() {
 
       <Footer />
 
-      <TourModal 
-        tour={selectedTour} 
-        isOpen={!!selectedTour} 
-        onClose={() => setSelectedTour(null)} 
+      <TourModal
+        tour={selectedTour}
+        isOpen={!!selectedTour}
+        onClose={() => setSelectedTour(null)}
       />
     </div>
   );

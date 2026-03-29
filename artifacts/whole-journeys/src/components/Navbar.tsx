@@ -28,6 +28,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Explore Tours", path: "/tours" },
+    { name: "Kathy's Picks", path: "/picks" },
     { name: "Our Philosophy", path: "/about" },
   ];
 

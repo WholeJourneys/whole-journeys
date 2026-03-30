@@ -23,7 +23,6 @@ export default function About() {
     { src: "/kathy-dolomites.jpeg", alt: "Kathy Dragon in the Dolomites" },
     { src: "/kathy-strudel.jpeg", alt: "Kathy Dragon at a mountain hut with Whole Journeys water bottle" },
     { src: "/kathy-vineyard.jpeg", alt: "Kathy Dragon harvesting grapes in a vineyard" },
-    { src: "/kathy-wildflowers.jpeg", alt: "Kathy Dragon with yellow wildflowers on trail" },
     { src: "/kathy-wine-mountains.jpeg", alt: "Kathy Dragon enjoying a meal with mountain views" },
     { src: "/kathy-triglav.jpeg", alt: "Kathy Dragon at Triglav National Park, Slovenia" },
     { src: "/kathy-picos.jpg", alt: "Kathy Dragon with a local resident in Picos de Europa, Spain" },

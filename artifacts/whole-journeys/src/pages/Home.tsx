@@ -10,28 +10,34 @@ import { useTours, type Tour } from "@/hooks/use-tours";
 
 const HERO_SLIDES = [
   {
+    // Aerial view of Dalmatian coastline — no people
     url: "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1920&q=85",
     caption: "Dalmatian Coast, Croatia",
   },
   {
+    // Mirror-lake reflection of the Alps — no people
     url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85",
     caption: "The Alps, Europe",
   },
   {
+    // Cinque Terre cliffside village from the sea — no people
     url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1920&q=85",
     caption: "Cinque Terre, Italy",
   },
   {
-    url: "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=1920&q=85",
-    caption: "The Camino de Santiago, Spain",
+    // Val d'Orcia cypress-lined road, Tuscany — no people
+    url: "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1920&q=85",
+    caption: "Val d'Orcia, Tuscany",
   },
   {
-    url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1920&q=85",
-    caption: "Alpine Meadows, Switzerland",
+    // Dramatic Dolomite mountain peaks — no people
+    url: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1920&q=85",
+    caption: "The Dolomites, Italy",
   },
   {
-    url: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1920&q=85",
-    caption: "Masai Mara, Kenya",
+    // African savanna at golden hour — no people
+    url: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=85",
+    caption: "Serengeti, Tanzania",
   },
 ];
 

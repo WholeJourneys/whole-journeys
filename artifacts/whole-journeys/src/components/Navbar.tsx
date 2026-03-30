@@ -86,10 +86,10 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "px-6 py-2.5 rounded-sm text-sm font-medium tracking-wide uppercase transition-all duration-300",
+                  "px-6 py-2.5 rounded-sm text-sm font-medium tracking-wide uppercase transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5",
                   (!isScrolled && isHome)
                     ? "bg-white text-primary hover:bg-white/90"
-                    : "border border-primary text-primary hover:bg-primary hover:text-white"
+                    : "bg-primary text-white hover:bg-primary/90"
                 )}
               >
                 Browse &amp; Book Hotels

@@ -195,8 +195,8 @@ export default function About() {
             </div>
 
             <div className="order-1 lg:order-2">
-              <div className="rounded-2xl overflow-hidden border border-border/50 shadow-xl bg-card">
-                <div className="relative h-64 overflow-hidden">
+              <div className="relative">
+                <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[500px] relative">
                   {GROUP_PHOTOS.map((src, i) => (
                     <div
                       key={src}
@@ -207,18 +207,9 @@ export default function About() {
                       }}
                     />
                   ))}
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
-                      City Luxury
-                    </span>
-                  </div>
                 </div>
-                <div className="p-6">
-                  <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Paris, France</p>
-                  <h3 className="font-display text-xl font-medium text-foreground mb-3">Four Seasons George V</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    The most celebrated address in Paris — steps from the Champs-Élysées, with three Michelin-starred restaurants. As a Virtuoso partner, Whole Journeys guests receive complimentary breakfast, room upgrades, and exclusive amenities.
-                  </p>
+                <div className="absolute -bottom-6 left-6 right-6 bg-white rounded-xl shadow-lg p-5 border border-border/50">
+                  <p className="text-sm font-medium text-foreground">Whole Journeys Guests</p>
                 </div>
               </div>
             </div>

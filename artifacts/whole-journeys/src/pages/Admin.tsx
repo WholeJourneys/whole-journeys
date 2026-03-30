@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save } from "lucide-react";
+import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon } from "lucide-react";
 import { useTours, useUpdateTourTags, ALL_CATEGORIES, TRAVEFY_TOURS } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "@/components/TourCard";
 import {
@@ -387,9 +387,11 @@ function FeaturedTripsTab() {
   const { data: picksTrips = [] } = usePicksTrips();
   const saveTrips = useSavePicksTrips();
   const [selected, setSelected] = useState<Set<string> | null>(null);
+  const [customUrls, setCustomUrls] = useState<Record<string, string> | null>(null);
   const [saved, setSaved] = useState(false);
 
   const effectiveSelected = selected ?? new Set(picksTrips.filter((t) => t.active).map((t) => t.tourId));
+  const effectiveUrls: Record<string, string> = customUrls ?? Object.fromEntries(picksTrips.map((t) => [t.tourId, t.customUrl ?? ""]));
 
   function toggle(tourId: string) {
     const next = new Set(effectiveSelected);
@@ -398,8 +400,17 @@ function FeaturedTripsTab() {
     setSelected(next);
   }
 
+  function setUrl(tourId: string, url: string) {
+    setCustomUrls((prev) => ({ ...(prev ?? effectiveUrls), [tourId]: url }));
+  }
+
   async function handleSave() {
-    const trips = Array.from(effectiveSelected).map((tourId, i) => ({ tourId, sortOrder: i, active: true }));
+    const trips = Array.from(effectiveSelected).map((tourId, i) => ({
+      tourId,
+      sortOrder: i,
+      active: true,
+      customUrl: effectiveUrls[tourId] ?? "",
+    }));
     await saveTrips.mutateAsync(trips);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -421,15 +432,30 @@ function FeaturedTripsTab() {
         {TRAVEFY_TOURS.map((tour) => {
           const on = effectiveSelected.has(tour.id);
           return (
-            <label key={tour.id} className={`flex items-center gap-4 p-3 rounded-xl border cursor-pointer transition-all ${on ? "border-primary/40 bg-primary/5" : "border-border bg-card hover:bg-muted/40"}`}>
-              <input type="checkbox" checked={on} onChange={() => toggle(tour.id)} className="rounded accent-primary w-4 h-4 flex-shrink-0" />
-              <div className="w-14 h-10 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
-              <div className="min-w-0">
-                <div className="text-sm font-medium text-foreground leading-snug line-clamp-1">{tour.name}</div>
-                <div className="text-xs text-muted-foreground">{tour.destination}</div>
-              </div>
-              {on && <span className="ml-auto text-xs text-primary font-semibold flex-shrink-0">✓ Featured</span>}
-            </label>
+            <div key={tour.id} className={`rounded-xl border transition-all ${on ? "border-primary/40 bg-primary/5" : "border-border bg-card"}`}>
+              <label className="flex items-center gap-4 p-3 cursor-pointer hover:bg-muted/20 rounded-xl">
+                <input type="checkbox" checked={on} onChange={() => toggle(tour.id)} className="rounded accent-primary w-4 h-4 flex-shrink-0" />
+                <div className="w-14 h-10 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium text-foreground leading-snug line-clamp-1">{tour.name}</div>
+                  <div className="text-xs text-muted-foreground">{tour.destination}</div>
+                </div>
+                {on && <span className="ml-auto text-xs text-primary font-semibold flex-shrink-0">✓ Featured</span>}
+              </label>
+              {on && (
+                <div className="px-4 pb-3 flex items-center gap-2">
+                  <LinkIcon className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+                  <input
+                    type="url"
+                    placeholder={`Optional custom URL (defaults to Travefy itinerary)`}
+                    value={effectiveUrls[tour.id] ?? ""}
+                    onChange={(e) => setUrl(tour.id, e.target.value)}
+                    onClick={(e) => e.preventDefault()}
+                    className="flex-1 text-xs px-2.5 py-1.5 border border-border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary/30 text-muted-foreground placeholder:text-muted-foreground/50"
+                  />
+                </div>
+              )}
+            </div>
           );
         })}
       </div>

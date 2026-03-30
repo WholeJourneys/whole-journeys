@@ -191,7 +191,7 @@ export default function Picks() {
                     <h3 className="font-display text-lg font-medium text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{tour.name}</h3>
                     <p className="text-muted-foreground text-sm line-clamp-2 flex-grow">{tour.description}</p>
                     <a
-                      href={tour.travefyUrl}
+                      href={activeTrips.find((t) => t.tourId === tour.id)?.customUrl || tour.travefyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}

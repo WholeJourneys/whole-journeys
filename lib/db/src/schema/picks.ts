@@ -32,6 +32,7 @@ export const picksTripsTable = pgTable("picks_trips", {
   tourId: text("tour_id").primaryKey(),
   sortOrder: integer("sort_order").notNull().default(0),
   active: boolean("active").notNull().default(true),
+  customUrl: text("custom_url").notNull().default(""),
 });
 
 export type PicksHotel = typeof picksHotelsTable.$inferSelect;

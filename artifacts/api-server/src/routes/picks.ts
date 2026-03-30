@@ -126,7 +126,7 @@ router.get("/picks/trips", async (_req, res) => {
 });
 
 router.put("/picks/trips", async (req, res) => {
-  const { trips } = req.body as { trips: { tourId: string; sortOrder: number; active: boolean }[] };
+  const { trips } = req.body as { trips: { tourId: string; sortOrder: number; active: boolean; customUrl?: string }[] };
   if (!Array.isArray(trips)) {
     res.status(400).json({ error: "trips must be an array" });
     return;
@@ -134,7 +134,7 @@ router.put("/picks/trips", async (req, res) => {
   try {
     await db.delete(picksTripsTable);
     if (trips.length > 0) {
-      await db.insert(picksTripsTable).values(trips);
+      await db.insert(picksTripsTable).values(trips.map((t) => ({ ...t, customUrl: t.customUrl ?? "" })));
     }
     res.json({ ok: true });
   } catch {

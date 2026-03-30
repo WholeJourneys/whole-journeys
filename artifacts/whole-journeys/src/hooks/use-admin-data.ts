@@ -136,7 +136,7 @@ export function useDeleteArticle() {
 
 // ─── PICKS: TRIPS ─────────────────────────────────────────────────────────────
 
-export interface PicksTrip { tourId: string; sortOrder: number; active: boolean; }
+export interface PicksTrip { tourId: string; sortOrder: number; active: boolean; customUrl: string; }
 
 export function usePicksTrips() {
   return useQuery<PicksTrip[]>({

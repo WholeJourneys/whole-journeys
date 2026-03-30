@@ -35,31 +35,44 @@ export default function Tours() {
 
   const hasFilters = searchQuery || activeCategories.length > 0 || activeRegions.length > 0;
 
-  const { filteredTours, filtersCleared } = useMemo(() => {
-    if (!tours) return { filteredTours: [], filtersCleared: false };
+  type FilterResult = {
+    filteredTours: Tour[];
+    fallbackMode: null | "style-only" | "region-only" | "all";
+  };
 
-    const filtered = tours.filter((tour) => {
-      const matchesSearch =
-        !searchQuery ||
-        tour.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tour.destination.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tour.country.some((c) => c.toLowerCase().includes(searchQuery.toLowerCase()));
+  const { filteredTours, fallbackMode } = useMemo((): FilterResult => {
+    if (!tours) return { filteredTours: [], fallbackMode: null };
 
-      const matchesCategory =
-        activeCategories.length === 0 ||
-        activeCategories.every((cat) => tour.categories.includes(cat));
+    const matchesSearch = (tour: Tour) =>
+      !searchQuery ||
+      tour.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tour.destination.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tour.country.some((c) => c.toLowerCase().includes(searchQuery.toLowerCase()));
 
-      const matchesRegion =
-        activeRegions.length === 0 || activeRegions.includes(tour.region);
+    const matchesCategory = (tour: Tour) =>
+      activeCategories.length === 0 ||
+      activeCategories.every((cat) => tour.categories.includes(cat));
 
-      return matchesSearch && matchesCategory && matchesRegion;
-    });
+    const matchesRegion = (tour: Tour) =>
+      activeRegions.length === 0 || activeRegions.includes(tour.region);
 
-    if (filtered.length === 0 && hasFilters) {
-      return { filteredTours: tours, filtersCleared: true };
+    // Full match: all active filters
+    const full = tours.filter((t) => matchesSearch(t) && matchesCategory(t) && matchesRegion(t));
+    if (full.length > 0) return { filteredTours: full, fallbackMode: null };
+
+    // If no results and both style+region are active, try falling back gracefully
+    if (activeCategories.length > 0 && activeRegions.length > 0) {
+      const styleOnly = tours.filter((t) => matchesSearch(t) && matchesCategory(t));
+      if (styleOnly.length > 0) return { filteredTours: styleOnly, fallbackMode: "style-only" };
+
+      const regionOnly = tours.filter((t) => matchesSearch(t) && matchesRegion(t));
+      if (regionOnly.length > 0) return { filteredTours: regionOnly, fallbackMode: "region-only" };
     }
 
-    return { filteredTours: filtered, filtersCleared: false };
+    // Last resort: show all (only when there's a search query or single filter)
+    if (hasFilters) return { filteredTours: tours, fallbackMode: "all" };
+
+    return { filteredTours: tours, fallbackMode: null };
   }, [tours, searchQuery, activeCategories, activeRegions, hasFilters]);
 
   const CATEGORY_COLORS: Record<string, { base: string; active: string }> = {
@@ -116,6 +129,16 @@ export default function Tours() {
             Trip Style
           </div>
           <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveCategories([])}
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
+                activeCategories.length === 0
+                  ? "bg-primary text-white border-primary"
+                  : "border-border text-muted-foreground hover:bg-muted/50"
+              }`}
+            >
+              Any
+            </button>
             {ALL_CATEGORIES.map((cat) => {
               const colors = CATEGORY_COLORS[cat];
               const isActive = activeCategories.includes(cat);
@@ -140,6 +163,16 @@ export default function Tours() {
             Region
           </div>
           <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveRegions([])}
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
+                activeRegions.length === 0
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "border-border text-muted-foreground hover:bg-muted/50"
+              }`}
+            >
+              Any
+            </button>
             {ALL_REGIONS.map((region) => {
               const isActive = activeRegions.includes(region);
               return (
@@ -162,9 +195,13 @@ export default function Tours() {
         {/* Filter status bar */}
         {hasFilters && (
           <div className="flex items-center justify-between mb-6">
-            {filtersCleared ? (
+            {fallbackMode ? (
               <div className="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-200 px-4 py-2 rounded-lg">
-                <span>No tours match those filters — showing all tours instead.</span>
+                <span>
+                  {fallbackMode === "style-only" && `No ${activeCategories.join(" + ")} tours in that region — showing all ${activeCategories.join(" + ")} tours instead.`}
+                  {fallbackMode === "region-only" && `No tours in that region with that style — showing all ${activeRegions.join(", ")} tours instead.`}
+                  {fallbackMode === "all" && "No tours match those filters — showing all tours instead."}
+                </span>
                 <button onClick={clearAll} className="font-semibold underline ml-1">Clear filters</button>
               </div>
             ) : (
@@ -172,7 +209,7 @@ export default function Tours() {
                 Showing <span className="font-semibold text-foreground">{filteredTours.length}</span> of {tours?.length ?? 0} tours
               </span>
             )}
-            {!filtersCleared && (
+            {!fallbackMode && (
               <button
                 onClick={clearAll}
                 className="text-primary hover:underline font-medium flex items-center gap-1 text-sm"

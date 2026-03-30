@@ -7,16 +7,16 @@ interface TourCardProps {
 }
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  "Adventure":       "bg-orange-500/90 text-white",
-  "Country Estates": "bg-amber-700/90 text-white",
-  "Culture":         "bg-violet-600/90 text-white",
-  "Family":          "bg-sky-500/90 text-white",
-  "Self-Drive":      "bg-lime-600/90 text-white",
-  "Self-Guided":     "bg-teal-600/90 text-white",
-  "Ski & Snow":      "bg-blue-500/90 text-white",
-  "Wellness":        "bg-rose-500/90 text-white",
-  "Wildlife":        "bg-green-600/90 text-white",
-  "Women's":         "bg-pink-500/90 text-white",
+  "Adventure":       "bg-amber-900/75 text-amber-50",
+  "Country Estates": "bg-stone-700/75 text-stone-50",
+  "Culture":         "bg-indigo-900/75 text-indigo-50",
+  "Family":          "bg-sky-900/75 text-sky-50",
+  "Self-Drive":      "bg-slate-700/75 text-slate-50",
+  "Self-Guided":     "bg-teal-900/75 text-teal-50",
+  "Ski & Snow":      "bg-blue-900/75 text-blue-50",
+  "Wellness":        "bg-rose-900/75 text-rose-50",
+  "Wildlife":        "bg-emerald-900/75 text-emerald-50",
+  "Women's":         "bg-fuchsia-900/75 text-fuchsia-50",
 };
 
 export default function TourCard({ tour, onClick }: TourCardProps) {

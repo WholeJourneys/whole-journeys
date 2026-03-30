@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, BookOpen, Hotel, Map } from "lucide-react";
+import { ExternalLink, BookOpen, Hotel, Map, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TourModal from "@/components/TourModal";
@@ -252,7 +252,7 @@ export default function Picks() {
               <h2 className="text-3xl font-display text-primary">Trips I'm Excited About</h2>
             </div>
             <p className="text-muted-foreground mb-10 text-sm">
-              A few itineraries I keep coming back to. Click to see the full itinerary on Travefy.
+              A few itineraries I keep coming back to. Click any trip for an overview, then view the full itinerary on Travefy.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {displayTours.map((tour, idx) => (
@@ -278,15 +278,9 @@ export default function Picks() {
                   <div className="p-5 flex flex-col flex-grow">
                     <h3 className="font-display text-lg font-medium text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{tour.name}</h3>
                     <p className="text-muted-foreground text-sm line-clamp-2 flex-grow">{tour.description}</p>
-                    <a
-                      href={activeTrips.find((t) => t.tourId === tour.id)?.customUrl || tour.travefyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80"
-                    >
-                      View Itinerary <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                    <span className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-primary/80">
+                      View Details <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
                   </div>
                 </motion.div>
               ))}

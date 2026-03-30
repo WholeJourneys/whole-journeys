@@ -1,4 +1,4 @@
-import { MapPin, ExternalLink } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import { type Tour } from "@/hooks/use-tours";
 
 interface TourCardProps {
@@ -69,15 +69,9 @@ export default function TourCard({ tour, onClick }: TourCardProps) {
             ))}
           </div>
 
-          <a
-            href={tour.travefyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80 whitespace-nowrap"
-          >
-            View Itinerary <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <span className="flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-primary/80 whitespace-nowrap">
+            View Details <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+          </span>
         </div>
       </div>
     </div>

@@ -312,9 +312,9 @@ export const TRAVEFY_TOURS: Tour[] = [
     price: null,
     groupSize: "Private departures for 2+",
     categories: ["Adventure", "Self-Guided", "Wellness"],
-    description: "Hike the dramatic caldera of Santorini, the mythic trails of Crete's Samaria Gorge, and the ancient paths of the Peloponnese. Island-hop between hikes on ferries with boutique hotel stays.",
+    description: "Explore the unspoiled Cyclades on foot — hiking the marble trails of Naxos and the pilgrim paths of Tinos. Island-hop between hikes on ferries with boutique hotel stays in villages untouched by mass tourism.",
     imageUrl: `${CDN}/i_h2f3e7406f097c36a22f9519bf506013b90f10513.jpg`,
-    highlights: ["Santorini Caldera Trail", "Samaria Gorge", "Peloponnese Ancient Paths"],
+    highlights: ["Hiking the marble-paved trails of Naxos", "Pilgrim paths and hilltop villages of Tinos", "Ferry island-hopping through the Cyclades"],
     travefyUrl: `${BASE_URL}/6yw9rqyffb9zqz2axmrs5kgraw9pbqq`,
   },
 ];

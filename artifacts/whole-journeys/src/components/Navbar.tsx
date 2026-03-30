@@ -32,8 +32,6 @@ export default function Navbar() {
     { name: "Our Philosophy", path: "/about" },
   ];
 
-  const externalBookingUrl = "https://book.wholejourneys.com"; // Placeholder
-
   return (
     <>
       <header
@@ -81,19 +79,19 @@ export default function Navbar() {
                 </Link>
               ))}
               
-              <a
-                href={externalBookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/hotels"
                 className={cn(
                   "px-6 py-2.5 rounded-sm text-sm font-medium tracking-wide uppercase transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5",
-                  (!isScrolled && isHome)
-                    ? "bg-white text-primary hover:bg-white/90"
-                    : "bg-primary text-white hover:bg-primary/90"
+                  location === "/hotels"
+                    ? "bg-secondary text-white"
+                    : (!isScrolled && isHome)
+                      ? "bg-white text-primary hover:bg-white/90"
+                      : "bg-primary text-white hover:bg-primary/90"
                 )}
               >
                 Browse &amp; Book Hotels
-              </a>
+              </Link>
             </nav>
 
             {/* Mobile Toggle */}
@@ -142,14 +140,12 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="w-full h-px bg-border my-4" />
-              <a
-                href={externalBookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/hotels"
                 className="w-full text-center px-6 py-4 bg-primary text-white rounded-md text-lg font-medium shadow-md"
               >
                 Browse & Book Hotels
-              </a>
+              </Link>
             </nav>
           </motion.div>
         )}

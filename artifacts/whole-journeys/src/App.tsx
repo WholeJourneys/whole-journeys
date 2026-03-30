@@ -5,6 +5,7 @@ import Tours from "./pages/Tours";
 import About from "./pages/About";
 import Admin from "./pages/Admin";
 import Picks from "./pages/Picks";
+import Hotels from "./pages/Hotels";
 import NotFound from "./pages/not-found";
 
 const queryClient = new QueryClient({
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/tours" component={Tours} />
       <Route path="/about" component={About} />
       <Route path="/picks" component={Picks} />
+      <Route path="/hotels" component={Hotels} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>

@@ -6,7 +6,7 @@ import { useSiteContent } from "@/hooks/use-admin-data";
 const DEFAULTS: Record<string, string> = {
   about_subtitle: "Since 1998, Kathy Dragon has been crafting life-changing journeys for curious travelers — from Bhutan to Belize, Patagonia to Provence, Kerala to Kilimanjaro.",
   about_bio_1: "As a professional in the Adventure and Experiential Travel industry for more than two decades, Kathy has primarily guided small group tours for active adults worldwide — along with wearing all the other hats involved in running such a business.",
-  about_bio_2: "From Bhutan to Belize, Croatia to Czech Republic, Patagonia to Provence, Kerala to Kilimanjaro — she's been there, often more than once — and has personally escorted more than 3,000 guests on life-changing adventures.",
+  about_bio_2: "From Bhutan to Belize, Croatia to Czech Republic, Patagonia to Provence, Kerala to Kilimanjaro — she's been there, often more than once — and has personally escorted more than 6,000 guests on life-changing adventures.",
   about_bio_3: "The trips Kathy designs allow for authentic experiences involving rich cultural connections. She stays at boutique properties, employs expert local guides, samples traditional cuisines, and engages in active excursions — all within a framework of responsible tourism.",
   about_bio_4: "Since 1998, Kathy has led small group cultural walking adventures worldwide through her company The Dragon's Path, and founded Whole Journeys in 2012. Along the way she has trained hundreds of guides and tour operators on the nuances of understanding the North American traveler.",
   about_photo_url: "http://s3.amazonaws.com/whole-journeys-assets/production/page-images/kathy.jpg",
@@ -89,10 +89,10 @@ export default function About() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "25+", label: "Years of Experience" },
-              { value: "3,000+", label: "Guests Escorted" },
-              { value: "40+", label: "Countries Explored" },
-              { value: "2012", label: "Whole Journeys Founded" },
+              { value: "6,000+", label: "Guests Escorted" },
+              { value: "80+", label: "Countries Explored" },
+              { value: "1998", label: "Dragon's Path Founded" },
+              { value: "27+", label: "Years of Experience" },
             ].map(({ value, label }) => (
               <div key={label}>
                 <div className="text-4xl font-display font-semibold text-primary mb-2">{value}</div>

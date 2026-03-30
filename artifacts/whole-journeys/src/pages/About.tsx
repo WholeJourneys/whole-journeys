@@ -275,7 +275,7 @@ export default function About() {
             Call Kathy directly at <a href="tel:+13039310785" className="text-secondary hover:underline font-medium">+1 (303) 931-0785</a> or send her an email — she loves talking travel.
           </p>
           <a
-            href="mailto:kathy@wholejourneys.com"
+            href="mailto:travel@wholejourneys.com"
             className="inline-block px-10 py-4 bg-primary text-white rounded-sm font-semibold tracking-wide uppercase hover:bg-primary/90 transition-colors shadow-lg"
           >
             Email Kathy

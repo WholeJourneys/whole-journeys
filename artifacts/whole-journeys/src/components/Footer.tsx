@@ -44,14 +44,14 @@ export default function Footer() {
             <h4 className="font-display text-xl font-medium mb-6 text-white">Connect</h4>
             <ul className="space-y-4">
               <li>
-                <a href="mailto:hello@wholejourneys.com" className="flex items-center gap-3 text-white/70 hover:text-secondary transition-colors font-light">
+                <a href="mailto:travel@wholejourneys.com" className="flex items-center gap-3 text-white/70 hover:text-secondary transition-colors font-light">
                   <Mail className="w-4 h-4" />
-                  hello@wholejourneys.com
+                  travel@wholejourneys.com
                 </a>
               </li>
               <li>
                 <a href="https://book.wholejourneys.com" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-sm font-medium tracking-wider uppercase border-b border-secondary text-secondary hover:text-white hover:border-white transition-colors pb-1">
-                  Access Booking Platform
+                  Access Hotel Booking Platform
                 </a>
               </li>
             </ul>

@@ -177,8 +177,8 @@ export default function About() {
 
             <div className="order-1 lg:order-2">
               <img
-                src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80"
-                alt="Beautiful European destination"
+                src="/kathy-dolomites.jpeg"
+                alt="Kathy Dragon leading a journey in the Dolomites"
                 className="rounded-2xl shadow-xl w-full object-cover h-[500px]"
               />
             </div>

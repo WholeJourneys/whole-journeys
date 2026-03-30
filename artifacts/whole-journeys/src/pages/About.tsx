@@ -42,6 +42,25 @@ export default function About() {
     return () => clearInterval(interval);
   }, [photos.length]);
 
+  const GROUP_PHOTOS = [
+    "/guests-coastal-group.png",
+    "/guests-alpine.jpeg",
+    "/guests-waterfall.jpeg",
+    "/guest-meadow.jpeg",
+    "/guests-coffee-turkey.jpeg",
+    "/guests-via-francigena.jpeg",
+    "/guests-laughing-coffee.jpeg",
+    "/guests-restaurant.jpeg",
+    "/womens-hike.jpeg",
+  ];
+  const [hotelIdx, setHotelIdx] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHotelIdx((i) => (i + 1) % GROUP_PHOTOS.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
@@ -176,11 +195,32 @@ export default function About() {
             </div>
 
             <div className="order-1 lg:order-2">
-              <img
-                src="/kathy-dolomites.jpeg"
-                alt="Kathy Dragon leading a journey in the Dolomites"
-                className="rounded-2xl shadow-xl w-full object-cover h-[500px]"
-              />
+              <div className="rounded-2xl overflow-hidden border border-border/50 shadow-xl bg-card">
+                <div className="relative h-64 overflow-hidden">
+                  {GROUP_PHOTOS.map((src, i) => (
+                    <div
+                      key={src}
+                      className="absolute inset-0 bg-cover bg-center transition-opacity duration-700"
+                      style={{
+                        backgroundImage: `url(${src})`,
+                        opacity: i === hotelIdx ? 1 : 0,
+                      }}
+                    />
+                  ))}
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2.5 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
+                      City Luxury
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Paris, France</p>
+                  <h3 className="font-display text-xl font-medium text-foreground mb-3">Four Seasons George V</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    The most celebrated address in Paris — steps from the Champs-Élysées, with three Michelin-starred restaurants. As a Virtuoso partner, Whole Journeys guests receive complimentary breakfast, room upgrades, and exclusive amenities.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -128,14 +128,12 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-              <a
-                href="https://book.wholejourneys.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-4 bg-white text-primary rounded-sm font-medium tracking-wide uppercase hover:bg-white/90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              <Link
+                href="/hotels"
+                className="w-full sm:w-auto px-8 py-4 bg-white text-primary rounded-sm font-medium tracking-wide uppercase hover:bg-white/90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-center"
               >
                 Browse &amp; Book Hotels
-              </a>
+              </Link>
               <button
                 onClick={scrollToTours}
                 className="w-full sm:w-auto px-8 py-4 bg-primary/80 backdrop-blur-md text-white border border-white/20 rounded-sm font-medium tracking-wide uppercase hover:bg-primary transition-all flex items-center justify-center gap-2"

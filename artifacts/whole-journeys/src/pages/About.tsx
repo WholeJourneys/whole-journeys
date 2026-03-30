@@ -19,8 +19,14 @@ export default function About() {
 
   const photos = [
     { src: c("about_photo_url"), alt: "Kathy Dragon, Founder of Whole Journeys" },
-    { src: "/kathy-wine-mountains.jpeg", alt: "Kathy Dragon enjoying a meal with mountain views" },
+    { src: "/kathy-montblanc.jpeg", alt: "Kathy Dragon on trail with Mont Blanc behind her" },
+    { src: "/kathy-dolomites.jpeg", alt: "Kathy Dragon in the Dolomites" },
+    { src: "/kathy-strudel.jpeg", alt: "Kathy Dragon at a mountain hut with Whole Journeys water bottle" },
     { src: "/kathy-vineyard.jpeg", alt: "Kathy Dragon harvesting grapes in a vineyard" },
+    { src: "/kathy-wildflowers.jpeg", alt: "Kathy Dragon with yellow wildflowers on trail" },
+    { src: "/kathy-wine-mountains.jpeg", alt: "Kathy Dragon enjoying a meal with mountain views" },
+    { src: "/kathy-triglav.jpeg", alt: "Kathy Dragon at Triglav National Park, Slovenia" },
+    { src: "/kathy-donkey.jpeg", alt: "Kathy Dragon riding a donkey in the mountains" },
   ];
   const [activePhoto, setActivePhoto] = useState(0);
   const [fading, setFading] = useState(false);

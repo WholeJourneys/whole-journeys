@@ -82,12 +82,12 @@ export default function Navbar() {
               <Link
                 href="/hotels"
                 className={cn(
-                  "px-6 py-2.5 rounded-sm text-sm font-medium tracking-wide uppercase transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5",
+                  "text-sm font-medium tracking-wide uppercase transition-colors duration-200 hover:text-secondary",
                   location === "/hotels"
-                    ? "bg-secondary text-white"
+                    ? "text-secondary"
                     : (!isScrolled && isHome)
-                      ? "bg-white text-primary hover:bg-white/90"
-                      : "bg-primary text-white hover:bg-primary/90"
+                      ? "text-white/90 hover:text-white"
+                      : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 Browse &amp; Book Hotels

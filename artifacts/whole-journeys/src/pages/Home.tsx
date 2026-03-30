@@ -118,7 +118,7 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <span className="inline-block py-1 px-3 rounded-full border border-white/30 text-white/90 text-sm font-medium tracking-widest uppercase mb-6 backdrop-blur-sm">
-              Curated Luxury Travel
+              Curated Experiential Travel
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-semibold text-white mb-6 leading-tight text-balance">
               Experience the World <br /><span className="text-secondary italic font-light">Differently</span>

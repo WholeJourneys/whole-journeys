@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, Check, RotateCcw, Lock } from "lucide-react";
+import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save } from "lucide-react";
 import { useTours, useUpdateTourTags, ALL_CATEGORIES, TRAVEFY_TOURS } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "@/components/TourCard";
+import {
+  useSiteContent, useSaveContent,
+  usePicksHotels, useSaveHotel, useDeleteHotel, type PicksHotel,
+  usePicksArticles, useSaveArticle, useDeleteArticle, type PicksArticle,
+  usePicksTrips, useSavePicksTrips,
+} from "@/hooks/use-admin-data";
 
 const SESSION_KEY = "wj_admin_auth";
 const CORRECT_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD ?? "";
+
+// ─── PASSWORD GATE ─────────────────────────────────────────────────────────────
 
 function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
   const [value, setValue] = useState("");
@@ -32,7 +40,6 @@ function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
           <h1 className="text-2xl font-display font-semibold text-foreground">Admin Access</h1>
           <p className="text-sm text-muted-foreground mt-2">Enter your password to continue</p>
         </div>
-
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="password"
@@ -44,59 +51,401 @@ function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
               error ? "border-red-400 bg-red-50" : "border-border"
             }`}
           />
-          {error && (
-            <p className="text-sm text-red-600 text-center">Incorrect password. Try again.</p>
-          )}
-          <button
-            type="submit"
-            className="w-full py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-colors"
-          >
-            Enter
-          </button>
+          {error && <p className="text-sm text-red-600 text-center">Incorrect password. Try again.</p>}
+          <button type="submit" className="w-full py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-colors">Enter</button>
         </form>
       </div>
     </div>
   );
 }
 
+// ─── TAG CHIP STYLES ───────────────────────────────────────────────────────────
+
 const CATEGORY_ACTIVE: Record<string, string> = {
-  "Adventure":       "bg-orange-500 text-white border-orange-500",
+  "Adventure": "bg-orange-500 text-white border-orange-500",
   "Country Estates": "bg-amber-700 text-white border-amber-700",
-  "Culture":         "bg-violet-600 text-white border-violet-600",
-  "Family":          "bg-sky-500 text-white border-sky-500",
-  "Self-Drive":      "bg-lime-600 text-white border-lime-600",
-  "Self-Guided":     "bg-teal-600 text-white border-teal-600",
-  "Ski & Snow":      "bg-blue-500 text-white border-blue-500",
-  "Wellness":        "bg-rose-500 text-white border-rose-500",
-  "Wildlife":        "bg-green-600 text-white border-green-600",
-  "Women's":         "bg-pink-500 text-white border-pink-500",
+  "Culture": "bg-violet-600 text-white border-violet-600",
+  "Family": "bg-sky-500 text-white border-sky-500",
+  "Self-Drive": "bg-lime-600 text-white border-lime-600",
+  "Self-Guided": "bg-teal-600 text-white border-teal-600",
+  "Ski & Snow": "bg-blue-500 text-white border-blue-500",
+  "Wellness": "bg-rose-500 text-white border-rose-500",
+  "Wildlife": "bg-green-600 text-white border-green-600",
+  "Women's": "bg-pink-500 text-white border-pink-500",
 };
-
 const CATEGORY_INACTIVE: Record<string, string> = {
-  "Adventure":       "border-orange-400 text-orange-600 hover:bg-orange-50",
+  "Adventure": "border-orange-400 text-orange-600 hover:bg-orange-50",
   "Country Estates": "border-amber-600 text-amber-700 hover:bg-amber-50",
-  "Culture":         "border-violet-400 text-violet-600 hover:bg-violet-50",
-  "Family":          "border-sky-400 text-sky-600 hover:bg-sky-50",
-  "Self-Drive":      "border-lime-500 text-lime-700 hover:bg-lime-50",
-  "Self-Guided":     "border-teal-400 text-teal-600 hover:bg-teal-50",
-  "Ski & Snow":      "border-blue-400 text-blue-600 hover:bg-blue-50",
-  "Wellness":        "border-rose-400 text-rose-600 hover:bg-rose-50",
-  "Wildlife":        "border-green-500 text-green-700 hover:bg-green-50",
-  "Women's":         "border-pink-400 text-pink-600 hover:bg-pink-50",
+  "Culture": "border-violet-400 text-violet-600 hover:bg-violet-50",
+  "Family": "border-sky-400 text-sky-600 hover:bg-sky-50",
+  "Self-Drive": "border-lime-500 text-lime-700 hover:bg-lime-50",
+  "Self-Guided": "border-teal-400 text-teal-600 hover:bg-teal-50",
+  "Ski & Snow": "border-blue-400 text-blue-600 hover:bg-blue-50",
+  "Wellness": "border-rose-400 text-rose-600 hover:bg-rose-50",
+  "Wildlife": "border-green-500 text-green-700 hover:bg-green-50",
+  "Women's": "border-pink-400 text-pink-600 hover:bg-pink-50",
 };
 
-export default function Admin() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
+// ─── SHARED INPUT ──────────────────────────────────────────────────────────────
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{label}</label>
+      {children}
+    </div>
+  );
+}
+
+const inputCls = "w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/20";
+const textareaCls = `${inputCls} resize-none`;
+
+// ─── ABOUT KATHY TAB ──────────────────────────────────────────────────────────
+
+const ABOUT_DEFAULTS: Record<string, string> = {
+  about_subtitle: "Since 1998, Kathy Dragon has been crafting life-changing journeys for curious travelers — from Bhutan to Belize, Patagonia to Provence, Kerala to Kilimanjaro.",
+  about_bio_1: "As a professional in the Adventure and Experiential Travel industry for more than two decades, Kathy has primarily guided small group tours for active adults worldwide — along with wearing all the other hats involved in running such a business.",
+  about_bio_2: "From Bhutan to Belize, Croatia to Czech Republic, Patagonia to Provence, Kerala to Kilimanjaro — she's been there, often more than once — and has personally escorted more than 3,000 guests on life-changing adventures.",
+  about_bio_3: "The trips Kathy designs allow for authentic experiences involving rich cultural connections. She stays at boutique properties, employs expert local guides, samples traditional cuisines, and engages in active excursions — all within a framework of responsible tourism.",
+  about_bio_4: "Since 1998, Kathy has led small group cultural walking adventures worldwide through her company The Dragon's Path, and founded Whole Journeys in 2012. Along the way she has trained hundreds of guides and tour operators on the nuances of understanding the North American traveler.",
+  about_photo_url: "http://s3.amazonaws.com/whole-journeys-assets/production/page-images/kathy.jpg",
+};
+
+function AboutTab() {
+  const { data: content } = useSiteContent();
+  const saveContent = useSaveContent();
+  const [draft, setDraft] = useState<Record<string, string>>({});
+  const [saved, setSaved] = useState<Record<string, boolean>>({});
+
+  function val(key: string) {
+    return draft[key] ?? content?.[key] ?? ABOUT_DEFAULTS[key] ?? "";
+  }
+
+  function set(key: string, value: string) {
+    setDraft((d) => ({ ...d, [key]: value }));
+  }
+
+  async function save(key: string) {
+    await saveContent.mutateAsync({ key, value: val(key) });
+    setSaved((s) => ({ ...s, [key]: true }));
+    setTimeout(() => setSaved((s) => ({ ...s, [key]: false })), 2000);
+  }
+
+  function SaveBtn({ k }: { k: string }) {
+    return (
+      <button
+        onClick={() => save(k)}
+        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+      >
+        {saved[k] ? <><Check className="w-3 h-3" /> Saved</> : <><Save className="w-3 h-3" /> Save</>}
+      </button>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <p className="text-sm text-muted-foreground">Edit the content that appears on the Our Philosophy page. Each field saves independently.</p>
+
+      <div className="bg-card border border-border rounded-xl p-5 space-y-5">
+        <h3 className="font-semibold text-foreground">Page Header</h3>
+        <Field label="Page Subtitle">
+          <textarea rows={2} className={textareaCls} value={val("about_subtitle")} onChange={(e) => set("about_subtitle", e.target.value)} />
+          <div className="flex justify-end pt-1"><SaveBtn k="about_subtitle" /></div>
+        </Field>
+        <Field label="Kathy's Photo URL">
+          <input className={inputCls} value={val("about_photo_url")} onChange={(e) => set("about_photo_url", e.target.value)} />
+          {val("about_photo_url") && (
+            <img src={val("about_photo_url")} alt="Preview" className="mt-2 h-24 w-20 object-cover rounded-lg border border-border" />
+          )}
+          <div className="flex justify-end pt-1"><SaveBtn k="about_photo_url" /></div>
+        </Field>
+      </div>
+
+      <div className="bg-card border border-border rounded-xl p-5 space-y-5">
+        <h3 className="font-semibold text-foreground">Bio Paragraphs</h3>
+        {(["about_bio_1", "about_bio_2", "about_bio_3", "about_bio_4"] as const).map((key, i) => (
+          <Field key={key} label={`Paragraph ${i + 1}`}>
+            <textarea rows={4} className={textareaCls} value={val(key)} onChange={(e) => set(key, e.target.value)} />
+            <div className="flex justify-end pt-1"><SaveBtn k={key} /></div>
+          </Field>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── HOTEL FORM ───────────────────────────────────────────────────────────────
+
+const BLANK_HOTEL: PicksHotel = { name: "", location: "", description: "", imageUrl: "", bookUrl: "https://book.wholejourneys.com", perk1: "", perk2: "", perk3: "", sortOrder: 0, active: true };
+
+function HotelForm({ initial, onSave, onCancel }: { initial: PicksHotel; onSave: (h: PicksHotel) => void; onCancel: () => void }) {
+  const [h, setH] = useState(initial);
+  const set = (k: keyof PicksHotel, v: string | number | boolean) => setH((p) => ({ ...p, [k]: v }));
+
+  return (
+    <div className="bg-muted/40 border border-border rounded-xl p-5 space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field label="Hotel Name"><input className={inputCls} value={h.name} onChange={(e) => set("name", e.target.value)} /></Field>
+        <Field label="Location"><input className={inputCls} value={h.location} onChange={(e) => set("location", e.target.value)} /></Field>
+      </div>
+      <Field label="Description"><textarea rows={3} className={textareaCls} value={h.description} onChange={(e) => set("description", e.target.value)} /></Field>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field label="Image URL"><input className={inputCls} placeholder="https://..." value={h.imageUrl} onChange={(e) => set("imageUrl", e.target.value)} /></Field>
+        <Field label="Book URL"><input className={inputCls} value={h.bookUrl} onChange={(e) => set("bookUrl", e.target.value)} /></Field>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Field label="Virtuoso Perk 1"><input className={inputCls} value={h.perk1} onChange={(e) => set("perk1", e.target.value)} /></Field>
+        <Field label="Virtuoso Perk 2"><input className={inputCls} value={h.perk2} onChange={(e) => set("perk2", e.target.value)} /></Field>
+        <Field label="Virtuoso Perk 3"><input className={inputCls} value={h.perk3} onChange={(e) => set("perk3", e.target.value)} /></Field>
+      </div>
+      <div className="flex items-center justify-between pt-2">
+        <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <input type="checkbox" checked={h.active} onChange={(e) => set("active", e.target.checked)} className="rounded" />
+          Show on Kathy's Picks
+        </label>
+        <div className="flex gap-2">
+          <button onClick={onCancel} className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors">Cancel</button>
+          <button onClick={() => onSave(h)} className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">Save Hotel</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HotelsTab() {
+  const { data: hotels = [] } = usePicksHotels();
+  const saveHotel = useSaveHotel();
+  const deleteHotel = useDeleteHotel();
+  const [editing, setEditing] = useState<PicksHotel | null>(null);
+  const [adding, setAdding] = useState(false);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">Manage the hotels shown on Kathy's Picks page.</p>
+        <button onClick={() => { setAdding(true); setEditing(null); }} className="flex items-center gap-1.5 px-3 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+          <Plus className="w-4 h-4" /> Add Hotel
+        </button>
+      </div>
+
+      {adding && (
+        <HotelForm
+          initial={BLANK_HOTEL}
+          onSave={async (h) => { await saveHotel.mutateAsync(h); setAdding(false); }}
+          onCancel={() => setAdding(false)}
+        />
+      )}
+
+      <div className="space-y-3">
+        {hotels.length === 0 && !adding && (
+          <div className="text-center py-12 text-muted-foreground text-sm border border-dashed border-border rounded-xl">
+            No hotels yet. Click "Add Hotel" to get started.
+          </div>
+        )}
+        {hotels.map((hotel) => (
+          <div key={hotel.id}>
+            {editing?.id === hotel.id ? (
+              <HotelForm
+                initial={hotel}
+                onSave={async (h) => { await saveHotel.mutateAsync(h); setEditing(null); }}
+                onCancel={() => setEditing(null)}
+              />
+            ) : (
+              <div className="bg-card border border-border rounded-xl p-4 flex gap-4">
+                {hotel.imageUrl && (
+                  <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-cover bg-center border border-border/50" style={{ backgroundImage: `url(${hotel.imageUrl})` }} />
+                )}
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="font-semibold text-sm text-foreground">{hotel.name}</div>
+                      <div className="text-xs text-muted-foreground">{hotel.location}</div>
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {!hotel.active && <span className="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">Hidden</span>}
+                      <button onClick={() => { setEditing(hotel); setAdding(false); }} className="p-1.5 text-muted-foreground hover:text-primary rounded-lg hover:bg-muted transition-colors"><Pencil className="w-3.5 h-3.5" /></button>
+                      <button onClick={() => hotel.id && deleteHotel.mutate(hotel.id)} className="p-1.5 text-muted-foreground hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{hotel.description}</p>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {[hotel.perk1, hotel.perk2, hotel.perk3].filter(Boolean).map((p) => (
+                      <span key={p} className="text-[10px] bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">✦ {p}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── ARTICLE FORM ─────────────────────────────────────────────────────────────
+
+const BLANK_ARTICLE: PicksArticle = { title: "", excerpt: "", category: "", imageUrl: "", url: "", readTime: "", sortOrder: 0, active: true };
+
+function ArticleForm({ initial, onSave, onCancel }: { initial: PicksArticle; onSave: (a: PicksArticle) => void; onCancel: () => void }) {
+  const [a, setA] = useState(initial);
+  const set = (k: keyof PicksArticle, v: string | number | boolean) => setA((p) => ({ ...p, [k]: v }));
+
+  return (
+    <div className="bg-muted/40 border border-border rounded-xl p-5 space-y-4">
+      <Field label="Title"><input className={inputCls} value={a.title} onChange={(e) => set("title", e.target.value)} /></Field>
+      <Field label="Excerpt / Teaser"><textarea rows={3} className={textareaCls} value={a.excerpt} onChange={(e) => set("excerpt", e.target.value)} /></Field>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Field label="Category Tag"><input className={inputCls} placeholder="e.g. Gear & Planning" value={a.category} onChange={(e) => set("category", e.target.value)} /></Field>
+        <Field label="Read Time"><input className={inputCls} placeholder="e.g. 6 min read" value={a.readTime} onChange={(e) => set("readTime", e.target.value)} /></Field>
+        <Field label="Article URL (Substack)"><input className={inputCls} placeholder="https://..." value={a.url} onChange={(e) => set("url", e.target.value)} /></Field>
+      </div>
+      <Field label="Cover Image URL"><input className={inputCls} placeholder="https://..." value={a.imageUrl} onChange={(e) => set("imageUrl", e.target.value)} /></Field>
+      <div className="flex items-center justify-between pt-2">
+        <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <input type="checkbox" checked={a.active} onChange={(e) => set("active", e.target.checked)} className="rounded" />
+          Show on Kathy's Picks
+        </label>
+        <div className="flex gap-2">
+          <button onClick={onCancel} className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors">Cancel</button>
+          <button onClick={() => onSave(a)} className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">Save Article</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArticlesTab() {
+  const { data: articles = [] } = usePicksArticles();
+  const saveArticle = useSaveArticle();
+  const deleteArticle = useDeleteArticle();
+  const [editing, setEditing] = useState<PicksArticle | null>(null);
+  const [adding, setAdding] = useState(false);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">Manage blog posts and Substack articles shown on Kathy's Picks.</p>
+        <button onClick={() => { setAdding(true); setEditing(null); }} className="flex items-center gap-1.5 px-3 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+          <Plus className="w-4 h-4" /> Add Article
+        </button>
+      </div>
+
+      {adding && (
+        <ArticleForm
+          initial={BLANK_ARTICLE}
+          onSave={async (a) => { await saveArticle.mutateAsync(a); setAdding(false); }}
+          onCancel={() => setAdding(false)}
+        />
+      )}
+
+      <div className="space-y-3">
+        {articles.length === 0 && !adding && (
+          <div className="text-center py-12 text-muted-foreground text-sm border border-dashed border-border rounded-xl">
+            No articles yet. Click "Add Article" to get started.
+          </div>
+        )}
+        {articles.map((article) => (
+          <div key={article.id}>
+            {editing?.id === article.id ? (
+              <ArticleForm
+                initial={article}
+                onSave={async (a) => { await saveArticle.mutateAsync(a); setEditing(null); }}
+                onCancel={() => setEditing(null)}
+              />
+            ) : (
+              <div className="bg-card border border-border rounded-xl p-4 flex gap-4">
+                {article.imageUrl && (
+                  <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-cover bg-center border border-border/50" style={{ backgroundImage: `url(${article.imageUrl})` }} />
+                )}
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="font-semibold text-sm text-foreground line-clamp-1">{article.title}</div>
+                      <div className="text-xs text-muted-foreground">{article.category} · {article.readTime}</div>
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {!article.active && <span className="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">Hidden</span>}
+                      <button onClick={() => { setEditing(article); setAdding(false); }} className="p-1.5 text-muted-foreground hover:text-primary rounded-lg hover:bg-muted transition-colors"><Pencil className="w-3.5 h-3.5" /></button>
+                      <button onClick={() => article.id && deleteArticle.mutate(article.id)} className="p-1.5 text-muted-foreground hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{article.excerpt}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── FEATURED TRIPS TAB ───────────────────────────────────────────────────────
+
+function FeaturedTripsTab() {
+  const { data: picksTrips = [] } = usePicksTrips();
+  const saveTrips = useSavePicksTrips();
+  const [selected, setSelected] = useState<Set<string> | null>(null);
+  const [saved, setSaved] = useState(false);
+
+  const effectiveSelected = selected ?? new Set(picksTrips.filter((t) => t.active).map((t) => t.tourId));
+
+  function toggle(tourId: string) {
+    const next = new Set(effectiveSelected);
+    if (next.has(tourId)) next.delete(tourId);
+    else next.add(tourId);
+    setSelected(next);
+  }
+
+  async function handleSave() {
+    const trips = Array.from(effectiveSelected).map((tourId, i) => ({ tourId, sortOrder: i, active: true }));
+    await saveTrips.mutateAsync(trips);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          Select which tours appear in the "Trips I'm Excited About" section of Kathy's Picks.
+          <span className="ml-1 text-secondary font-medium">{effectiveSelected.size} selected</span>
+        </p>
+        <button onClick={handleSave} className="flex items-center gap-1.5 px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+          {saved ? <><Check className="w-4 h-4" /> Saved!</> : <><Save className="w-4 h-4" /> Save Selection</>}
+        </button>
+      </div>
+
+      <div className="space-y-2">
+        {TRAVEFY_TOURS.map((tour) => {
+          const on = effectiveSelected.has(tour.id);
+          return (
+            <label key={tour.id} className={`flex items-center gap-4 p-3 rounded-xl border cursor-pointer transition-all ${on ? "border-primary/40 bg-primary/5" : "border-border bg-card hover:bg-muted/40"}`}>
+              <input type="checkbox" checked={on} onChange={() => toggle(tour.id)} className="rounded accent-primary w-4 h-4 flex-shrink-0" />
+              <div className="w-14 h-10 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
+              <div className="min-w-0">
+                <div className="text-sm font-medium text-foreground leading-snug line-clamp-1">{tour.name}</div>
+                <div className="text-xs text-muted-foreground">{tour.destination}</div>
+              </div>
+              {on && <span className="ml-auto text-xs text-primary font-semibold flex-shrink-0">✓ Featured</span>}
+            </label>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── TOUR TAGS TAB ────────────────────────────────────────────────────────────
+
+function TourTagsTab() {
   const { data: tours } = useTours();
   const updateTags = useUpdateTourTags();
   const [saved, setSaved] = useState<Record<string, boolean>>({});
 
-  if (!authed) return <PasswordGate onSuccess={() => setAuthed(true)} />;
-
   function toggleTag(tourId: string, cat: string, current: string[]) {
-    const next = current.includes(cat)
-      ? current.filter((c) => c !== cat)
-      : [...current, cat];
+    const next = current.includes(cat) ? current.filter((c) => c !== cat) : [...current, cat];
     updateTags.mutate({ tourId, categories: next });
     setSaved((s) => ({ ...s, [tourId]: true }));
     setTimeout(() => setSaved((s) => ({ ...s, [tourId]: false })), 1500);
@@ -108,92 +457,95 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-        {/* Header */}
-        <div className="mb-10">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
-            <ArrowLeft className="w-4 h-4" /> Back to site
-          </Link>
-          <h1 className="text-3xl font-display font-semibold text-foreground">Tour Tag Manager</h1>
-          <p className="text-muted-foreground mt-2">
-            Click tags to toggle them on or off for each tour. Changes are saved instantly and persist across sessions.
-          </p>
-          <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
-            <strong>Tip:</strong> Tags you set here control what appears when visitors filter tours on the public site. You can apply multiple tags to the same tour (e.g. a trip can be both "Women's" and "Adventure").
-          </div>
-        </div>
-
-        {/* Category Legend */}
-        <div className="mb-8 p-5 bg-card border border-border rounded-xl">
-          <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Category Colors</div>
-          <div className="flex flex-wrap gap-2">
-            {ALL_CATEGORIES.map((cat) => (
-              <span key={cat} className={`px-2.5 py-1 text-xs font-semibold rounded-full ${CATEGORY_COLORS[cat]}`}>
-                {cat}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Tour List */}
-        <div className="space-y-4">
-          {(tours ?? []).map((tour) => (
-            <div key={tour.id} className="bg-card border border-border rounded-xl overflow-hidden">
-              <div className="flex gap-4 p-4">
-                {/* Thumbnail */}
-                <div
-                  className="w-24 h-20 flex-shrink-0 rounded-lg bg-cover bg-center"
-                  style={{ backgroundImage: `url(${tour.imageUrl})` }}
-                />
-
-                {/* Tour info & tags */}
-                <div className="flex-grow min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <div>
-                      <h2 className="font-semibold text-foreground text-sm leading-snug">{tour.name}</h2>
-                      <div className="text-xs text-muted-foreground mt-0.5">{tour.destination} · {tour.country.join(", ")}</div>
-                    </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      {saved[tour.id] && (
-                        <span className="text-xs text-green-600 font-medium flex items-center gap-1">
-                          <Check className="w-3.5 h-3.5" /> Saved
-                        </span>
-                      )}
-                      <button
-                        onClick={() => resetTags(tour.id)}
-                        title="Reset to defaults"
-                        className="text-muted-foreground hover:text-foreground p-1 rounded"
-                      >
-                        <RotateCcw className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Tag Chips */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {ALL_CATEGORIES.map((cat) => {
-                      const isActive = tour.categories.includes(cat);
-                      return (
-                        <button
-                          key={cat}
-                          onClick={() => toggleTag(tour.id, cat, tour.categories)}
-                          className={`px-2.5 py-0.5 text-[11px] font-semibold rounded-full border transition-all duration-100 ${
-                            isActive ? CATEGORY_ACTIVE[cat] : CATEGORY_INACTIVE[cat]
-                          }`}
-                        >
-                          {isActive && <span className="mr-1">✓</span>}
-                          {cat}
-                        </button>
-                      );
-                    })}
-                  </div>
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-2 mb-2">
+        {ALL_CATEGORIES.map((cat) => (
+          <span key={cat} className={`px-2.5 py-1 text-xs font-semibold rounded-full ${CATEGORY_COLORS[cat]}`}>{cat}</span>
+        ))}
+      </div>
+      {(tours ?? []).map((tour) => (
+        <div key={tour.id} className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="flex gap-4 p-4">
+            <div className="w-24 h-20 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
+            <div className="flex-grow min-w-0">
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <div>
+                  <h2 className="font-semibold text-foreground text-sm leading-snug">{tour.name}</h2>
+                  <div className="text-xs text-muted-foreground mt-0.5">{tour.destination} · {tour.country.join(", ")}</div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
+                  <button onClick={() => resetTags(tour.id)} title="Reset to defaults" className="text-muted-foreground hover:text-foreground p-1 rounded"><RotateCcw className="w-3.5 h-3.5" /></button>
                 </div>
               </div>
+              <div className="flex flex-wrap gap-1.5">
+                {ALL_CATEGORIES.map((cat) => {
+                  const isActive = tour.categories.includes(cat);
+                  return (
+                    <button key={cat} onClick={() => toggleTag(tour.id, cat, tour.categories)}
+                      className={`px-2.5 py-0.5 text-[11px] font-semibold rounded-full border transition-all duration-100 ${isActive ? CATEGORY_ACTIVE[cat] : CATEGORY_INACTIVE[cat]}`}>
+                      {isActive && <span className="mr-1">✓</span>}{cat}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── MAIN ADMIN ───────────────────────────────────────────────────────────────
+
+const TABS = [
+  { id: "tags", label: "Tour Tags" },
+  { id: "about", label: "About Kathy" },
+  { id: "trips", label: "Featured Trips" },
+  { id: "hotels", label: "Featured Hotels" },
+  { id: "articles", label: "Journal Articles" },
+] as const;
+type TabId = typeof TABS[number]["id"];
+
+export default function Admin() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
+  const [tab, setTab] = useState<TabId>("tags");
+
+  if (!authed) return <PasswordGate onSuccess={() => setAuthed(true)} />;
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <div className="mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-5">
+            <ArrowLeft className="w-4 h-4" /> Back to site
+          </Link>
+          <h1 className="text-3xl font-display font-semibold text-foreground">Site Admin</h1>
+          <p className="text-muted-foreground mt-1 text-sm">Manage content, tours, hotels, and articles across the site.</p>
+        </div>
+
+        {/* Tab Bar */}
+        <div className="flex gap-1 bg-muted p-1 rounded-xl mb-8 overflow-x-auto">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`flex-shrink-0 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                tab === t.id ? "bg-white text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t.label}
+            </button>
           ))}
         </div>
+
+        {tab === "tags" && <TourTagsTab />}
+        {tab === "about" && <AboutTab />}
+        {tab === "trips" && <FeaturedTripsTab />}
+        {tab === "hotels" && <HotelsTab />}
+        {tab === "articles" && <ArticlesTab />}
 
       </div>
     </div>

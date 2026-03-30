@@ -1,8 +1,21 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Leaf, Globe, HeartHandshake, Mountain, Camera, Bike } from "lucide-react";
+import { useSiteContent } from "@/hooks/use-admin-data";
+
+const DEFAULTS: Record<string, string> = {
+  about_subtitle: "Since 1998, Kathy Dragon has been crafting life-changing journeys for curious travelers — from Bhutan to Belize, Patagonia to Provence, Kerala to Kilimanjaro.",
+  about_bio_1: "As a professional in the Adventure and Experiential Travel industry for more than two decades, Kathy has primarily guided small group tours for active adults worldwide — along with wearing all the other hats involved in running such a business.",
+  about_bio_2: "From Bhutan to Belize, Croatia to Czech Republic, Patagonia to Provence, Kerala to Kilimanjaro — she's been there, often more than once — and has personally escorted more than 3,000 guests on life-changing adventures.",
+  about_bio_3: "The trips Kathy designs allow for authentic experiences involving rich cultural connections. She stays at boutique properties, employs expert local guides, samples traditional cuisines, and engages in active excursions — all within a framework of responsible tourism.",
+  about_bio_4: "Since 1998, Kathy has led small group cultural walking adventures worldwide through her company The Dragon's Path, and founded Whole Journeys in 2012. Along the way she has trained hundreds of guides and tour operators on the nuances of understanding the North American traveler.",
+  about_photo_url: "http://s3.amazonaws.com/whole-journeys-assets/production/page-images/kathy.jpg",
+};
 
 export default function About() {
+  const { data: content } = useSiteContent();
+  const c = (key: string) => content?.[key] ?? DEFAULTS[key] ?? "";
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
@@ -16,7 +29,7 @@ export default function About() {
             A Life Spent Exploring
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Since 1998, Kathy Dragon has been crafting life-changing journeys for curious travelers — from Bhutan to Belize, Patagonia to Provence, Kerala to Kilimanjaro.
+            {c("about_subtitle")}
           </p>
         </div>
       </section>
@@ -27,7 +40,7 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <img
-                src="http://s3.amazonaws.com/whole-journeys-assets/production/page-images/kathy.jpg"
+                src={c("about_photo_url")}
                 alt="Kathy Dragon, Founder of Whole Journeys"
                 className="rounded-2xl shadow-xl w-full object-cover object-top h-[600px]"
               />
@@ -41,18 +54,10 @@ export default function About() {
               <div>
                 <h2 className="text-3xl font-display text-primary mb-4">Meet Kathy</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
-                  <p>
-                    As a professional in the Adventure and Experiential Travel industry for more than two decades, Kathy has primarily guided small group tours for active adults worldwide — along with wearing all the other hats involved in running such a business.
-                  </p>
-                  <p>
-                    From Bhutan to Belize, Croatia to Czech Republic, Patagonia to Provence, Kerala to Kilimanjaro — she's been there, often more than once — and has personally escorted more than <strong className="text-foreground">3,000 guests</strong> on life-changing adventures.
-                  </p>
-                  <p>
-                    The trips Kathy designs allow for authentic experiences involving rich cultural connections. She stays at boutique properties, employs expert local guides, samples traditional cuisines, and engages in active excursions — all within a framework of responsible tourism.
-                  </p>
-                  <p>
-                    Since 1998, Kathy has led small group cultural walking adventures worldwide through her company <em>The Dragon's Path</em>, and founded Whole Journeys in 2012. Along the way she has trained hundreds of guides and tour operators on the nuances of understanding the North American traveler.
-                  </p>
+                  <p>{c("about_bio_1")}</p>
+                  <p>{c("about_bio_2")}</p>
+                  <p>{c("about_bio_3")}</p>
+                  <p>{c("about_bio_4")}</p>
                 </div>
               </div>
 

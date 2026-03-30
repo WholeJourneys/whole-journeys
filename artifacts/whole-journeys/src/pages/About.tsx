@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Leaf, Globe, HeartHandshake, Mountain, Camera, Bike } from "lucide-react";
@@ -15,6 +16,24 @@ const DEFAULTS: Record<string, string> = {
 export default function About() {
   const { data: content } = useSiteContent();
   const c = (key: string) => content?.[key] ?? DEFAULTS[key] ?? "";
+
+  const photos = [
+    { src: c("about_photo_url"), alt: "Kathy Dragon, Founder of Whole Journeys" },
+    { src: "/kathy-wine-mountains.jpeg", alt: "Kathy Dragon enjoying a meal with mountain views" },
+  ];
+  const [activePhoto, setActivePhoto] = useState(0);
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setActivePhoto((i) => (i + 1) % photos.length);
+        setFading(false);
+      }, 400);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [photos.length]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -39,14 +58,32 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
-              <img
-                src={c("about_photo_url")}
-                alt="Kathy Dragon, Founder of Whole Journeys"
-                className="rounded-2xl shadow-xl w-full object-cover object-top h-[600px]"
-              />
-              <div className="absolute -bottom-6 left-6 right-6 bg-white rounded-xl shadow-lg p-5 border border-border/50">
-                <p className="text-sm font-medium text-foreground">Kathy Dragon</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Founder & Executive Director · Boulder, Colorado</p>
+              <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[600px] relative">
+                {photos.map((photo, i) => (
+                  <img
+                    key={photo.src}
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-300"
+                    style={{ opacity: i === activePhoto ? (fading ? 0 : 1) : 0 }}
+                  />
+                ))}
+              </div>
+              <div className="absolute -bottom-6 left-6 right-6 bg-white rounded-xl shadow-lg p-5 border border-border/50 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-foreground">Kathy Dragon</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Founder & Executive Director · Boulder, Colorado</p>
+                </div>
+                <div className="flex gap-2">
+                  {photos.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setFading(true); setTimeout(() => { setActivePhoto(i); setFading(false); }, 400); }}
+                      className={`w-2 h-2 rounded-full transition-colors ${i === activePhoto ? "bg-secondary" : "bg-border"}`}
+                      aria-label={`Photo ${i + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 

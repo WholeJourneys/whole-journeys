@@ -13,6 +13,7 @@ const GROUP_PHOTOS = [
   "/guests-via-francigena.jpeg",
   "/guests-laughing-coffee.jpeg",
   "/guests-restaurant.jpeg",
+  "/womens-hike.jpeg",
 ];
 
 const BOOKING_URL = "https://book.wholejourneys.com"; // ← replace with real TravelPro 365 URL

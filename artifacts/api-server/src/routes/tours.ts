@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { db, tourTagsTable } from "@workspace/db";
+import { db, tourTagsTable, tourContentTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
@@ -37,6 +37,45 @@ router.put("/tours/tags/:tourId", async (req, res) => {
     res.json({ tourId, categories });
   } catch (err) {
     res.status(500).json({ error: "Failed to save tags" });
+  }
+});
+
+router.get("/tours/content", async (_req, res) => {
+  try {
+    const rows = await db.select().from(tourContentTable);
+    const map: Record<string, { description: string | null; highlights: string[] }> = {};
+    for (const row of rows) {
+      map[row.tourId] = { description: row.description, highlights: row.highlights };
+    }
+    res.json(map);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load tour content" });
+  }
+});
+
+router.put("/tours/content/:tourId", async (req, res) => {
+  const { tourId } = req.params;
+  const { description, highlights } = req.body as { description?: string; highlights?: string[] };
+
+  try {
+    await db
+      .insert(tourContentTable)
+      .values({
+        tourId,
+        description: description ?? null,
+        highlights: highlights ?? [],
+      })
+      .onConflictDoUpdate({
+        target: tourContentTable.tourId,
+        set: {
+          description: description ?? null,
+          highlights: highlights ?? [],
+          updatedAt: new Date(),
+        },
+      });
+    res.json({ tourId, description, highlights });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to save tour content" });
   }
 });
 

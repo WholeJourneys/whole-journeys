@@ -134,6 +134,42 @@ export function useDeleteArticle() {
   });
 }
 
+// ─── TOUR CONTENT (description + highlights) ──────────────────────────────────
+
+export interface TourContent {
+  description: string | null;
+  highlights: string[];
+}
+
+export function useTourContent() {
+  return useQuery<Record<string, TourContent>>({
+    queryKey: ["tour-content"],
+    queryFn: async () => {
+      const res = await fetch(`${API}/tours/content`);
+      return res.json();
+    },
+    staleTime: 30_000,
+  });
+}
+
+export function useSaveTourContent() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ tourId, description, highlights }: { tourId: string } & TourContent) => {
+      const res = await fetch(`${API}/tours/content/${tourId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description, highlights }),
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["tour-content"] });
+      qc.invalidateQueries({ queryKey: ["tours"] });
+    },
+  });
+}
+
 // ─── PICKS: TRIPS ─────────────────────────────────────────────────────────────
 
 export interface PicksTrip { tourId: string; sortOrder: number; active: boolean; customUrl: string; }

@@ -329,15 +329,30 @@ async function fetchTags(): Promise<Record<string, string[]>> {
   }
 }
 
+async function fetchContent(): Promise<Record<string, { description: string | null; highlights: string[] }>> {
+  try {
+    const res = await fetch("/api/tours/content");
+    if (!res.ok) return {};
+    return await res.json();
+  } catch {
+    return {};
+  }
+}
+
 export function useTours() {
   return useQuery({
     queryKey: ["tours"],
     queryFn: async () => {
-      const storedTags = await fetchTags();
-      return TRAVEFY_TOURS.map((tour) => ({
-        ...tour,
-        categories: storedTags[tour.id] ?? tour.categories,
-      }));
+      const [storedTags, storedContent] = await Promise.all([fetchTags(), fetchContent()]);
+      return TRAVEFY_TOURS.map((tour) => {
+        const content = storedContent[tour.id];
+        return {
+          ...tour,
+          categories: storedTags[tour.id] ?? tour.categories,
+          description: content?.description ?? tour.description,
+          highlights: content?.highlights?.length ? content.highlights : tour.highlights,
+        };
+      });
     },
   });
 }

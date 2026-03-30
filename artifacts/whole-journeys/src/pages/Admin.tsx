@@ -8,6 +8,7 @@ import {
   usePicksHotels, useSaveHotel, useDeleteHotel, type PicksHotel,
   usePicksArticles, useSaveArticle, useDeleteArticle, type PicksArticle,
   usePicksTrips, useSavePicksTrips,
+  useTourContent, useSaveTourContent,
 } from "@/hooks/use-admin-data";
 
 const SESSION_KEY = "wj_admin_auth";
@@ -523,10 +524,145 @@ function TourTagsTab() {
   );
 }
 
+// ─── TOUR CONTENT TAB ─────────────────────────────────────────────────────────
+
+function TourContentTab() {
+  const { data: tours } = useTours();
+  const { data: dbContent = {} } = useTourContent();
+  const saveTourContent = useSaveTourContent();
+
+  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[] }>>({});
+  const [saved, setSaved] = useState<Record<string, boolean>>({});
+  const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
+
+  function getDraft(tour: { id: string; description: string; highlights: string[] }) {
+    if (drafts[tour.id]) return drafts[tour.id];
+    const db = dbContent[tour.id];
+    return {
+      description: db?.description ?? tour.description,
+      highlights: db?.highlights?.length ? db.highlights : tour.highlights,
+    };
+  }
+
+  function setDescription(tourId: string, value: string) {
+    setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
+  }
+
+  function getDraftById(tourId: string) {
+    const tour = tours?.find((t) => t.id === tourId);
+    if (!tour) return { description: "", highlights: [] };
+    return getDraft(tour);
+  }
+
+  function addHighlight(tourId: string) {
+    const text = (newHighlight[tourId] ?? "").trim();
+    if (!text) return;
+    const current = getDraftById(tourId);
+    setDrafts((d) => ({ ...d, [tourId]: { ...current, highlights: [...current.highlights, text] } }));
+    setNewHighlight((h) => ({ ...h, [tourId]: "" }));
+  }
+
+  function removeHighlight(tourId: string, idx: number) {
+    const current = getDraftById(tourId);
+    setDrafts((d) => ({ ...d, [tourId]: { ...current, highlights: current.highlights.filter((_, i) => i !== idx) } }));
+  }
+
+  function save(tourId: string) {
+    const draft = getDraftById(tourId);
+    saveTourContent.mutate(
+      { tourId, description: draft.description, highlights: draft.highlights },
+      {
+        onSuccess: () => {
+          setSaved((s) => ({ ...s, [tourId]: true }));
+          setTimeout(() => setSaved((s) => ({ ...s, [tourId]: false })), 2000);
+        },
+      }
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">
+        Edit the description and highlights shown in each tour's popup. Leave blank to use the built-in defaults.
+      </p>
+      {(tours ?? []).map((tour) => {
+        const draft = getDraft(tour);
+        return (
+          <div key={tour.id} className="bg-card border border-border rounded-xl overflow-hidden">
+            <div className="flex gap-4 p-4 border-b border-border/50">
+              <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
+              <div className="flex-grow min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h2 className="font-semibold text-sm leading-snug">{tour.name}</h2>
+                    <div className="text-xs text-muted-foreground mt-0.5">{tour.destination}</div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
+                    <button
+                      onClick={() => save(tour.id)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+                    >
+                      <Save className="w-3.5 h-3.5" /> Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-4 space-y-4">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Description</label>
+                <textarea
+                  rows={3}
+                  value={draft.description}
+                  onChange={(e) => setDescription(tour.id, e.target.value)}
+                  className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
+                  placeholder="Describe this tour for guests…"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Highlights</label>
+                <div className="space-y-1.5 mb-2">
+                  {draft.highlights.map((h, i) => (
+                    <div key={i} className="flex items-center gap-2 group">
+                      <span className="text-secondary text-xs">✦</span>
+                      <span className="text-sm flex-grow">{h}</span>
+                      <button onClick={() => removeHighlight(tour.id, i)} className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity">
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newHighlight[tour.id] ?? ""}
+                    onChange={(e) => setNewHighlight((h) => ({ ...h, [tour.id]: e.target.value }))}
+                    onKeyDown={(e) => e.key === "Enter" && addHighlight(tour.id)}
+                    placeholder="Add a highlight…"
+                    className="flex-grow text-sm border border-border rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  />
+                  <button
+                    onClick={() => addHighlight(tour.id)}
+                    className="px-3 py-1.5 text-xs font-semibold bg-muted border border-border rounded-lg hover:bg-muted/80 transition-colors flex items-center gap-1"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── MAIN ADMIN ───────────────────────────────────────────────────────────────
 
 const TABS = [
   { id: "tags", label: "Tour Tags" },
+  { id: "content", label: "Tour Descriptions" },
   { id: "about", label: "About Kathy" },
   { id: "trips", label: "Featured Trips" },
   { id: "hotels", label: "Featured Hotels" },
@@ -568,6 +704,7 @@ export default function Admin() {
         </div>
 
         {tab === "tags" && <TourTagsTab />}
+        {tab === "content" && <TourContentTab />}
         {tab === "about" && <AboutTab />}
         {tab === "trips" && <FeaturedTripsTab />}
         {tab === "hotels" && <HotelsTab />}

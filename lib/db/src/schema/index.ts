@@ -18,5 +18,6 @@
 //   export type Post = typeof postsTable.$inferSelect;
 
 export * from "./tour-tags";
+export * from "./tour-content";
 export * from "./site-content";
 export * from "./picks";

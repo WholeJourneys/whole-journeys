@@ -79,7 +79,7 @@ export default function About() {
               <div className="absolute -bottom-6 left-6 right-6 bg-white rounded-xl shadow-lg p-5 border border-border/50 flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-foreground">Kathy Dragon</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Founder & Executive Director · Boulder, Colorado</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>
                 </div>
                 <div className="flex gap-2">
                   {photos.map((_, i) => (

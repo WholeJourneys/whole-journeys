@@ -57,7 +57,7 @@ const FEATURED_PROPERTIES = [
     name: "Four Seasons George V",
     location: "Paris, France",
     description: "The most celebrated address in Paris — steps from the Champs-Élysées, with three Michelin-starred restaurants.",
-    imageUrl: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80",
+    imageUrl: "/kathy-vineyard.jpeg",
     category: "City Luxury",
   },
 ];

@@ -20,6 +20,7 @@ export default function About() {
   const photos = [
     { src: c("about_photo_url"), alt: "Kathy Dragon, Founder of Whole Journeys" },
     { src: "/kathy-wine-mountains.jpeg", alt: "Kathy Dragon enjoying a meal with mountain views" },
+    { src: "/kathy-vineyard.jpeg", alt: "Kathy Dragon harvesting grapes in a vineyard" },
   ];
   const [activePhoto, setActivePhoto] = useState(0);
   const [fading, setFading] = useState(false);

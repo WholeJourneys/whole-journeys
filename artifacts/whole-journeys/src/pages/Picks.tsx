@@ -8,9 +8,90 @@ import { usePicksHotels, usePicksArticles, usePicksTrips } from "@/hooks/use-adm
 import { motion } from "framer-motion";
 import { CATEGORY_COLORS } from "@/components/TourCard";
 
-// Fallback data shown if the DB is empty
-const DEFAULT_ARTICLE_IMAGE = "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=800&q=80";
-const DEFAULT_HOTEL_IMAGE = "https://images.unsplash.com/photo-1455587734955-081b22074882?w=800&q=80";
+// Sample data shown when DB sections are empty
+const SAMPLE_ARTICLES = [
+  {
+    id: -1,
+    title: "Why I Keep Going Back to the Camino de Santiago",
+    excerpt: "There's something about walking 500 miles that strips away everything unnecessary. I've done it three times now, and each time I arrive in Santiago I cry.",
+    category: "Walking & Hiking",
+    imageUrl: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",
+    url: "#",
+    readTime: "6 min read",
+    sortOrder: 0,
+    active: true,
+    updatedAt: new Date(),
+  },
+  {
+    id: -2,
+    title: "The Secret to Booking a Safari Without Getting Ripped Off",
+    excerpt: "Most people have no idea how different two \"5-star safaris\" can be. Here's what I look for after 20 years of sending clients to East Africa.",
+    category: "Safari & Wildlife",
+    imageUrl: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80",
+    url: "#",
+    readTime: "8 min read",
+    sortOrder: 1,
+    active: true,
+    updatedAt: new Date(),
+  },
+  {
+    id: -3,
+    title: "Slovenia: Europe's Best-Kept Secret (For Now)",
+    excerpt: "Before the crowds discover it, Lake Bled and the Julian Alps offer the kind of unhurried beauty that feels impossible to find anywhere else in summer.",
+    category: "Hidden Gems",
+    imageUrl: "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=800&q=80",
+    url: "#",
+    readTime: "5 min read",
+    sortOrder: 2,
+    active: true,
+    updatedAt: new Date(),
+  },
+];
+
+const SAMPLE_HOTELS = [
+  {
+    id: -1,
+    name: "Belmond Hotel Caruso",
+    location: "Ravello, Amalfi Coast, Italy",
+    description: "Perched 300 metres above the Tyrrhenian Sea in a converted 11th-century palace, Caruso is the most dramatic hotel I've ever stayed in. The infinity pool overlooking the coast is unforgettable.",
+    imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
+    bookUrl: "https://book.wholejourneys.com",
+    perk1: "Daily breakfast for two",
+    perk2: "$100 hotel credit",
+    perk3: "Room upgrade on arrival (subject to availability)",
+    sortOrder: 0,
+    active: true,
+    updatedAt: new Date(),
+  },
+  {
+    id: -2,
+    name: "andBeyond Ngorongoro Crater Lodge",
+    location: "Ngorongoro, Tanzania",
+    description: "Maasai-inspired suites on the rim of the world's largest volcanic caldera. Butler service, fireplaces, and a view that makes you feel like you're dreaming.",
+    imageUrl: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80",
+    bookUrl: "https://book.wholejourneys.com",
+    perk1: "Daily breakfast included",
+    perk2: "Welcome amenity",
+    perk3: "Early check-in / late checkout",
+    sortOrder: 1,
+    active: true,
+    updatedAt: new Date(),
+  },
+  {
+    id: -3,
+    name: "Hotel de la Cité Carcassonne",
+    location: "Carcassonne, France",
+    description: "A fairy-tale hotel built inside a UNESCO medieval fortress. You fall asleep to silence, wake up to the sound of bells, and step out into history every morning.",
+    imageUrl: "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=800&q=80",
+    bookUrl: "https://book.wholejourneys.com",
+    perk1: "Complimentary breakfast",
+    perk2: "$100 food & beverage credit",
+    perk3: "Preferred room category",
+    sortOrder: 2,
+    active: true,
+    updatedAt: new Date(),
+  },
+];
 
 export default function Picks() {
   const { data: tours } = useTours();
@@ -22,12 +103,19 @@ export default function Picks() {
   const activeHotels = dbHotels.filter((h) => h.active);
   const activeArticles = dbArticles.filter((a) => a.active);
   const activeTrips = dbTrips.filter((t) => t.active);
-  const featuredTours = (tours ?? []).filter((t) => activeTrips.some((pt) => pt.tourId === t.id));
 
-  const showHotels = activeHotels.length > 0;
-  const showArticles = activeArticles.length > 0;
-  const showTrips = featuredTours.length > 0;
-  const nothingYet = !showHotels && !showArticles && !showTrips;
+  const allTours = tours ?? [];
+  const featuredTours = allTours.filter((t) => activeTrips.some((pt) => pt.tourId === t.id));
+
+  // Use real data if available, otherwise show samples
+  const displayHotels = activeHotels.length > 0 ? activeHotels : SAMPLE_HOTELS;
+  const displayArticles = activeArticles.length > 0 ? activeArticles : SAMPLE_ARTICLES;
+  const displayTours = featuredTours.length > 0 ? featuredTours : allTours.slice(0, 3);
+
+  const showHotels = true;
+  const showArticles = true;
+  const showTrips = displayTours.length > 0;
+  const nothingYet = false;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -62,7 +150,7 @@ export default function Picks() {
               <h2 className="text-3xl font-display text-primary">From the Journal</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {activeArticles.map((article, idx) => (
+              {displayArticles.map((article, idx) => (
                 <motion.a
                   key={article.id}
                   href={article.url || "#"}
@@ -113,7 +201,7 @@ export default function Picks() {
               Booked through Whole Journeys, these properties include exclusive Virtuoso perks you can't get on your own.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {activeHotels.map((hotel, idx) => (
+              {displayHotels.map((hotel, idx) => (
                 <motion.div
                   key={hotel.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -167,7 +255,7 @@ export default function Picks() {
               A few itineraries I keep coming back to. Click to see the full itinerary on Travefy.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {featuredTours.map((tour, idx) => (
+              {displayTours.map((tour, idx) => (
                 <motion.div
                   key={tour.id}
                   initial={{ opacity: 0, y: 20 }}

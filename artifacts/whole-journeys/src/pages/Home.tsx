@@ -128,7 +128,7 @@ export default function Home() {
               Experience the World <br /><span className="text-secondary italic font-light">Differently</span>
             </h1>
             <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-              We design extraordinary journeys for the modern explorer. From remote wilderness safaris to exclusive cultural immersions.
+              I design extraordinary journeys — hand-crafted for curious travelers who want to go deeper, move slower, and come home changed.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
@@ -165,11 +165,11 @@ export default function Home() {
                 Travel designed for the <br />curious soul.
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                As a Virtuoso Coastline travel agent, we unlock doors to the world's most exclusive properties and experiences. Whether you prefer to book your own luxury hotels through our portal or have us curate a bespoke expedition to the ends of the earth, your journey is our passion.
+                Every journey I design starts with a conversation — about where you want to go, how you like to move through a place, and who you want to be when you get there. Whether it's a women's hiking week in Slovenia, a family adventure in Kenya, or a slow private drive through the French countryside, I build each trip around you. No templates. No filler days.
               </p>
               <div className="pt-4">
                 <Link href="/about" className="inline-flex items-center gap-2 text-secondary font-medium uppercase tracking-wide hover:gap-4 transition-all">
-                  Read our story <ArrowRight className="w-4 h-4" />
+                  My story <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </motion.div>
@@ -231,10 +231,10 @@ export default function Home() {
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <Compass className="w-12 h-12 text-secondary mx-auto mb-6" />
           <h2 className="text-4xl md:text-5xl font-display text-white mb-6">
-            Know exactly what you want?
+            Ready to book a hotel?
           </h2>
           <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-            As a Coastline Virtuoso agency, we offer exclusive access to our TravelPro 365 booking platform. Book top-tier hotels directly, while enjoying our VIP Virtuoso perks and amenities.
+            Browse and book top hotels directly through my booking portal — with exclusive Virtuoso perks like complimentary breakfast, room upgrades, and property credits that you can't get on your own.
           </p>
           <a
             href="https://book.wholejourneys.com"
@@ -242,7 +242,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="inline-block px-10 py-5 bg-white text-primary rounded-sm font-semibold tracking-wide uppercase hover:bg-secondary hover:text-white transition-colors shadow-xl"
           >
-            Access Booking Platform
+            Browse &amp; Book Hotels
           </a>
         </div>
       </section>
@@ -255,22 +255,22 @@ export default function Home() {
               <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
                 <Shield className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-display font-medium text-foreground mb-3">Virtuoso Network</h3>
-              <p className="text-muted-foreground text-sm">Access to exclusive amenities, upgrades, and experiences globally.</p>
+              <h3 className="text-xl font-display font-medium text-foreground mb-3">Personally Designed</h3>
+              <p className="text-muted-foreground text-sm">Every itinerary is built from scratch for you — not pulled from a catalog or assembled by a call center.</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
                 <Globe className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-display font-medium text-foreground mb-3">Deep Expertise</h3>
-              <p className="text-muted-foreground text-sm">Decades of combined experience designing complex international itineraries.</p>
+              <h3 className="text-xl font-display font-medium text-foreground mb-3">Deep Local Knowledge</h3>
+              <p className="text-muted-foreground text-sm">I've walked the trails, stayed in the properties, and know the people who make the difference on the ground.</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
                 <Compass className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-display font-medium text-foreground mb-3">Seamless Journeys</h3>
-              <p className="text-muted-foreground text-sm">From the moment you leave your door until you return home.</p>
+              <h3 className="text-xl font-display font-medium text-foreground mb-3">One Person, Start to Finish</h3>
+              <p className="text-muted-foreground text-sm">From first conversation to your journey home, you work with me directly — not a team, not a ticket queue.</p>
             </div>
           </div>
         </div>

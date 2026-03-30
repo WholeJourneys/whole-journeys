@@ -21,7 +21,7 @@ export default function About() {
     { src: c("about_photo_url"), alt: "Kathy Dragon, Founder of Whole Journeys" },
     { src: "/kathy-montblanc.jpeg", alt: "Kathy Dragon on trail with Mont Blanc behind her" },
     { src: "/kathy-dolomites.jpeg", alt: "Kathy Dragon in the Dolomites" },
-    { src: "/kathy-strudel.jpeg", alt: "Kathy Dragon at a mountain hut with Whole Journeys water bottle" },
+    { src: "/kathy-strudel.jpeg", alt: "Kathy Dragon at a mountain hut with Whole Journeys water bottle", position: "object-center" },
     { src: "/kathy-vineyard.jpeg", alt: "Kathy Dragon harvesting grapes in a vineyard" },
     { src: "/kathy-wine-mountains.jpeg", alt: "Kathy Dragon enjoying a meal with mountain views" },
     { src: "/kathy-triglav.jpeg", alt: "Kathy Dragon at Triglav National Park, Slovenia" },
@@ -89,7 +89,7 @@ export default function About() {
                     key={photo.src}
                     src={photo.src}
                     alt={photo.alt}
-                    className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-300"
+                    className={`absolute inset-0 w-full h-full object-cover ${photo.position ?? "object-top"} transition-opacity duration-300`}
                     style={{ opacity: i === activePhoto ? (fading ? 0 : 1) : 0 }}
                   />
                 ))}

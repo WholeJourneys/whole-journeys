@@ -165,7 +165,7 @@ export default function Home() {
                 Travel designed for the <br />curious soul.
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Every journey I design starts with a conversation — about where you want to go, how you like to move through a place, and who you want to be when you get there. Whether it's a women's hiking week in Slovenia, a family adventure in Kenya, or a slow private drive through the French countryside, I build each trip around you. No templates. No filler days.
+                Every journey I design starts with a conversation — where you dream of going, who you're traveling with, how you like to move through a place, and what truly matters to you: extraordinary food, deep history, time in nature, local culture, meaningful activity, or a quiet weaving of all of it. Whether it's a women's hiking week in Slovenia, a family adventure in Kenya, or a slow private drive through the French countryside, I build each trip around you. No templates. No filler days.
               </p>
               <div className="pt-4">
                 <Link href="/about" className="inline-flex items-center gap-2 text-secondary font-medium uppercase tracking-wide hover:gap-4 transition-all">

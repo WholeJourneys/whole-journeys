@@ -26,6 +26,7 @@ export default function About() {
     { src: "/kathy-wildflowers.jpeg", alt: "Kathy Dragon with yellow wildflowers on trail" },
     { src: "/kathy-wine-mountains.jpeg", alt: "Kathy Dragon enjoying a meal with mountain views" },
     { src: "/kathy-triglav.jpeg", alt: "Kathy Dragon at Triglav National Park, Slovenia" },
+    { src: "/kathy-picos.jpg", alt: "Kathy Dragon with a local resident in Picos de Europa, Spain" },
   ];
   const [activePhoto, setActivePhoto] = useState(0);
   const [fading, setFading] = useState(false);

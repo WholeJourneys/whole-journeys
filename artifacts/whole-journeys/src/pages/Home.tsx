@@ -39,6 +39,10 @@ const HERO_SLIDES = [
     url: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=85",
     caption: "Serengeti, Tanzania",
   },
+  {
+    url: "/machu-picchu.jpg",
+    caption: "Machu Picchu, Peru",
+  },
 ];
 
 const SLIDE_INTERVAL = 6000;

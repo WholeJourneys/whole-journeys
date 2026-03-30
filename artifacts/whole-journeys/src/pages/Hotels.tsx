@@ -1,7 +1,19 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, Star, Gift, Coffee, ArrowUpRight, CreditCard, Clock, CheckCircle2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const GROUP_PHOTOS = [
+  "/guests-coastal-group.png",
+  "/guests-alpine.jpeg",
+  "/guests-waterfall.jpeg",
+  "/guest-meadow.jpeg",
+  "/guests-coffee-turkey.jpeg",
+  "/guests-via-francigena.jpeg",
+  "/guests-laughing-coffee.jpeg",
+  "/guests-restaurant.jpeg",
+];
 
 const BOOKING_URL = "https://book.wholejourneys.com"; // ← replace with real TravelPro 365 URL
 
@@ -63,6 +75,15 @@ const FEATURED_PROPERTIES = [
 ];
 
 export default function Hotels() {
+  const [groupIdx, setGroupIdx] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGroupIdx((i) => (i + 1) % GROUP_PHOTOS.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
@@ -207,33 +228,49 @@ export default function Hotels() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
-            {FEATURED_PROPERTIES.map((prop, idx) => (
-              <motion.div
-                key={prop.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                className="group rounded-2xl overflow-hidden border border-border/50 hover:shadow-xl transition-all duration-300 bg-card"
-              >
-                <div className="relative h-56 overflow-hidden">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${prop.imageUrl})` }}
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
-                      {prop.category}
-                    </span>
+            {FEATURED_PROPERTIES.map((prop, idx) => {
+              const isGroupCard = idx === 2;
+              return (
+                <motion.div
+                  key={prop.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.5 }}
+                  className="group rounded-2xl overflow-hidden border border-border/50 hover:shadow-xl transition-all duration-300 bg-card"
+                >
+                  <div className="relative h-56 overflow-hidden">
+                    {isGroupCard ? (
+                      GROUP_PHOTOS.map((src, i) => (
+                        <div
+                          key={src}
+                          className="absolute inset-0 bg-cover bg-center transition-opacity duration-700"
+                          style={{
+                            backgroundImage: `url(${src})`,
+                            opacity: i === groupIdx ? 1 : 0,
+                          }}
+                        />
+                      ))
+                    ) : (
+                      <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                        style={{ backgroundImage: `url(${prop.imageUrl})` }}
+                      />
+                    )}
+                    <div className="absolute top-3 left-3">
+                      <span className="px-2.5 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
+                        {prop.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="p-5">
-                  <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">{prop.location}</p>
-                  <h3 className="font-display text-lg font-medium text-foreground mb-2">{prop.name}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{prop.description}</p>
-                </div>
-              </motion.div>
-            ))}
+                  <div className="p-5">
+                    <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">{prop.location}</p>
+                    <h3 className="font-display text-lg font-medium text-foreground mb-2">{prop.name}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{prop.description}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Final CTA */}

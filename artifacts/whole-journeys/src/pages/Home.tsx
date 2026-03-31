@@ -20,9 +20,8 @@ const HERO_SLIDES = [
     caption: "The Alps, Europe",
   },
   {
-    // Cinque Terre cliffside village from the sea — no people
-    url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1920&q=85",
-    caption: "Cinque Terre, Italy",
+    url: "/hero-camino.jpeg",
+    caption: "Camino de Santiago, Spain",
   },
   {
     // Val d'Orcia cypress-lined road, Tuscany — no people

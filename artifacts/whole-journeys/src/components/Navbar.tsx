@@ -55,7 +55,7 @@ export default function Navbar() {
               <div className="flex flex-col leading-none">
                 <span 
                   className={cn(
-                    "font-display font-semibold text-2xl tracking-wide",
+                    "font-display font-semibold text-3xl tracking-wide",
                     (!isScrolled && isHome) ? "text-white" : "text-foreground"
                   )}
                 >
@@ -63,7 +63,7 @@ export default function Navbar() {
                 </span>
                 <span
                   className={cn(
-                    "text-[11px] tracking-widest uppercase font-light mt-0.5",
+                    "text-xs tracking-widest uppercase font-light mt-0.5",
                     (!isScrolled && isHome) ? "text-white/70" : "text-muted-foreground"
                   )}
                 >
@@ -79,7 +79,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.path}
                   className={cn(
-                    "text-sm font-medium tracking-wide uppercase transition-colors duration-200 hover:text-secondary",
+                    "text-base font-medium tracking-wide uppercase transition-colors duration-200 hover:text-secondary",
                     location === link.path 
                       ? "text-secondary" 
                       : (!isScrolled && isHome) ? "text-white/90 hover:text-white" : "text-muted-foreground hover:text-foreground"

@@ -18,7 +18,6 @@ export default function About() {
   const c = (key: string) => content?.[key] ?? DEFAULTS[key] ?? "";
 
   const photos = [
-    { src: c("about_photo_url"), alt: "Kathy Dragon, Founder of Whole Journeys" },
     { src: "/kathy-montblanc.jpeg", alt: "Kathy Dragon on trail with Mont Blanc behind her" },
     { src: "/kathy-dolomites.jpeg", alt: "Kathy Dragon in the Dolomites" },
     { src: "/kathy-strudel.jpeg", alt: "Kathy Dragon at a mountain hut with Whole Journeys water bottle", position: "object-center" },

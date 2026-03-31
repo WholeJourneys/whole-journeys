@@ -128,7 +128,7 @@ export default function Home() {
               Experience the World <br /><span className="text-secondary italic font-light">Differently</span>
             </h1>
             <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-              I design extraordinary journeys — hand-crafted for curious travelers who want to go deeper, move slower, and come home changed.
+              Thoughtfully designing extraordinary experiences for curious travelers.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">

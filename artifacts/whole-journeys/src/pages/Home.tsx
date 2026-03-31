@@ -29,6 +29,10 @@ const HERO_SLIDES = [
     caption: "Camino de Santiago, Spain",
   },
   {
+    url: "/hero-rhone-alps.jpeg",
+    caption: "Rhône-Alpes, France",
+  },
+  {
     // Dramatic Dolomite mountain peaks — no people
     url: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1920&q=85",
     caption: "The Dolomites, Italy",

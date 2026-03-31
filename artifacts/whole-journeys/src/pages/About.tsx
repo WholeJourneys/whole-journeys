@@ -93,10 +93,10 @@ export default function About() {
                   />
                 ))}
               </div>
-              <div className="absolute -bottom-6 left-6 right-6 bg-white rounded-xl shadow-lg p-5 border border-border/50 flex items-center justify-between">
+              <div className="absolute -bottom-6 left-6 right-6 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-4 border border-white/60 flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-foreground">Kathy Dragon</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>
+                  <p className="text-sm font-medium text-foreground/80">Kathy Dragon</p>
+                  <p className="text-xs text-muted-foreground/80 mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>
                 </div>
                 <div className="flex gap-2">
                   {photos.map((_, i) => (
@@ -206,8 +206,8 @@ export default function About() {
                     />
                   ))}
                 </div>
-                <div className="absolute -bottom-6 left-6 right-6 bg-white rounded-xl shadow-lg p-5 border border-border/50">
-                  <p className="text-sm font-medium text-foreground">Whole Journeys Guests</p>
+                <div className="absolute -bottom-6 left-6 right-6 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-4 border border-white/60">
+                  <p className="text-sm font-medium text-foreground/80">Whole Journeys Guests</p>
                 </div>
               </div>
             </div>

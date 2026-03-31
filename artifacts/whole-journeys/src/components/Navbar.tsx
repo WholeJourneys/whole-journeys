@@ -52,14 +52,24 @@ export default function Navbar() {
                   (!isScrolled && isHome) ? "text-white" : "text-primary"
                 )} 
               />
-              <span 
-                className={cn(
-                  "font-display font-semibold text-2xl tracking-wide",
-                  (!isScrolled && isHome) ? "text-white" : "text-foreground"
-                )}
-              >
-                Whole Journeys
-              </span>
+              <div className="flex flex-col leading-none">
+                <span 
+                  className={cn(
+                    "font-display font-semibold text-2xl tracking-wide",
+                    (!isScrolled && isHome) ? "text-white" : "text-foreground"
+                  )}
+                >
+                  Whole Journeys
+                </span>
+                <span
+                  className={cn(
+                    "text-[11px] tracking-widest uppercase font-light mt-0.5",
+                    (!isScrolled && isHome) ? "text-white/70" : "text-muted-foreground"
+                  )}
+                >
+                  by Kathy Dragon
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Nav */}

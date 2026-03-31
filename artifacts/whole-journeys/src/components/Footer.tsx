@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Compass, Instagram, Facebook, Mail } from "lucide-react";
+import { Compass, Instagram, Facebook, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -62,6 +62,9 @@ export default function Footer() {
               </a>
               <a href="https://www.facebook.com/kathydragon" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-secondary transition-colors">
                 <Facebook className="w-5 h-5" />
+              </a>
+              <a href="https://www.linkedin.com/in/kathydragon" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-secondary transition-colors">
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>

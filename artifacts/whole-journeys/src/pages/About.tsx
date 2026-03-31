@@ -125,7 +125,7 @@ export default function About() {
               {/* Hobbies */}
               <div className="flex flex-wrap gap-3 pt-2">
                 {[
-                  { icon: Mountain, label: "Trail Running" },
+                  { icon: Mountain, label: "Hiking" },
                   { icon: Bike, label: "Cycling" },
                   { icon: Camera, label: "Photography" },
                   { icon: Globe, label: "Skiing" },

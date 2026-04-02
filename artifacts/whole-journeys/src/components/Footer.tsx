@@ -30,7 +30,7 @@ export default function Footer() {
                 <Link href="/tours" className="text-white/70 hover:text-secondary transition-colors font-light">Signature Tours</Link>
               </li>
               <li>
-                <Link href="/about" className="text-white/70 hover:text-secondary transition-colors font-light">Our Philosophy</Link>
+                <Link href="/about" className="text-white/70 hover:text-secondary transition-colors font-light">About Kathy</Link>
               </li>
               <li>
                 <a href="https://trips.wholejourneys.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-secondary transition-colors font-light">

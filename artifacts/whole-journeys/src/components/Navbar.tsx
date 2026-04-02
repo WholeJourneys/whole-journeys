@@ -29,7 +29,7 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Explore Tours", path: "/tours" },
     { name: "Kathy's Picks", path: "/picks" },
-    { name: "Our Philosophy", path: "/about" },
+    { name: "About Kathy", path: "/about" },
   ];
 
   return (

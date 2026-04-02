@@ -178,8 +178,8 @@ export default function Home() {
             </motion.div>
 
             <div className="grid grid-cols-2 gap-4">
-              <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=80" alt="Coffee and maps" className="rounded-2xl h-64 object-cover w-full mt-8" />
-              <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80" alt="Luxury hotel" className="rounded-2xl h-80 object-cover w-full" />
+              <img src="/home-culture-1.jpg" alt="Local women in traditional dress, China" className="rounded-2xl h-64 object-cover w-full mt-8" />
+              <img src="/home-culture-2.jpg" alt="Women carrying water vessels, Rajasthan" className="rounded-2xl h-80 object-cover w-full" />
             </div>
           </div>
         </div>

@@ -6,10 +6,10 @@ import { useSiteContent } from "@/hooks/use-admin-data";
 
 const DEFAULTS: Record<string, string> = {
   about_subtitle: "Since 1998, Kathy Dragon has been crafting life-changing journeys for curious travelers — from Bhutan to Belize, Patagonia to Provence, Kerala to Kilimanjaro.",
-  about_bio_1: "Kathy Dragon has spent three decades spanning every facet of the travel industry — from guiding for Country Walkers and Lindblad Expeditions/National Geographic, to launching her own award-winning ventures. Her tours have earned National Geographic's coveted Trips of a Lifetime distinction, and she has consulted for organizations from TUI to the World Bank on agritourism and responsible travel.",
-  about_bio_2: "From Bhutan to Belize, Croatia to Czech Republic, Patagonia to Provence, Kerala to Kilimanjaro — she's been there, often more than once — and has personally escorted more than 6,000 guests on life-changing adventures. Along the way she has trained hundreds of guides and tour operators on how to connect North American travelers with genuinely local experiences.",
-  about_bio_3: "When she's not on the road, Kathy calls Boulder, Colorado home — where she runs trails, hikes, cycles, and skis. That same energy is woven into every itinerary: boutique properties, expert local guides, traditional cuisines, and active excursions crafted for curious travelers who want to go deeper, not just further.",
-  about_bio_4: "Kathy founded The Dragon's Path in 1998 and co-founded Whole Journeys with Whole Foods Market in 2012. When WFM was acquired by Amazon, Whole Journeys returned to Kathy in 2016 as a fully independent company. Today she brings that same hands-on expertise to her role as a Virtuoso Coastline travel advisor — designing both guided group adventures and bespoke private itineraries for travelers worldwide.",
+  about_bio_1: "My journey in the travel industry began in 1987, when I started leading bike trips in New England. That early work eventually grew into running all of North American Tours for the company that is now VBT. From there I moved into student programs, developing Rainforest Workshops in Costa Rica and immersive cultural programs for high school students in Peru and Ecuador — experiences designed to go well beyond typical tourism.",
+  about_bio_1b: "In 1995 I became one of the first employees at Country Walkers, where I helped build the company from the ground up, creating and leading trips across the globe.",
+  about_bio_1c: "Three years later, in 1998, I founded my own company, The Dragon's Path, offering cultural walking vacations worldwide. During that period I also created ActiveWomen.com and began speaking publicly on the influence and importance of what I called \"Prime Time Women\" — women between 50 and 70 — and their forceful influence on the travel industry.",
+  about_bio_2: "Around 2008, I consulted for EONS.com, an ambitious platform competing with AARP and Facebook to become the go-to lifestyle destination for the 50+ market. I built and led their travel division, curating partnerships with operators I knew and trusted. I later took over the site and relaunched it as TravelDragon.com — a robust platform that still hosts 400+ companies and 5,000+ tours — though it's currently more of a legacy asset than an active venture. During this period I also consulted for the World Bank on projects in Tajikistan and Grenada, focusing on the intersection of agriculture and tourism — a space I find endlessly interesting.",
   about_photo_url: "http://s3.amazonaws.com/whole-journeys-assets/production/page-images/kathy.jpg",
 };
 
@@ -131,6 +131,8 @@ export default function About() {
                 <h1 className="text-4xl font-display font-semibold text-primary mb-6">A Life Spent Exploring</h1>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>{c("about_bio_1")}</p>
+                  <p>{c("about_bio_1b")}</p>
+                  <p>{c("about_bio_1c")}</p>
                   <p>{c("about_bio_2")}</p>
                 </div>
               </div>

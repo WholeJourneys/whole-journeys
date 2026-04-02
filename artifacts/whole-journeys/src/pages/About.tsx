@@ -115,7 +115,7 @@ export default function About() {
                 <h3 className="text-2xl font-display text-primary mb-4">How Whole Journeys Began</h3>
                 <div className="space-y-4 text-base text-muted-foreground leading-relaxed">
                   <p>
-                    In 2012, Kathy pitched the concept of the <em>"active foodie"</em> travel experience to her longtime friend and client John Mackey — wellness-focused trips built around meeting local producers in the field around the world. He said yes, and Whole Journeys was born as a Whole Foods Market partnership. When Whole Foods was acquired by Amazon in 2016, Kathy reacquired the company and has operated it independently ever since.
+                    In 2012 I pitched an idea to my good friend and longtime client John Mackey: a travel company centered around what I called the <em>"active foodie"</em> experience — wellness-focused, hands-on cooking, hiking and biking trips designed around meeting Whole Foods Market producers in the field around the world. He said yes, and Whole Journeys was born. When Whole Foods was acquired by Amazon in 2016, I reacquired the company and continued building it independently.
                   </p>
                   <p>
                     Today Whole Journeys is a boutique tour operator specializing in active, cultural, and food-focused travel — worldwide, for both small groups and FIT (individual, couples, and families) in guided and self-guided formats.
@@ -132,7 +132,6 @@ export default function About() {
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>{c("about_bio_1")}</p>
                   <p>{c("about_bio_2")}</p>
-                  <p>{c("about_bio_3")}</p>
                 </div>
               </div>
             </div>

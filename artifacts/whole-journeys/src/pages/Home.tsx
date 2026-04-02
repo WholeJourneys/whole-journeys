@@ -258,22 +258,22 @@ export default function Home() {
               <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
                 <Shield className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-display font-medium text-foreground mb-3">Personally Designed</h3>
-              <p className="text-muted-foreground text-sm">Every itinerary is built from scratch for you — not pulled from a catalog or assembled by a call center.</p>
+              <h3 className="text-2xl font-display font-medium text-foreground mb-3">Personally Designed</h3>
+              <p className="text-muted-foreground text-base">Every itinerary is built from scratch for you — not pulled from a catalog or assembled by a call center.</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
                 <Globe className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-display font-medium text-foreground mb-3">Deep Local Knowledge</h3>
-              <p className="text-muted-foreground text-sm">I've walked the trails, stayed in the properties, and know the people who make the difference on the ground.</p>
+              <h3 className="text-2xl font-display font-medium text-foreground mb-3">Deep Local Knowledge</h3>
+              <p className="text-muted-foreground text-base">I've walked the trails, stayed in the properties, and know the people who make the difference on the ground.</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
                 <Compass className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-display font-medium text-foreground mb-3">One Person, Start to Finish</h3>
-              <p className="text-muted-foreground text-sm">From first conversation to your journey home, you work with me directly — not a team, not a ticket queue.</p>
+              <h3 className="text-2xl font-display font-medium text-foreground mb-3">One Person, Start to Finish</h3>
+              <p className="text-muted-foreground text-base">From first conversation to your journey home, you work with me directly — not a team, not a ticket queue.</p>
             </div>
           </div>
         </div>

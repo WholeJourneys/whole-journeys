@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Leaf, Globe, HeartHandshake, Mountain, Camera, Bike } from "lucide-react";
+import { Leaf, Globe, HeartHandshake, Mountain, Camera, Bike, ChevronDown, ChevronUp } from "lucide-react";
 import { useSiteContent } from "@/hooks/use-admin-data";
 
 const DEFAULTS: Record<string, string> = {
@@ -16,6 +16,7 @@ const DEFAULTS: Record<string, string> = {
 export default function About() {
   const { data: content } = useSiteContent();
   const c = (key: string) => content?.[key] ?? DEFAULTS[key] ?? "";
+  const [showFull, setShowFull] = useState(false);
 
   const photos = [
     { src: "/kathy-montblanc.jpeg", alt: "Kathy Dragon on trail with Mont Blanc behind her" },
@@ -63,24 +64,12 @@ export default function About() {
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
 
-      {/* Header */}
-      <section className="pt-32 pb-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary/5" />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="text-secondary font-medium tracking-widest uppercase text-sm mb-4 block">Our Story</span>
-          <h1 className="text-4xl md:text-6xl font-display font-semibold text-primary mb-6">
-            A Life Spent Exploring
-          </h1>
-          <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            {c("about_subtitle")}
-          </p>
-        </div>
-      </section>
-
-      {/* Kathy Bio */}
-      <section className="py-20">
+      {/* Kathy Bio — photo visible immediately below navbar */}
+      <section className="pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+            {/* Photo carousel */}
             <div className="relative">
               <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[600px] relative">
                 {photos.map((photo, i) => (
@@ -111,15 +100,30 @@ export default function About() {
               </div>
             </div>
 
-            <div className="space-y-6">
+            {/* Bio text */}
+            <div className="space-y-6 lg:pt-2">
               <div>
-                <h2 className="text-3xl font-display text-primary mb-4">Meet Kathy</h2>
+                <span className="text-secondary font-medium tracking-widest uppercase text-sm mb-2 block">Our Story</span>
+                <h1 className="text-4xl font-display font-semibold text-primary mb-6">A Life Spent Exploring</h1>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>{c("about_bio_1")}</p>
                   <p>{c("about_bio_2")}</p>
-                  <p>{c("about_bio_3")}</p>
-                  <p>{c("about_bio_4")}</p>
+                  {showFull && (
+                    <>
+                      <p>{c("about_bio_4")}</p>
+                    </>
+                  )}
                 </div>
+                <button
+                  onClick={() => setShowFull(!showFull)}
+                  className="mt-4 flex items-center gap-1.5 text-sm font-medium text-secondary hover:text-secondary/80 transition-colors"
+                >
+                  {showFull ? (
+                    <><ChevronUp className="w-4 h-4" /> Show less</>
+                  ) : (
+                    <><ChevronDown className="w-4 h-4" /> Read more</>
+                  )}
+                </button>
               </div>
 
               {/* Hobbies */}
@@ -164,31 +168,21 @@ export default function About() {
         </div>
       </section>
 
-      {/* Whole Journeys Story */}
+      {/* Whole Journeys Story — consolidated */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 space-y-6">
               <div>
-                <h2 className="text-3xl font-display text-primary mb-4">The Whole Journeys Story</h2>
+                <h2 className="text-3xl font-display text-primary mb-4">Whole Journeys & Virtuoso</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>
-                    Whole Journeys was founded in 2012 and has been solely owned and operated by Kathy Dragon since 2016. The company grew from a vision to connect travelers with the local flavors of the destinations they pass through — incorporating the passion of local producers into every journey.
+                    In 2012, Kathy pitched the concept of the <em>"active foodie"</em> travel experience to her longtime friend and client John Mackey — wellness-focused trips built around meeting Whole Foods Market producers in the field around the world. He said yes, and Whole Journeys was born. When Whole Foods was acquired by Amazon in 2016, Kathy reacquired the company and has operated it independently ever since, including several summers leading food and active excursions aboard the Nat Geo Orion in Europe, the UK, the Baltics, and Scandinavia.
                   </p>
                   <p>
-                    The Whole Journeys <em>"Active Foodie"</em> adventures explore local landscapes through walking, hiking, and cycling between historic villages, breathtaking countrysides, and legendary pathways, while focusing on the culture and traditions of food.
-                  </p>
-                  <p>
-                    Today, Whole Journeys has evolved to include both bespoke hand-crafted tour itineraries and, as a Virtuoso Coastline travel agent, access to the world's finest hotels and luxury properties with exclusive VIP perks.
+                    Today, Whole Journeys operates as both a boutique tour operator — specializing in active, cultural, and food-focused journeys for small groups and private travelers worldwide — and a full-service luxury travel agency. As an independent affiliate of Coastline Travel Advisors and a proud member of the exclusive Virtuoso network, Kathy can also book expedition cruises, safaris, and 4–5 star hotels with VIP perks, room upgrades, and property credits that independent travelers simply cannot access on their own.
                   </p>
                 </div>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-display text-primary mb-3">A Virtuoso Coastline Partner</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  As an independent affiliate of Coastline Travel Advisors and a proud member of the exclusive Virtuoso network, Whole Journeys leverages global relationships to secure VIP treatment, room upgrades, exclusive amenities, and specialized access that independent travelers simply cannot obtain on their own.
-                </p>
               </div>
             </div>
 

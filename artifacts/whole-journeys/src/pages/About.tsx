@@ -69,34 +69,44 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-            {/* Photo carousel */}
-            <div className="relative">
-              <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[600px] relative">
-                {photos.map((photo, i) => (
-                  <img
-                    key={photo.src}
-                    src={photo.src}
-                    alt={photo.alt}
-                    className={`absolute inset-0 w-full h-full object-cover ${photo.position ?? "object-top"} transition-opacity duration-300`}
-                    style={{ opacity: i === activePhoto ? (fading ? 0 : 1) : 0 }}
-                  />
-                ))}
-              </div>
-              <div className="absolute -bottom-6 left-6 right-6 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-4 border border-white/60 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-foreground/80">Kathy Dragon</p>
-                  <p className="text-xs text-muted-foreground/80 mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>
-                </div>
-                <div className="flex gap-2">
-                  {photos.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setFading(true); setTimeout(() => { setActivePhoto(i); setFading(false); }, 400); }}
-                      className={`w-2 h-2 rounded-full transition-colors ${i === activePhoto ? "bg-secondary" : "bg-border"}`}
-                      aria-label={`Photo ${i + 1}`}
+            {/* Photo carousel + Whole Journeys founding story */}
+            <div className="space-y-8">
+              <div className="relative">
+                <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[600px] relative">
+                  {photos.map((photo, i) => (
+                    <img
+                      key={photo.src}
+                      src={photo.src}
+                      alt={photo.alt}
+                      className={`absolute inset-0 w-full h-full object-cover ${photo.position ?? "object-top"} transition-opacity duration-300`}
+                      style={{ opacity: i === activePhoto ? (fading ? 0 : 1) : 0 }}
                     />
                   ))}
                 </div>
+                <div className="absolute -bottom-6 left-6 right-6 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-4 border border-white/60 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-foreground/80">Kathy Dragon</p>
+                    <p className="text-xs text-muted-foreground/80 mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>
+                  </div>
+                  <div className="flex gap-2">
+                    {photos.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setFading(true); setTimeout(() => { setActivePhoto(i); setFading(false); }, 400); }}
+                        className={`w-2 h-2 rounded-full transition-colors ${i === activePhoto ? "bg-secondary" : "bg-border"}`}
+                        aria-label={`Photo ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Whole Journeys founding story — right under the photo */}
+              <div className="mt-8 pt-2 border-t border-border/40">
+                <h3 className="text-lg font-display text-primary mb-3">How Whole Journeys Began</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  In 2012, Kathy pitched the concept of the <em>"active foodie"</em> travel experience to her longtime friend and client John Mackey — wellness-focused trips built around meeting local producers in the field around the world. He said yes, and Whole Journeys was born as a Whole Foods Market partnership. When Whole Foods was acquired by Amazon in 2016, Kathy reacquired the company and has operated it independently ever since, including several summers leading food and active excursions aboard the Nat Geo Orion in Europe, the UK, the Baltics, and Scandinavia.
+                </p>
               </div>
             </div>
 
@@ -168,21 +178,16 @@ export default function About() {
         </div>
       </section>
 
-      {/* Whole Journeys Story — consolidated */}
+      {/* Whole Journeys + Coastline/Virtuoso */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 space-y-6">
               <div>
-                <h2 className="text-3xl font-display text-primary mb-4">Whole Journeys & Virtuoso</h2>
-                <div className="space-y-4 text-muted-foreground leading-relaxed">
-                  <p>
-                    In 2012, Kathy pitched the concept of the <em>"active foodie"</em> travel experience to her longtime friend and client John Mackey — wellness-focused trips built around meeting Whole Foods Market producers in the field around the world. He said yes, and Whole Journeys was born. When Whole Foods was acquired by Amazon in 2016, Kathy reacquired the company and has operated it independently ever since, including several summers leading food and active excursions aboard the Nat Geo Orion in Europe, the UK, the Baltics, and Scandinavia.
-                  </p>
-                  <p>
-                    Today, Whole Journeys operates as both a boutique tour operator — specializing in active, cultural, and food-focused journeys for small groups and private travelers worldwide — and a full-service luxury travel agency. As an independent affiliate of Coastline Travel Advisors and a proud member of the exclusive Virtuoso network, Kathy can also book expedition cruises, safaris, and 4–5 star hotels with VIP perks, room upgrades, and property credits that independent travelers simply cannot access on their own.
-                  </p>
-                </div>
+                <h2 className="text-3xl font-display text-primary mb-4">Whole Journeys + Coastline & Virtuoso</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  Today, Whole Journeys operates as both a boutique tour operator — specializing in active, cultural, and food-focused journeys for small groups and private travelers worldwide — and a full-service luxury travel agency. As an independent affiliate of Coastline Travel Advisors and a proud member of the exclusive Virtuoso network, Kathy can also book expedition cruises, safaris, and 4–5 star hotels with VIP perks, room upgrades, and property credits that independent travelers simply cannot access on their own.
+                </p>
               </div>
             </div>
 

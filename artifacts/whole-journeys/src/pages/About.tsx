@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Leaf, Globe, HeartHandshake, Mountain, Camera, Bike, ChevronDown, ChevronUp } from "lucide-react";
+import { Leaf, Globe, HeartHandshake } from "lucide-react";
 import { useSiteContent } from "@/hooks/use-admin-data";
 
 const DEFAULTS: Record<string, string> = {
@@ -16,7 +16,6 @@ const DEFAULTS: Record<string, string> = {
 export default function About() {
   const { data: content } = useSiteContent();
   const c = (key: string) => content?.[key] ?? DEFAULTS[key] ?? "";
-  const [showFull, setShowFull] = useState(false);
 
   const photos = [
     { src: "/kathy-montblanc.jpeg", alt: "Kathy Dragon on trail with Mont Blanc behind her" },
@@ -64,8 +63,18 @@ export default function About() {
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
 
-      {/* Kathy Bio — photo visible immediately below navbar */}
-      <section className="pt-32 pb-24">
+      {/* Kathy Quote — top of page */}
+      <div className="pt-24 bg-primary/5 border-b border-border/40">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+          <p className="text-xl md:text-2xl font-display text-primary italic leading-relaxed">
+            "I believe why we travel, where we travel, what we do while we are there, and when we return home, can effect positive change."
+          </p>
+          <p className="mt-4 text-sm font-medium text-secondary tracking-widest uppercase">— Kathy Dragon</p>
+        </div>
+      </div>
+
+      {/* Kathy Bio — photo + bio text */}
+      <section className="pt-16 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
@@ -103,8 +112,8 @@ export default function About() {
 
               {/* Whole Journeys founding story — right under the photo */}
               <div className="mt-8 pt-2 border-t border-border/40">
-                <h3 className="text-lg font-display text-primary mb-3">How Whole Journeys Began</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <h3 className="text-2xl font-display text-primary mb-4">How Whole Journeys Began</h3>
+                <p className="text-base text-muted-foreground leading-relaxed">
                   In 2012, Kathy pitched the concept of the <em>"active foodie"</em> travel experience to her longtime friend and client John Mackey — wellness-focused trips built around meeting local producers in the field around the world. He said yes, and Whole Journeys was born as a Whole Foods Market partnership. When Whole Foods was acquired by Amazon in 2016, Kathy reacquired the company and has operated it independently ever since, including several summers leading food and active excursions aboard the Nat Geo Orion in Europe, the UK, the Baltics, and Scandinavia.
                 </p>
               </div>
@@ -118,42 +127,10 @@ export default function About() {
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>{c("about_bio_1")}</p>
                   <p>{c("about_bio_2")}</p>
-                  {showFull && (
-                    <>
-                      <p>{c("about_bio_4")}</p>
-                    </>
-                  )}
+                  <p>{c("about_bio_3")}</p>
+                  <p>{c("about_bio_4")}</p>
                 </div>
-                <button
-                  onClick={() => setShowFull(!showFull)}
-                  className="mt-4 flex items-center gap-1.5 text-sm font-medium text-secondary hover:text-secondary/80 transition-colors"
-                >
-                  {showFull ? (
-                    <><ChevronUp className="w-4 h-4" /> Show less</>
-                  ) : (
-                    <><ChevronDown className="w-4 h-4" /> Read more</>
-                  )}
-                </button>
               </div>
-
-              {/* Hobbies */}
-              <div className="flex flex-wrap gap-3 pt-2">
-                {[
-                  { icon: Mountain, label: "Hiking" },
-                  { icon: Bike, label: "Cycling" },
-                  { icon: Camera, label: "Photography" },
-                  { icon: Globe, label: "Skiing" },
-                ].map(({ icon: Icon, label }) => (
-                  <div key={label} className="flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full text-sm text-muted-foreground border border-border/50">
-                    <Icon className="w-4 h-4 text-secondary" />
-                    {label}
-                  </div>
-                ))}
-              </div>
-
-              <p className="text-sm text-muted-foreground italic border-l-2 border-secondary pl-4">
-                "I believe why we travel, where we travel, what we do while we are there, and when we return home, can effect positive change." — Kathy Dragon
-              </p>
             </div>
           </div>
         </div>

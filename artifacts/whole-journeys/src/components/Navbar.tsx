@@ -38,23 +38,27 @@ export default function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out",
           isScrolled || !isHome
-            ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border/50 py-2"
-            : "bg-transparent py-4"
+            ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border/50 py-3"
+            : "bg-transparent py-5"
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <Link href="/" className="flex flex-col items-center group">
-              <img
-                src="/wj-logo.png"
-                alt="Whole Journeys"
-                className="h-[68px] w-auto object-contain transition-opacity duration-300 group-hover:opacity-85 drop-shadow-md"
-              />
+            <Link href="/" className="flex flex-col items-start leading-none group">
+              <span
+                style={{ fontFamily: "'Pacifico', cursive" }}
+                className={cn(
+                  "text-4xl transition-colors duration-300 group-hover:opacity-80",
+                  (!isScrolled && isHome) ? "text-white drop-shadow-md" : "text-[#5a8a72]"
+                )}
+              >
+                Whole Journeys
+              </span>
               <span
                 className={cn(
-                  "text-[11px] tracking-[0.2em] uppercase font-light -mt-1",
-                  (!isScrolled && isHome) ? "text-white/80" : "text-muted-foreground"
+                  "text-[11px] tracking-[0.22em] uppercase font-light mt-0.5",
+                  (!isScrolled && isHome) ? "text-white/75" : "text-muted-foreground"
                 )}
               >
                 by Kathy Dragon
@@ -119,7 +123,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[60] bg-background flex flex-col"
           >
             <div className="flex justify-between items-center p-4 border-b border-border">
-              <img src="/wj-logo.png" alt="Whole Journeys" className="h-12 w-auto object-contain" />
+              <span style={{ fontFamily: "'Pacifico', cursive" }} className="text-3xl text-[#5a8a72]">Whole Journeys</span>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-foreground hover:text-primary">
                 <X className="w-6 h-6" />
               </button>

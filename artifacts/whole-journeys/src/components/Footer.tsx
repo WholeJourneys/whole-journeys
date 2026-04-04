@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Instagram, Facebook, Linkedin, Mail } from "lucide-react";
+import { Compass, Instagram, Facebook, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -8,8 +8,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="inline-block mb-6 group">
-              <span style={{ fontFamily: "'Pacifico', cursive" }} className="text-4xl text-white group-hover:opacity-80 transition-opacity">
+            <Link href="/" className="flex items-center gap-2 mb-6 group">
+              <Compass className="w-8 h-8 text-secondary" />
+              <span className="font-display font-semibold text-3xl tracking-wide text-white">
                 Whole Journeys
               </span>
             </Link>

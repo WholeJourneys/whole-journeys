@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -45,24 +45,31 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <Link href="/" className="flex flex-col items-start leading-none group">
-              <span
-                style={{ fontFamily: "'Pacifico', cursive" }}
+            <Link href="/" className="flex items-center gap-2 group">
+              <Compass
                 className={cn(
-                  "text-4xl transition-colors duration-300 group-hover:opacity-80",
-                  (!isScrolled && isHome) ? "text-white drop-shadow-md" : "text-[#5a8a72]"
+                  "w-8 h-8 transition-colors duration-300 group-hover:text-secondary",
+                  (!isScrolled && isHome) ? "text-white" : "text-primary"
                 )}
-              >
-                Whole Journeys
-              </span>
-              <span
-                className={cn(
-                  "text-[11px] tracking-[0.22em] uppercase font-light mt-0.5",
-                  (!isScrolled && isHome) ? "text-white/75" : "text-muted-foreground"
-                )}
-              >
-                by Kathy Dragon
-              </span>
+              />
+              <div className="flex flex-col leading-none">
+                <span
+                  className={cn(
+                    "font-display font-semibold text-3xl tracking-wide",
+                    (!isScrolled && isHome) ? "text-white" : "text-foreground"
+                  )}
+                >
+                  Whole Journeys
+                </span>
+                <span
+                  className={cn(
+                    "text-xs tracking-widest uppercase font-light mt-0.5",
+                    (!isScrolled && isHome) ? "text-white/70" : "text-muted-foreground"
+                  )}
+                >
+                  by Kathy Dragon
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Nav */}
@@ -123,7 +130,10 @@ export default function Navbar() {
             className="fixed inset-0 z-[60] bg-background flex flex-col"
           >
             <div className="flex justify-between items-center p-4 border-b border-border">
-              <span style={{ fontFamily: "'Pacifico', cursive" }} className="text-3xl text-[#5a8a72]">Whole Journeys</span>
+              <div className="flex items-center gap-2">
+                <Compass className="w-6 h-6 text-primary" />
+                <span className="font-display font-semibold text-2xl text-primary">Whole Journeys</span>
+              </div>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-foreground hover:text-primary">
                 <X className="w-6 h-6" />
               </button>

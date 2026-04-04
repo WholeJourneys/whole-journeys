@@ -677,13 +677,14 @@ const BLANK_CUSTOM_TOUR: CustomTour = {
   description: "",
   highlights: [],
   imageUrl: "",
+  galleryImages: [],
   itineraryUrl: "",
   sortOrder: 0,
   active: true,
 };
 
 function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; onSave: (t: CustomTour) => void; onCancel: () => void }) {
-  const [t, setT] = useState(initial);
+  const [t, setT] = useState({ ...initial, galleryImages: initial.galleryImages ?? [] });
   const [fetching, setFetching] = useState(false);
   const [fetchError, setFetchError] = useState("");
   const [newHighlight, setNewHighlight] = useState("");
@@ -785,6 +786,43 @@ function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; on
           <img src={t.imageUrl} alt="Preview" className="mt-2 h-24 rounded-lg border border-border object-cover w-full max-w-xs" />
         )}
       </Field>
+
+      {/* Gallery Images */}
+      <div>
+        <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+          Additional Photos <span className="normal-case font-normal">(slideshow in the pop-up — optional)</span>
+        </label>
+        <div className="space-y-2 mb-2">
+          {t.galleryImages.map((url, i) => (
+            <div key={i} className="flex items-center gap-2 group">
+              {url && <img src={url} alt="" className="w-12 h-8 object-cover rounded border border-border flex-shrink-0" />}
+              <input
+                className={`${inputCls} flex-grow text-xs`}
+                value={url}
+                onChange={(e) => {
+                  const updated = [...t.galleryImages];
+                  updated[i] = e.target.value;
+                  set("galleryImages", updated);
+                }}
+                placeholder="https://..."
+              />
+              <button
+                onClick={() => set("galleryImages", t.galleryImages.filter((_, idx) => idx !== i))}
+                className="text-muted-foreground hover:text-destructive flex-shrink-0 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={() => set("galleryImages", [...t.galleryImages, ""])}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-dashed border-border rounded-lg hover:bg-muted transition-colors text-muted-foreground"
+        >
+          <Plus className="w-3.5 h-3.5" /> Add Photo URL
+        </button>
+        <p className="text-xs text-muted-foreground mt-1.5">These appear in a slideshow alongside the main hero image. Paste image URLs from Travefy or anywhere else.</p>
+      </div>
 
       {/* Description */}
       <Field label="Description">

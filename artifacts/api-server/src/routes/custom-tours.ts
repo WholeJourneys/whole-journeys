@@ -69,6 +69,7 @@ router.post("/custom-tours", async (req, res) => {
         highlights: Array.isArray(b.highlights) ? b.highlights : [],
         imageUrl: b.imageUrl ?? "",
         itineraryUrl: b.itineraryUrl ?? "",
+        galleryImages: Array.isArray(b.galleryImages) ? b.galleryImages : [],
         sortOrder: b.sortOrder ?? 0,
         active: b.active ?? true,
       })
@@ -96,6 +97,7 @@ router.put("/custom-tours/:id", async (req, res) => {
         highlights: Array.isArray(b.highlights) ? b.highlights : [],
         imageUrl: b.imageUrl,
         itineraryUrl: b.itineraryUrl,
+        galleryImages: Array.isArray(b.galleryImages) ? b.galleryImages : [],
         sortOrder: b.sortOrder,
         active: b.active,
         updatedAt: new Date(),

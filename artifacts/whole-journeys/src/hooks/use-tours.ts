@@ -12,6 +12,7 @@ export interface Tour {
   categories: string[];
   description: string;
   imageUrl: string;
+  galleryImages?: string[];
   highlights: string[];
   travefyUrl: string;
 }
@@ -359,6 +360,7 @@ async function fetchCustomTours(): Promise<Tour[]> {
         description: string;
         highlights: string[];
         imageUrl: string;
+        galleryImages: string[];
         itineraryUrl: string;
       }): Tour => ({
         id: `custom-${r.id}`,
@@ -373,6 +375,7 @@ async function fetchCustomTours(): Promise<Tour[]> {
         description: r.description,
         highlights: r.highlights,
         imageUrl: r.imageUrl,
+        galleryImages: r.galleryImages ?? [],
         travefyUrl: r.itineraryUrl,
       }));
   } catch {

@@ -13,6 +13,7 @@ export const customToursTable = pgTable("custom_tours", {
   highlights: text("highlights").array().notNull().default(sql`ARRAY[]::text[]`),
   imageUrl: text("image_url").notNull().default(""),
   itineraryUrl: text("itinerary_url").notNull().default(""),
+  galleryImages: text("gallery_images").array().notNull().default(sql`ARRAY[]::text[]`),
   sortOrder: integer("sort_order").notNull().default(0),
   active: boolean("active").notNull().default(true),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),

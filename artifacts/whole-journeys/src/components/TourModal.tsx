@@ -1,5 +1,6 @@
+import { useState, useEffect, useCallback } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X, MapPin, Globe, Check, ExternalLink } from "lucide-react";
+import { X, MapPin, Globe, Check, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { type Tour } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "./TourCard";
 
@@ -22,8 +23,83 @@ interface TourModalProps {
   onClose: () => void;
 }
 
+function ImageSlideshow({ images, alt }: { images: string[]; alt: string }) {
+  const [current, setCurrent] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const prev = useCallback(() => setCurrent((c) => (c === 0 ? images.length - 1 : c - 1)), [images.length]);
+  const next = useCallback(() => setCurrent((c) => (c === images.length - 1 ? 0 : c + 1)), [images.length]);
+
+  useEffect(() => {
+    setCurrent(0);
+  }, [images]);
+
+  useEffect(() => {
+    if (images.length <= 1 || paused) return;
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [images.length, paused, next]);
+
+  if (images.length === 0) return null;
+
+  return (
+    <div
+      className="relative h-64 sm:h-80 w-full flex-shrink-0 overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {images.map((src, idx) => (
+        <img
+          key={src}
+          src={src}
+          alt={`${alt} — photo ${idx + 1}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            idx === current ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ))}
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={prev}
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/30 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors focus:outline-none"
+            aria-label="Previous photo"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={next}
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/30 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors focus:outline-none"
+            aria-label="Next photo"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+
+          <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-1.5">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrent(idx)}
+                className={`w-1.5 h-1.5 rounded-full transition-all focus:outline-none ${
+                  idx === current ? "bg-white w-4" : "bg-white/50"
+                }`}
+                aria-label={`Go to photo ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
   if (!tour) return null;
+
+  const allImages = [tour.imageUrl, ...(tour.galleryImages ?? [])].filter(Boolean);
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -31,21 +107,16 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
         <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         <Dialog.Content className="fixed left-[50%] top-[50%] z-[110] grid w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] gap-4 border-none bg-background shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-2xl overflow-hidden max-h-[90vh] flex flex-col">
 
-          {/* Header Image */}
-          <div className="relative h-64 sm:h-80 w-full flex-shrink-0">
-            <img
-              src={tour.imageUrl}
-              alt={tour.name}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          {/* Header Slideshow */}
+          <div className="relative flex-shrink-0">
+            <ImageSlideshow images={allImages} alt={tour.name} />
 
-            <Dialog.Close className="absolute top-4 right-4 w-10 h-10 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors focus:outline-none">
+            <Dialog.Close className="absolute top-4 right-4 w-10 h-10 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-colors focus:outline-none z-10">
               <X className="w-5 h-5" />
               <span className="sr-only">Close</span>
             </Dialog.Close>
 
-            <div className="absolute bottom-6 left-6 right-6">
+            <div className="absolute bottom-6 left-6 right-6 z-10">
               <div className="flex items-center gap-2 text-white/90 text-sm font-medium mb-2">
                 <MapPin className="w-4 h-4" />
                 {tour.destination}

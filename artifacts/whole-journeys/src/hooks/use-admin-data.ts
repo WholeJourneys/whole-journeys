@@ -211,6 +211,7 @@ export interface CustomTour {
   description: string;
   highlights: string[];
   imageUrl: string;
+  galleryImages: string[];
   itineraryUrl: string;
   sortOrder: number;
   active: boolean;

@@ -7,16 +7,20 @@ interface TourCardProps {
 }
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  "Adventure":       "bg-amber-900/75 text-amber-50",
-  "Country Estates": "bg-stone-700/75 text-stone-50",
-  "Culture":         "bg-indigo-900/75 text-indigo-50",
-  "Family":          "bg-sky-900/75 text-sky-50",
-  "Self-Drive":      "bg-slate-700/75 text-slate-50",
-  "Self-Guided":     "bg-teal-900/75 text-teal-50",
-  "Ski & Snow":      "bg-blue-900/75 text-blue-50",
-  "Wellness":        "bg-rose-900/75 text-rose-50",
-  "Wildlife":        "bg-emerald-900/75 text-emerald-50",
-  "Women's":         "bg-fuchsia-900/75 text-fuchsia-50",
+  "Adventure":           "bg-amber-900/75 text-amber-50",
+  "Biking":              "bg-lime-800/75 text-lime-50",
+  "Country Estates":     "bg-stone-700/75 text-stone-50",
+  "Cruise/Sail":         "bg-cyan-900/75 text-cyan-50",
+  "Culture":             "bg-indigo-900/75 text-indigo-50",
+  "Family":              "bg-sky-900/75 text-sky-50",
+  "Long Distance Walks": "bg-yellow-900/75 text-yellow-50",
+  "Self-Drive":          "bg-slate-700/75 text-slate-50",
+  "Self-Guided":         "bg-teal-900/75 text-teal-50",
+  "Ski & Snow":          "bg-blue-900/75 text-blue-50",
+  "Walk/Hike":           "bg-green-900/75 text-green-50",
+  "Wellness":            "bg-rose-900/75 text-rose-50",
+  "Wildlife":            "bg-emerald-900/75 text-emerald-50",
+  "Women's":             "bg-fuchsia-900/75 text-fuchsia-50",
 };
 
 export default function TourCard({ tour, onClick }: TourCardProps) {

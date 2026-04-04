@@ -19,12 +19,16 @@ export interface Tour {
 
 export const ALL_CATEGORIES = [
   "Adventure",
+  "Biking",
   "Country Estates",
+  "Cruise/Sail",
   "Culture",
   "Family",
+  "Long Distance Walks",
   "Self-Drive",
   "Self-Guided",
   "Ski & Snow",
+  "Walk/Hike",
   "Wellness",
   "Wildlife",
   "Women's",

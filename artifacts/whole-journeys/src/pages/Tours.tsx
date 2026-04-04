@@ -76,16 +76,20 @@ export default function Tours() {
   }, [tours, searchQuery, activeCategories, activeRegions, hasFilters]);
 
   const CATEGORY_COLORS: Record<string, { base: string; active: string }> = {
-    "Adventure":       { base: "border-amber-300 text-amber-800 hover:bg-amber-50",         active: "bg-amber-800 text-white border-amber-800" },
-    "Country Estates": { base: "border-stone-300 text-stone-700 hover:bg-stone-50",         active: "bg-stone-700 text-white border-stone-700" },
-    "Culture":         { base: "border-indigo-200 text-indigo-800 hover:bg-indigo-50",      active: "bg-indigo-800 text-white border-indigo-800" },
-    "Family":          { base: "border-sky-200 text-sky-800 hover:bg-sky-50",               active: "bg-sky-800 text-white border-sky-800" },
-    "Self-Drive":      { base: "border-slate-300 text-slate-700 hover:bg-slate-50",         active: "bg-slate-700 text-white border-slate-700" },
-    "Self-Guided":     { base: "border-teal-200 text-teal-800 hover:bg-teal-50",            active: "bg-teal-800 text-white border-teal-800" },
-    "Ski & Snow":      { base: "border-blue-200 text-blue-900 hover:bg-blue-50",            active: "bg-blue-900 text-white border-blue-900" },
-    "Wellness":        { base: "border-rose-200 text-rose-900 hover:bg-rose-50",            active: "bg-rose-900 text-white border-rose-900" },
-    "Wildlife":        { base: "border-emerald-200 text-emerald-900 hover:bg-emerald-50",   active: "bg-emerald-900 text-white border-emerald-900" },
-    "Women's":         { base: "border-pink-200 text-pink-900 hover:bg-pink-50",            active: "bg-pink-900 text-white border-pink-900" },
+    "Adventure":           { base: "border-amber-300 text-amber-800 hover:bg-amber-50",         active: "bg-amber-800 text-white border-amber-800" },
+    "Biking":              { base: "border-lime-300 text-lime-800 hover:bg-lime-50",             active: "bg-lime-700 text-white border-lime-700" },
+    "Country Estates":     { base: "border-stone-300 text-stone-700 hover:bg-stone-50",         active: "bg-stone-700 text-white border-stone-700" },
+    "Cruise/Sail":         { base: "border-cyan-200 text-cyan-800 hover:bg-cyan-50",            active: "bg-cyan-800 text-white border-cyan-800" },
+    "Culture":             { base: "border-indigo-200 text-indigo-800 hover:bg-indigo-50",      active: "bg-indigo-800 text-white border-indigo-800" },
+    "Family":              { base: "border-sky-200 text-sky-800 hover:bg-sky-50",               active: "bg-sky-800 text-white border-sky-800" },
+    "Long Distance Walks": { base: "border-yellow-300 text-yellow-800 hover:bg-yellow-50",      active: "bg-yellow-700 text-white border-yellow-700" },
+    "Self-Drive":          { base: "border-slate-300 text-slate-700 hover:bg-slate-50",         active: "bg-slate-700 text-white border-slate-700" },
+    "Self-Guided":         { base: "border-teal-200 text-teal-800 hover:bg-teal-50",            active: "bg-teal-800 text-white border-teal-800" },
+    "Ski & Snow":          { base: "border-blue-200 text-blue-900 hover:bg-blue-50",            active: "bg-blue-900 text-white border-blue-900" },
+    "Walk/Hike":           { base: "border-green-200 text-green-800 hover:bg-green-50",         active: "bg-green-800 text-white border-green-800" },
+    "Wellness":            { base: "border-rose-200 text-rose-900 hover:bg-rose-50",            active: "bg-rose-900 text-white border-rose-900" },
+    "Wildlife":            { base: "border-emerald-200 text-emerald-900 hover:bg-emerald-50",   active: "bg-emerald-900 text-white border-emerald-900" },
+    "Women's":             { base: "border-pink-200 text-pink-900 hover:bg-pink-50",            active: "bg-pink-900 text-white border-pink-900" },
   };
 
   return (

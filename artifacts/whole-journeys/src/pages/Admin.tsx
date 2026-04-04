@@ -183,7 +183,7 @@ function AboutTab() {
 
 // ─── HOTEL FORM ───────────────────────────────────────────────────────────────
 
-const BLANK_HOTEL: PicksHotel = { name: "", location: "", description: "", imageUrl: "", bookUrl: "https://book.wholejourneys.com", perk1: "", perk2: "", perk3: "", sortOrder: 0, active: true };
+const BLANK_HOTEL: PicksHotel = { name: "", location: "", description: "", imageUrl: "", bookUrl: "https://travelpro365.com/consumer/wholejourneys", perk1: "", perk2: "", perk3: "", sortOrder: 0, active: true };
 
 function HotelForm({ initial, onSave, onCancel }: { initial: PicksHotel; onSave: (h: PicksHotel) => void; onCancel: () => void }) {
   const [h, setH] = useState(initial);

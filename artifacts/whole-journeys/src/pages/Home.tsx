@@ -240,7 +240,7 @@ export default function Home() {
             Browse and book top hotels directly through my booking portal — with exclusive Virtuoso perks like complimentary breakfast, room upgrades, and property credits that you can't get on your own.
           </p>
           <a
-            href="https://book.wholejourneys.com"
+            href="https://travelpro365.com/consumer/wholejourneys"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-10 py-5 bg-white text-primary rounded-sm font-semibold tracking-wide uppercase hover:bg-secondary hover:text-white transition-colors shadow-xl"

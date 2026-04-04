@@ -23,7 +23,7 @@ router.post("/picks/hotels", async (req, res) => {
       location: body.location ?? "",
       description: body.description ?? "",
       imageUrl: body.imageUrl ?? "",
-      bookUrl: body.bookUrl ?? "https://book.wholejourneys.com",
+      bookUrl: body.bookUrl ?? "https://travelpro365.com/consumer/wholejourneys",
       perk1: body.perk1 ?? "",
       perk2: body.perk2 ?? "",
       perk3: body.perk3 ?? "",

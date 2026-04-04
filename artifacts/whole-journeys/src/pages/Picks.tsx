@@ -55,7 +55,7 @@ const SAMPLE_HOTELS = [
     location: "Ravello, Amalfi Coast, Italy",
     description: "Perched 300 metres above the Tyrrhenian Sea in a converted 11th-century palace, Caruso is the most dramatic hotel I've ever stayed in. The infinity pool overlooking the coast is unforgettable.",
     imageUrl: "https://img.belmond.com/f_auto/t_640x360/photos/car/car-gst-pool29.jpg",
-    bookUrl: "https://book.wholejourneys.com",
+    bookUrl: "https://travelpro365.com/consumer/wholejourneys",
     perk1: "Daily breakfast for two",
     perk2: "$100 hotel credit",
     perk3: "Room upgrade on arrival (subject to availability)",
@@ -69,7 +69,7 @@ const SAMPLE_HOTELS = [
     location: "Ngorongoro, Tanzania",
     description: "Maasai-inspired suites on the rim of the world's largest volcanic caldera. Butler service, fireplaces, and a view that makes you feel like you're dreaming.",
     imageUrl: "https://www.luxurytravelmagazine.com/files/610/6/1106/Ngorongoro_Crater_Lodge_9_big_bu.jpg",
-    bookUrl: "https://book.wholejourneys.com",
+    bookUrl: "https://travelpro365.com/consumer/wholejourneys",
     perk1: "Daily breakfast included",
     perk2: "Welcome amenity",
     perk3: "Early check-in / late checkout",
@@ -83,7 +83,7 @@ const SAMPLE_HOTELS = [
     location: "Carcassonne, France",
     description: "A fairy-tale hotel built inside a UNESCO medieval fortress. You fall asleep to silence, wake up to the sound of bells, and step out into history every morning.",
     imageUrl: "https://www.ahstatic.com/photos/8613_ho_00_p_1024x768.jpg",
-    bookUrl: "https://book.wholejourneys.com",
+    bookUrl: "https://travelpro365.com/consumer/wholejourneys",
     perk1: "Complimentary breakfast",
     perk2: "$100 food & beverage credit",
     perk3: "Preferred room category",
@@ -228,7 +228,7 @@ export default function Picks() {
                       </div>
                     )}
                     <a
-                      href={hotel.bookUrl || "https://book.wholejourneys.com"}
+                      href={hotel.bookUrl || "https://travelpro365.com/consumer/wholejourneys"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full py-2.5 bg-primary text-white text-sm font-medium rounded-md text-center hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"

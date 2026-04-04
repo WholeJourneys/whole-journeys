@@ -3,7 +3,7 @@ import { ExternalLink, Star, Gift, Coffee, ArrowUpRight, CreditCard, Clock, Chec
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const BOOKING_URL = "https://book.wholejourneys.com"; // ← replace with real TravelPro 365 URL
+const BOOKING_URL = "https://travelpro365.com/consumer/wholejourneys";
 
 const VIRTUOSO_PERKS = [
   {

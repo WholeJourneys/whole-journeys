@@ -50,7 +50,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://book.wholejourneys.com" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-sm font-medium tracking-wider uppercase border-b border-secondary text-secondary hover:text-white hover:border-white transition-colors pb-1">
+                <a href="https://travelpro365.com/consumer/wholejourneys" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-sm font-medium tracking-wider uppercase border-b border-secondary text-secondary hover:text-white hover:border-white transition-colors pb-1">
                   Access Hotel Booking Platform
                 </a>
               </li>

@@ -6,7 +6,7 @@ export const picksHotelsTable = pgTable("picks_hotels", {
   location: text("location").notNull().default(""),
   description: text("description").notNull().default(""),
   imageUrl: text("image_url").notNull().default(""),
-  bookUrl: text("book_url").notNull().default("https://book.wholejourneys.com"),
+  bookUrl: text("book_url").notNull().default("https://travelpro365.com/consumer/wholejourneys"),
   perk1: text("perk1").notNull().default(""),
   perk2: text("perk2").notNull().default(""),
   perk3: text("perk3").notNull().default(""),

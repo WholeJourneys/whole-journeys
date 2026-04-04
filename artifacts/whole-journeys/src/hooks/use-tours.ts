@@ -255,7 +255,7 @@ export const TRAVEFY_TOURS: Tour[] = [
     description: "A family safari adventure in Kenya — tracking the Big Five across the Masai Mara, meeting Maasai communities, and experiencing the Great Migration. Built for families with children of all ages.",
     imageUrl: `${CDN}/i_h70fdb4041c67dd288674bd099ab75323d12dfb86.jpg`,
     highlights: ["Masai Mara Safari", "Great Migration", "Maasai Village Visit"],
-    travefyUrl: `${BASE_URL}/6yw9rqu4tpwzqz2ahn3kknantpagxuq`,
+    travefyUrl: `https://travefy.com/discover/trip/6yw9rqyf3ftzqz2akdfe6sbearbd2ya`,
   },
   {
     id: "switzerland-private",

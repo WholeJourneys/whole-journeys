@@ -54,8 +54,9 @@ export default function Navbar() {
               />
               <div className="flex flex-col leading-none">
                 <span
+                  style={{ fontFamily: "'Cinzel', serif" }}
                   className={cn(
-                    "font-display font-semibold text-3xl tracking-wide",
+                    "text-2xl font-semibold tracking-wider",
                     (!isScrolled && isHome) ? "text-white" : "text-foreground"
                   )}
                 >
@@ -63,7 +64,7 @@ export default function Navbar() {
                 </span>
                 <span
                   className={cn(
-                    "text-xs tracking-widest uppercase font-light mt-0.5",
+                    "text-[10px] tracking-[0.22em] uppercase font-light mt-0.5",
                     (!isScrolled && isHome) ? "text-white/70" : "text-muted-foreground"
                   )}
                 >
@@ -132,7 +133,7 @@ export default function Navbar() {
             <div className="flex justify-between items-center p-4 border-b border-border">
               <div className="flex items-center gap-2">
                 <Compass className="w-6 h-6 text-primary" />
-                <span className="font-display font-semibold text-2xl text-primary">Whole Journeys</span>
+                <span style={{ fontFamily: "'Cinzel', serif" }} className="text-xl font-semibold tracking-wider text-primary">Whole Journeys</span>
               </div>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-foreground hover:text-primary">
                 <X className="w-6 h-6" />

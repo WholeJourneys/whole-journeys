@@ -6,6 +6,8 @@ import About from "./pages/About";
 import Admin from "./pages/Admin";
 import Picks from "./pages/Picks";
 import Hotels from "./pages/Hotels";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import TripInquiry from "./pages/TripInquiry";
 import NotFound from "./pages/not-found";
 
 const queryClient = new QueryClient({
@@ -26,6 +28,8 @@ function Router() {
       <Route path="/picks" component={Picks} />
       <Route path="/hotels" component={Hotels} />
       <Route path="/admin" component={Admin} />
+      <Route path="/terms" component={TermsAndConditions} />
+      <Route path="/inquiry" component={TripInquiry} />
       <Route component={NotFound} />
     </Switch>
   );

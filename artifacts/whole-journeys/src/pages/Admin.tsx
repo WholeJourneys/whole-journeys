@@ -995,6 +995,71 @@ function CustomToursTab() {
   );
 }
 
+// ─── PAGES TAB ────────────────────────────────────────────────────────────────
+
+function PagesTab() {
+  const { data: content } = useSiteContent();
+  const saveContent = useSaveContent();
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [saved, setSaved] = useState<Record<string, boolean>>({});
+
+  function val(key: string) {
+    return drafts[key] ?? content?.[key] ?? "";
+  }
+  function set(key: string, value: string) {
+    setDrafts((d) => ({ ...d, [key]: value }));
+  }
+  async function save(key: string) {
+    await saveContent.mutateAsync({ key, value: val(key) });
+    setSaved((s) => ({ ...s, [key]: true }));
+    setTimeout(() => setSaved((s) => ({ ...s, [key]: false })), 2000);
+  }
+
+  const sections = [
+    {
+      key: "terms_and_conditions",
+      title: "Terms & Conditions",
+      hint: "Paste your Terms & Conditions HTML here. It will appear at /terms.",
+      rows: 20,
+    },
+    {
+      key: "trip_inquiry_form",
+      title: "Trip Inquiry Form",
+      hint: "Paste your Travefy inquiry form embed code here (iframe or script tag). It will appear at /inquiry.",
+      rows: 10,
+    },
+  ];
+
+  return (
+    <div className="space-y-8">
+      <p className="text-sm text-muted-foreground">Manage the Terms &amp; Conditions page and the Trip Inquiry embed. Each section saves independently.</p>
+      {sections.map(({ key, title, hint, rows }) => (
+        <div key={key} className="bg-card border border-border rounded-xl p-5 space-y-3">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h3 className="font-semibold text-foreground">{title}</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>
+            </div>
+            <button
+              onClick={() => save(key)}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              {saved[key] ? <><Check className="w-3 h-3" /> Saved</> : <><Save className="w-3 h-3" /> Save</>}
+            </button>
+          </div>
+          <textarea
+            rows={rows}
+            className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm font-mono resize-y focus:outline-none focus:ring-2 focus:ring-primary/20"
+            value={val(key)}
+            onChange={(e) => set(key, e.target.value)}
+            placeholder={`Paste ${title} content here…`}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── MAIN ADMIN ───────────────────────────────────────────────────────────────
 
 const TABS = [
@@ -1005,6 +1070,7 @@ const TABS = [
   { id: "trips", label: "Featured Trips" },
   { id: "hotels", label: "Featured Hotels" },
   { id: "articles", label: "Journal Articles" },
+  { id: "pages", label: "Pages" },
 ] as const;
 type TabId = typeof TABS[number]["id"];
 
@@ -1048,6 +1114,7 @@ export default function Admin() {
         {tab === "trips" && <FeaturedTripsTab />}
         {tab === "hotels" && <HotelsTab />}
         {tab === "articles" && <ArticlesTab />}
+        {tab === "pages" && <PagesTab />}
 
       </div>
     </div>

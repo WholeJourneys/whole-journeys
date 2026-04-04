@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Compass, Instagram, Facebook, Linkedin, Mail } from "lucide-react";
+import { Instagram, Facebook, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -8,9 +8,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-6 group inline-block">
-              <Compass className="w-8 h-8 text-secondary" />
-              <span className="font-display font-semibold text-3xl tracking-wide text-white">
+            <Link href="/" className="inline-block mb-6 group">
+              <span style={{ fontFamily: "'Pacifico', cursive" }} className="text-4xl text-white group-hover:opacity-80 transition-opacity">
                 Whole Journeys
               </span>
             </Link>
@@ -36,6 +35,9 @@ export default function Footer() {
                 <a href="https://trips.wholejourneys.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-secondary transition-colors font-light">
                   Our Travefy Gallery
                 </a>
+              </li>
+              <li>
+                <Link href="/inquiry" className="text-white/70 hover:text-secondary transition-colors font-light">Trip Inquiry Form</Link>
               </li>
             </ul>
           </div>
@@ -74,8 +76,8 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/50 font-light">
           <p>&copy; {new Date().getFullYear()} Whole Journeys. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
+            <Link href="/inquiry" className="hover:text-white transition-colors">Trip Inquiry</Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon } from "lucide-react";
-import { useTours, useUpdateTourTags, ALL_CATEGORIES, TRAVEFY_TOURS } from "@/hooks/use-tours";
+import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon, Loader2 } from "lucide-react";
+import { useTours, useUpdateTourTags, ALL_CATEGORIES, ALL_REGIONS, TRAVEFY_TOURS } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "@/components/TourCard";
 import {
   useSiteContent, useSaveContent,
@@ -9,6 +9,7 @@ import {
   usePicksArticles, useSaveArticle, useDeleteArticle, type PicksArticle,
   usePicksTrips, useSavePicksTrips,
   useTourContent, useSaveTourContent,
+  useCustomTours, useSaveCustomTour, useDeleteCustomTour, fetchUrlMeta, type CustomTour,
 } from "@/hooks/use-admin-data";
 
 const SESSION_KEY = "wj_admin_auth";
@@ -664,9 +665,294 @@ function TourContentTab() {
   );
 }
 
+// ─── CUSTOM TOUR FORM ─────────────────────────────────────────────────────────
+
+const BLANK_CUSTOM_TOUR: CustomTour = {
+  name: "",
+  destination: "",
+  region: "Europe",
+  country: [],
+  groupSize: "Private departures for 2+",
+  categories: [],
+  description: "",
+  highlights: [],
+  imageUrl: "",
+  itineraryUrl: "",
+  sortOrder: 0,
+  active: true,
+};
+
+function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; onSave: (t: CustomTour) => void; onCancel: () => void }) {
+  const [t, setT] = useState(initial);
+  const [fetching, setFetching] = useState(false);
+  const [fetchError, setFetchError] = useState("");
+  const [newHighlight, setNewHighlight] = useState("");
+
+  const set = <K extends keyof CustomTour>(k: K, v: CustomTour[K]) => setT((p) => ({ ...p, [k]: v }));
+
+  async function handleFetch() {
+    if (!t.itineraryUrl) return;
+    setFetching(true);
+    setFetchError("");
+    try {
+      const meta = await fetchUrlMeta(t.itineraryUrl);
+      if (meta.title) set("name", meta.title);
+      if (meta.imageUrl) set("imageUrl", meta.imageUrl);
+      if (!meta.title && !meta.imageUrl) setFetchError("Couldn't find title or image at that URL.");
+    } catch {
+      setFetchError("Failed to fetch URL.");
+    } finally {
+      setFetching(false);
+    }
+  }
+
+  function toggleCategory(cat: string) {
+    const current = t.categories;
+    set("categories", current.includes(cat) ? current.filter((c) => c !== cat) : [...current, cat]);
+  }
+
+  function addHighlight() {
+    if (!newHighlight.trim()) return;
+    set("highlights", [...t.highlights, newHighlight.trim()]);
+    setNewHighlight("");
+  }
+
+  function removeHighlight(i: number) {
+    set("highlights", t.highlights.filter((_, idx) => idx !== i));
+  }
+
+  return (
+    <div className="bg-muted/40 border border-border rounded-xl p-5 space-y-5">
+
+      {/* Itinerary URL + auto-fetch */}
+      <div>
+        <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+          Itinerary URL <span className="normal-case font-normal">(Travefy link or any page with the trip details)</span>
+        </label>
+        <div className="flex gap-2">
+          <input
+            className={`${inputCls} flex-grow`}
+            placeholder="https://trips.wholejourneys.com/discover/trip/..."
+            value={t.itineraryUrl}
+            onChange={(e) => set("itineraryUrl", e.target.value)}
+          />
+          <button
+            onClick={handleFetch}
+            disabled={!t.itineraryUrl || fetching}
+            className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium bg-secondary text-white rounded-lg hover:bg-secondary/90 disabled:opacity-50 transition-colors whitespace-nowrap"
+          >
+            {fetching ? <Loader2 className="w-4 h-4 animate-spin" /> : <LinkIcon className="w-4 h-4" />}
+            {fetching ? "Fetching…" : "Auto-Fill"}
+          </button>
+        </div>
+        {fetchError && <p className="text-xs text-red-500 mt-1">{fetchError}</p>}
+        <p className="text-xs text-muted-foreground mt-1">Paste the URL and click Auto-Fill to pull in the trip title and hero image automatically.</p>
+      </div>
+
+      {/* Name */}
+      <Field label="Trip Name">
+        <input className={inputCls} value={t.name} onChange={(e) => set("name", e.target.value)} placeholder="e.g. Spain: The Basque Country" />
+      </Field>
+
+      {/* Destination + Region */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field label='Destination Display Name'>
+          <input className={inputCls} value={t.destination} onChange={(e) => set("destination", e.target.value)} placeholder='e.g. Spain: The Basque Country' />
+          <p className="text-xs text-muted-foreground mt-1">Shown on the tour card. Can be as specific as you like.</p>
+        </Field>
+        <Field label="Region">
+          <select className={inputCls} value={t.region} onChange={(e) => set("region", e.target.value)}>
+            {ALL_REGIONS.map((r) => <option key={r} value={r}>{r}</option>)}
+          </select>
+        </Field>
+      </div>
+
+      {/* Country */}
+      <Field label="Country / Countries">
+        <input
+          className={inputCls}
+          value={t.country.join(", ")}
+          onChange={(e) => set("country", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
+          placeholder="e.g. Spain  or  Slovenia, Croatia"
+        />
+        <p className="text-xs text-muted-foreground mt-1">Separate multiple countries with commas. Used for filtering.</p>
+      </Field>
+
+      {/* Image URL */}
+      <Field label="Hero Image URL">
+        <input className={inputCls} placeholder="https://..." value={t.imageUrl} onChange={(e) => set("imageUrl", e.target.value)} />
+        {t.imageUrl && (
+          <img src={t.imageUrl} alt="Preview" className="mt-2 h-24 rounded-lg border border-border object-cover w-full max-w-xs" />
+        )}
+      </Field>
+
+      {/* Description */}
+      <Field label="Description">
+        <textarea rows={3} className={textareaCls} value={t.description} onChange={(e) => set("description", e.target.value)} placeholder="A 2–3 sentence summary shown in the tour card pop-up…" />
+      </Field>
+
+      {/* Highlights */}
+      <div>
+        <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Highlights</label>
+        <div className="space-y-1.5 mb-2">
+          {t.highlights.map((h, i) => (
+            <div key={i} className="flex items-center gap-2 group">
+              <span className="text-secondary text-xs">✦</span>
+              <span className="text-sm flex-grow">{h}</span>
+              <button onClick={() => removeHighlight(i)} className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity">
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={newHighlight}
+            onChange={(e) => setNewHighlight(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addHighlight()}
+            placeholder="Add a highlight and press Enter…"
+            className="flex-grow text-sm border border-border rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+          <button onClick={addHighlight} className="px-3 py-1.5 text-xs font-semibold bg-muted border border-border rounded-lg hover:bg-muted/80 transition-colors flex items-center gap-1">
+            <Plus className="w-3.5 h-3.5" /> Add
+          </button>
+        </div>
+      </div>
+
+      {/* Categories */}
+      <div>
+        <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-2">Categories</label>
+        <div className="flex flex-wrap gap-2">
+          {ALL_CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => toggleCategory(cat)}
+              className={`px-3 py-1 text-xs font-medium rounded-full border transition-all ${
+                t.categories.includes(cat) ? CATEGORY_ACTIVE[cat] : CATEGORY_INACTIVE[cat]
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Group Size */}
+      <Field label="Group Size">
+        <input className={inputCls} value={t.groupSize} onChange={(e) => set("groupSize", e.target.value)} />
+      </Field>
+
+      {/* Active + Actions */}
+      <div className="flex items-center justify-between pt-2">
+        <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <input type="checkbox" checked={t.active} onChange={(e) => set("active", e.target.checked)} className="rounded" />
+          Show on Tours page
+        </label>
+        <div className="flex gap-2">
+          <button onClick={onCancel} className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors">Cancel</button>
+          <button onClick={() => onSave(t)} className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">Save Trip</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomToursTab() {
+  const { data: tours = [] } = useCustomTours();
+  const saveTour = useSaveCustomTour();
+  const deleteTour = useDeleteCustomTour();
+  const [editing, setEditing] = useState<CustomTour | null>(null);
+  const [adding, setAdding] = useState(false);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm text-muted-foreground">Add trips from Travefy or any source. Paste the itinerary URL and click Auto-Fill to pull in the title and image.</p>
+        </div>
+        <button
+          onClick={() => { setAdding(true); setEditing(null); }}
+          className="flex items-center gap-1.5 px-3 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          <Plus className="w-4 h-4" /> Add Trip
+        </button>
+      </div>
+
+      {adding && (
+        <CustomTourForm
+          initial={BLANK_CUSTOM_TOUR}
+          onSave={async (t) => { await saveTour.mutateAsync(t); setAdding(false); }}
+          onCancel={() => setAdding(false)}
+        />
+      )}
+
+      <div className="space-y-3">
+        {tours.length === 0 && !adding && (
+          <div className="text-center py-12 text-muted-foreground text-sm border border-dashed border-border rounded-xl">
+            No custom trips yet. Click "Add Trip" to get started.
+          </div>
+        )}
+        {tours.map((tour) => (
+          <div key={tour.id}>
+            {editing?.id === tour.id ? (
+              <CustomTourForm
+                initial={tour}
+                onSave={async (t) => { await saveTour.mutateAsync(t); setEditing(null); }}
+                onCancel={() => setEditing(null)}
+              />
+            ) : (
+              <div className="bg-card border border-border rounded-xl p-4 flex gap-4">
+                {tour.imageUrl && (
+                  <div
+                    className="w-20 h-16 flex-shrink-0 rounded-lg bg-cover bg-center border border-border/50"
+                    style={{ backgroundImage: `url(${tour.imageUrl})` }}
+                  />
+                )}
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="font-semibold text-sm text-foreground">{tour.name}</div>
+                      <div className="text-xs text-muted-foreground">{tour.destination} · {tour.region}</div>
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {!tour.active && <span className="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">Hidden</span>}
+                      <button
+                        onClick={() => { setEditing(tour); setAdding(false); }}
+                        className="p-1.5 text-muted-foreground hover:text-primary rounded-lg hover:bg-muted transition-colors"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => tour.id && deleteTour.mutate(tour.id)}
+                        className="p-1.5 text-muted-foreground hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{tour.description}</p>
+                  {tour.categories.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {tour.categories.map((c) => (
+                        <span key={c} className="text-[10px] bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">{c}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── MAIN ADMIN ───────────────────────────────────────────────────────────────
 
 const TABS = [
+  { id: "add-trips", label: "Add Trips" },
   { id: "tags", label: "Tour Tags" },
   { id: "content", label: "Tour Descriptions" },
   { id: "about", label: "About Kathy" },
@@ -678,7 +964,7 @@ type TabId = typeof TABS[number]["id"];
 
 export default function Admin() {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
-  const [tab, setTab] = useState<TabId>("tags");
+  const [tab, setTab] = useState<TabId>("add-trips");
 
   if (!authed) return <PasswordGate onSuccess={() => setAuthed(true)} />;
 
@@ -709,6 +995,7 @@ export default function Admin() {
           ))}
         </div>
 
+        {tab === "add-trips" && <CustomToursTab />}
         {tab === "tags" && <TourTagsTab />}
         {tab === "content" && <TourContentTab />}
         {tab === "about" && <AboutTab />}

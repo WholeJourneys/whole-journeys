@@ -197,3 +197,70 @@ export function useSavePicksTrips() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["picks-trips"] }),
   });
 }
+
+// ─── CUSTOM TOURS ─────────────────────────────────────────────────────────────
+
+export interface CustomTour {
+  id?: number;
+  name: string;
+  destination: string;
+  region: string;
+  country: string[];
+  groupSize: string;
+  categories: string[];
+  description: string;
+  highlights: string[];
+  imageUrl: string;
+  itineraryUrl: string;
+  sortOrder: number;
+  active: boolean;
+}
+
+export function useCustomTours() {
+  return useQuery<CustomTour[]>({
+    queryKey: ["custom-tours"],
+    queryFn: async () => {
+      const res = await fetch(`${API}/custom-tours`);
+      return res.json();
+    },
+  });
+}
+
+export function useSaveCustomTour() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (tour: CustomTour) => {
+      const method = tour.id ? "PUT" : "POST";
+      const url = tour.id ? `${API}/custom-tours/${tour.id}` : `${API}/custom-tours`;
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tour),
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["custom-tours"] });
+      qc.invalidateQueries({ queryKey: ["tours"] });
+    },
+  });
+}
+
+export function useDeleteCustomTour() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      await fetch(`${API}/custom-tours/${id}`, { method: "DELETE" });
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["custom-tours"] });
+      qc.invalidateQueries({ queryKey: ["tours"] });
+    },
+  });
+}
+
+export async function fetchUrlMeta(url: string): Promise<{ title: string; imageUrl: string }> {
+  const res = await fetch(`${API}/fetch-url-meta?url=${encodeURIComponent(url)}`);
+  if (!res.ok) return { title: "", imageUrl: "" };
+  return res.json();
+}

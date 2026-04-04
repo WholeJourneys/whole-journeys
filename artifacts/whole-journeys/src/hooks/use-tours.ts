@@ -319,9 +319,11 @@ export const TRAVEFY_TOURS: Tour[] = [
   },
 ];
 
+const BASE_API = import.meta.env.BASE_URL.replace(/\/$/, "") + "/api";
+
 async function fetchTags(): Promise<Record<string, string[]>> {
   try {
-    const res = await fetch("/api/tours/tags");
+    const res = await fetch(`${BASE_API}/tours/tags`);
     if (!res.ok) return {};
     return await res.json();
   } catch {
@@ -331,7 +333,7 @@ async function fetchTags(): Promise<Record<string, string[]>> {
 
 async function fetchContent(): Promise<Record<string, { description: string | null; highlights: string[] }>> {
   try {
-    const res = await fetch("/api/tours/content");
+    const res = await fetch(`${BASE_API}/tours/content`);
     if (!res.ok) return {};
     return await res.json();
   } catch {
@@ -339,12 +341,55 @@ async function fetchContent(): Promise<Record<string, { description: string | nu
   }
 }
 
+async function fetchCustomTours(): Promise<Tour[]> {
+  try {
+    const res = await fetch(`${BASE_API}/custom-tours`);
+    if (!res.ok) return [];
+    const rows = await res.json();
+    return rows
+      .filter((r: { active: boolean }) => r.active)
+      .map((r: {
+        id: number;
+        name: string;
+        destination: string;
+        region: string;
+        country: string[];
+        groupSize: string;
+        categories: string[];
+        description: string;
+        highlights: string[];
+        imageUrl: string;
+        itineraryUrl: string;
+      }): Tour => ({
+        id: `custom-${r.id}`,
+        name: r.name,
+        destination: r.destination,
+        region: r.region,
+        country: r.country,
+        duration: null,
+        price: null,
+        groupSize: r.groupSize,
+        categories: r.categories,
+        description: r.description,
+        highlights: r.highlights,
+        imageUrl: r.imageUrl,
+        travefyUrl: r.itineraryUrl,
+      }));
+  } catch {
+    return [];
+  }
+}
+
 export function useTours() {
   return useQuery({
     queryKey: ["tours"],
     queryFn: async () => {
-      const [storedTags, storedContent] = await Promise.all([fetchTags(), fetchContent()]);
-      return TRAVEFY_TOURS.map((tour) => {
+      const [storedTags, storedContent, customTours] = await Promise.all([
+        fetchTags(),
+        fetchContent(),
+        fetchCustomTours(),
+      ]);
+      const hardcoded = TRAVEFY_TOURS.map((tour) => {
         const content = storedContent[tour.id];
         return {
           ...tour,
@@ -353,6 +398,7 @@ export function useTours() {
           highlights: content?.highlights?.length ? content.highlights : tour.highlights,
         };
       });
+      return [...hardcoded, ...customTours];
     },
   });
 }

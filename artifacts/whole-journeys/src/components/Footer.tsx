@@ -14,7 +14,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-white/70 leading-relaxed max-w-sm font-light">
-              Curating exceptional, immersive travel experiences for the modern explorer. 
+              Curating exceptional, immersive travel experiences for the curious travelers. 
               Proud Virtuoso member and Coastline travel partner.
             </p>
           </div>

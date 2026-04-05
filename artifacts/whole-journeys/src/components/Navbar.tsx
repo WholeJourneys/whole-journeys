@@ -50,7 +50,7 @@ export default function Navbar() {
                 <span
                   style={{ fontFamily: "'Great Vibes', cursive" }}
                   className={cn(
-                    "text-4xl font-normal",
+                    "text-5xl font-normal",
                     (!isScrolled && isHome) ? "text-white" : "text-foreground"
                   )}
                 >
@@ -58,8 +58,8 @@ export default function Navbar() {
                 </span>
                 <span
                   className={cn(
-                    "text-[10px] tracking-[0.22em] uppercase font-light mt-0.5",
-                    (!isScrolled && isHome) ? "text-white/70" : "text-muted-foreground"
+                    "text-[11px] tracking-[0.2em] uppercase font-medium mt-1",
+                    (!isScrolled && isHome) ? "text-white/90" : "text-foreground/60"
                   )}
                 >
                   by Kathy Dragon

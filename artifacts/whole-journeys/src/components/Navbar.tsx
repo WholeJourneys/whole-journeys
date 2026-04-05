@@ -93,7 +93,7 @@ export default function Navbar() {
               <Link
                 href="/hotels"
                 className={cn(
-                  "text-sm font-medium tracking-wide uppercase transition-colors duration-200 hover:text-secondary",
+                  "text-base font-medium tracking-wide uppercase transition-colors duration-200 hover:text-secondary",
                   location === "/hotels"
                     ? "text-secondary"
                     : (!isScrolled && isHome)

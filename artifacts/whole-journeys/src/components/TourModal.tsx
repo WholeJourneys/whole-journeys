@@ -110,8 +110,8 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     <>
       {isOpen && (
         <Helmet>
-          <title>{tour.name} | Whole Journeys by Kathy Dragon</title>
-          <meta name="description" content={tour.description ?? `Explore the ${tour.name} journey with Whole Journeys.`} />
+          <title>{tour.seoTitle ? `${tour.seoTitle} | Whole Journeys by Kathy Dragon` : `${tour.name} | Whole Journeys by Kathy Dragon`}</title>
+          <meta name="description" content={tour.seoDescription ?? tour.description ?? `Explore the ${tour.name} journey with Whole Journeys.`} />
         </Helmet>
       )}
       <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>

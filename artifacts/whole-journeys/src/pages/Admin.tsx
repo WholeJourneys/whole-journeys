@@ -550,8 +550,8 @@ function TourContentTab() {
   const saveTourContent = useSaveTourContent();
   const saveCustomTour = useSaveCustomTour();
 
-  // ── Travefy tour state (description + highlights + destination + groupSize) ─
-  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[]; destination: string; groupSize: string }>>({});
+  // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
+  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[]; destination: string; groupSize: string; seoTitle: string; seoDescription: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
 
@@ -631,12 +631,14 @@ function TourContentTab() {
       highlights: db?.highlights?.length ? db.highlights : tour.highlights,
       destination: db?.destination ?? tour.destination ?? "",
       groupSize: db?.groupSize ?? tour.groupSize ?? "",
+      seoTitle: db?.seoTitle ?? "",
+      seoDescription: db?.seoDescription ?? "",
     };
   }
 
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
-    if (!tour) return { description: "", highlights: [], destination: "", groupSize: "" };
+    if (!tour) return { description: "", highlights: [], destination: "", groupSize: "", seoTitle: "", seoDescription: "" };
     return getDraft(tour);
   }
 
@@ -644,7 +646,7 @@ function TourContentTab() {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
   }
 
-  function setDraftField(tourId: string, key: "destination" | "groupSize", value: string) {
+  function setDraftField(tourId: string, key: "destination" | "groupSize" | "seoTitle" | "seoDescription", value: string) {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), [key]: value } }));
   }
 
@@ -664,7 +666,7 @@ function TourContentTab() {
   function save(tourId: string) {
     const draft = getDraftById(tourId);
     saveTourContent.mutate(
-      { tourId, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null },
+      { tourId, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
       {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
@@ -963,6 +965,33 @@ function TourContentTab() {
                   >
                     <Plus className="w-3.5 h-3.5" /> Add
                   </button>
+                </div>
+              </div>
+              {/* SEO */}
+              <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-3 bg-muted/20">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">SEO — Search Engine Snippet</p>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground mb-1 block">SEO Title <span className="font-normal">(optional — overrides tour name in search results)</span></label>
+                  <input
+                    className={inputCls}
+                    value={draft.seoTitle}
+                    onChange={(e) => setDraftField(tour.id, "seoTitle", e.target.value)}
+                    placeholder={tour.name}
+                    maxLength={70}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Keep under 60 characters for best results. Leave blank to use the tour name.</p>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground mb-1 block">SEO Description <span className="font-normal">(optional — shown in Google search results)</span></label>
+                  <textarea
+                    rows={2}
+                    value={draft.seoDescription}
+                    onChange={(e) => setDraftField(tour.id, "seoDescription", e.target.value)}
+                    className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
+                    placeholder={tour.description}
+                    maxLength={160}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Keep under 155 characters. Leave blank to use the tour description.</p>
                 </div>
               </div>
               <div className="flex justify-end pt-2 border-t border-border/30">

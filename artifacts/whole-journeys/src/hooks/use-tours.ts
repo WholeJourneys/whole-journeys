@@ -15,6 +15,8 @@ export interface Tour {
   galleryImages?: string[];
   highlights: string[];
   travefyUrl: string;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
 }
 
 export const ALL_CATEGORIES = [
@@ -337,7 +339,7 @@ async function fetchTags(): Promise<Record<string, string[]>> {
   }
 }
 
-async function fetchContent(): Promise<Record<string, { description: string | null; highlights: string[]; destination: string | null; groupSize: string | null }>> {
+async function fetchContent(): Promise<Record<string, { description: string | null; highlights: string[]; destination: string | null; groupSize: string | null; seoTitle: string | null; seoDescription: string | null }>> {
   try {
     const res = await fetch(`${BASE_API}/tours/content`);
     if (!res.ok) return {};
@@ -406,6 +408,8 @@ export function useTours() {
           highlights: content?.highlights?.length ? content.highlights : tour.highlights,
           destination: content?.destination ?? tour.destination,
           groupSize: content?.groupSize ?? tour.groupSize,
+          seoTitle: content?.seoTitle ?? null,
+          seoDescription: content?.seoDescription ?? null,
         };
       });
       return [...hardcoded, ...customTours];

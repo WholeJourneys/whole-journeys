@@ -43,13 +43,15 @@ router.put("/tours/tags/:tourId", async (req, res) => {
 router.get("/tours/content", async (_req, res) => {
   try {
     const rows = await db.select().from(tourContentTable);
-    const map: Record<string, { description: string | null; highlights: string[]; destination: string | null; groupSize: string | null }> = {};
+    const map: Record<string, { description: string | null; highlights: string[]; destination: string | null; groupSize: string | null; seoTitle: string | null; seoDescription: string | null }> = {};
     for (const row of rows) {
       map[row.tourId] = {
         description: row.description,
         highlights: row.highlights,
         destination: row.destination ?? null,
         groupSize: row.groupSize ?? null,
+        seoTitle: row.seoTitle ?? null,
+        seoDescription: row.seoDescription ?? null,
       };
     }
     res.json(map);
@@ -60,11 +62,13 @@ router.get("/tours/content", async (_req, res) => {
 
 router.put("/tours/content/:tourId", async (req, res) => {
   const { tourId } = req.params;
-  const { description, highlights, destination, groupSize } = req.body as {
+  const { description, highlights, destination, groupSize, seoTitle, seoDescription } = req.body as {
     description?: string;
     highlights?: string[];
     destination?: string;
     groupSize?: string;
+    seoTitle?: string;
+    seoDescription?: string;
   };
 
   try {
@@ -76,6 +80,8 @@ router.put("/tours/content/:tourId", async (req, res) => {
         highlights: highlights ?? [],
         destination: destination ?? null,
         groupSize: groupSize ?? null,
+        seoTitle: seoTitle ?? null,
+        seoDescription: seoDescription ?? null,
       })
       .onConflictDoUpdate({
         target: tourContentTable.tourId,
@@ -84,10 +90,12 @@ router.put("/tours/content/:tourId", async (req, res) => {
           highlights: highlights ?? [],
           destination: destination ?? null,
           groupSize: groupSize ?? null,
+          seoTitle: seoTitle ?? null,
+          seoDescription: seoDescription ?? null,
           updatedAt: new Date(),
         },
       });
-    res.json({ tourId, description, highlights, destination, groupSize });
+    res.json({ tourId, description, highlights, destination, groupSize, seoTitle, seoDescription });
   } catch (err) {
     res.status(500).json({ error: "Failed to save tour content" });
   }

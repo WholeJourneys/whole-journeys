@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Compass } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -45,13 +45,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <Compass
-                className={cn(
-                  "w-8 h-8 transition-colors duration-300 group-hover:text-secondary",
-                  (!isScrolled && isHome) ? "text-white" : "text-primary"
-                )}
-              />
+            <Link href="/" className="flex items-center group">
               <div className="flex flex-col leading-none">
                 <span
                   style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -131,8 +125,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[60] bg-background flex flex-col"
           >
             <div className="flex justify-between items-center p-4 border-b border-border">
-              <div className="flex items-center gap-2">
-                <Compass className="w-6 h-6 text-primary" />
+              <div className="flex items-center">
                 <span style={{ fontFamily: "'Great Vibes', cursive" }} className="text-3xl font-normal text-primary">Whole Journeys</span>
               </div>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-foreground hover:text-primary">

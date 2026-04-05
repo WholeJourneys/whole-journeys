@@ -195,9 +195,55 @@ export default function Picks() {
         </section>
       )}
 
+      {/* Featured Trips */}
+      {showTrips && (
+        <section className={`py-20 ${showArticles ? "bg-muted/30 border-t border-border/50" : ""}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 mb-3">
+              <Map className="w-6 h-6 text-secondary" />
+              <h2 className="text-3xl font-display text-primary">Trips I'm Excited About</h2>
+            </div>
+            <p className="text-muted-foreground mb-10 text-sm">
+              A few itineraries I keep coming back to. Click any trip for an overview, then view the full itinerary on Travefy.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {displayTours.map((tour, idx) => (
+                <motion.div
+                  key={tour.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.5 }}
+                  className="group bg-card rounded-2xl overflow-hidden border border-border/50 hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                  onClick={() => setSelectedTour(tour)}
+                >
+                  <div className="relative h-52 overflow-hidden">
+                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute top-3 left-3 flex flex-wrap gap-1">
+                      {tour.categories.slice(0, 2).map((cat) => (
+                        <span key={cat} className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${CATEGORY_COLORS[cat] ?? "bg-white/80 text-primary"}`}>{cat}</span>
+                      ))}
+                    </div>
+                    <div className="absolute bottom-3 left-4 text-white/90 text-sm font-medium">{tour.destination}</div>
+                  </div>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <h3 className="font-display text-lg font-medium text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{tour.name}</h3>
+                    <p className="text-muted-foreground text-sm line-clamp-2 flex-grow">{tour.description}</p>
+                    <span className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-primary/80">
+                      View Details <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Hotels */}
       {showHotels && (
-        <section className={`py-20 ${showArticles ? "bg-muted/30 border-t border-border/50" : ""}`}>
+        <section className="py-20 border-t border-border/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-3">
               <Hotel className="w-6 h-6 text-secondary" />
@@ -241,52 +287,6 @@ export default function Picks() {
                     >
                       Book with Virtuoso Perks <ExternalLink className="w-3.5 h-3.5" />
                     </a>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Featured Trips */}
-      {showTrips && (
-        <section className="py-20 border-t border-border/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 mb-3">
-              <Map className="w-6 h-6 text-secondary" />
-              <h2 className="text-3xl font-display text-primary">Trips I'm Excited About</h2>
-            </div>
-            <p className="text-muted-foreground mb-10 text-sm">
-              A few itineraries I keep coming back to. Click any trip for an overview, then view the full itinerary on Travefy.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {displayTours.map((tour, idx) => (
-                <motion.div
-                  key={tour.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  className="group bg-card rounded-2xl overflow-hidden border border-border/50 hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
-                  onClick={() => setSelectedTour(tour)}
-                >
-                  <div className="relative h-52 overflow-hidden">
-                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute top-3 left-3 flex flex-wrap gap-1">
-                      {tour.categories.slice(0, 2).map((cat) => (
-                        <span key={cat} className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full ${CATEGORY_COLORS[cat] ?? "bg-white/80 text-primary"}`}>{cat}</span>
-                      ))}
-                    </div>
-                    <div className="absolute bottom-3 left-4 text-white/90 text-sm font-medium">{tour.destination}</div>
-                  </div>
-                  <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="font-display text-lg font-medium text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{tour.name}</h3>
-                    <p className="text-muted-foreground text-sm line-clamp-2 flex-grow">{tour.description}</p>
-                    <span className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-primary/80">
-                      View Details <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </span>
                   </div>
                 </motion.div>
               ))}

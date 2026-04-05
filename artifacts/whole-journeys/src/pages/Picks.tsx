@@ -151,9 +151,19 @@ export default function Picks() {
       {showArticles && (
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 mb-4">
-              <BookOpen className="w-6 h-6 text-secondary" />
-              <h2 className="text-3xl font-display text-primary">Kathy's Substack</h2>
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+              <div className="flex items-center gap-3">
+                <BookOpen className="w-6 h-6 text-secondary" />
+                <h2 className="text-3xl font-display text-primary">Kathy's Substack</h2>
+              </div>
+              <a
+                href="https://substack.com/@kathydragon"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-full transition-colors shadow-sm"
+              >
+                <ExternalLink className="w-3.5 h-3.5" /> Follow on Substack
+              </a>
             </div>
             <p className="text-muted-foreground mb-10 text-sm">
               Dispatches from the road — travel stories, tips, and recommendations from Kathy's newsletter.

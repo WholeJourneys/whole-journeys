@@ -4,6 +4,7 @@ import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link 
 import RichTextEditor from "@/components/RichTextEditor";
 import ImageUploadInput from "@/components/ImageUploadInput";
 import { useTours, useUpdateTourTags, ALL_CATEGORIES, ALL_REGIONS, TRAVEFY_TOURS } from "@/hooks/use-tours";
+import { useSpecials, useCreateSpecial, useUpdateSpecial, useDeleteSpecial, type FeaturedSpecial } from "@/hooks/use-specials";
 import { CATEGORY_COLORS } from "@/components/TourCard";
 import {
   useSiteContent, useSaveContent,
@@ -1340,6 +1341,186 @@ function PagesTab() {
 
 // ─── MAIN ADMIN ───────────────────────────────────────────────────────────────
 
+// ─── SPECIALS TAB ──────────────────────────────────────────────────────────────
+
+const BLANK_SPECIAL: Omit<FeaturedSpecial, "id" | "updatedAt"> = {
+  title: "",
+  badge: "",
+  description: "",
+  imageUrl: "",
+  linkUrl: "",
+  sortOrder: 0,
+  active: true,
+};
+
+function SpecialsTab() {
+  const { data: specials = [], isLoading } = useSpecials();
+  const createSpecial = useCreateSpecial();
+  const updateSpecial = useUpdateSpecial();
+  const deleteSpecial = useDeleteSpecial();
+  const [draft, setDraft] = useState<Omit<FeaturedSpecial, "id" | "updatedAt">>(BLANK_SPECIAL);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [openIds, setOpenIds] = useState<Set<number>>(new Set());
+
+  const inputCls = "w-full px-3 py-2 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20";
+
+  function setField<K extends keyof typeof draft>(k: K, v: typeof draft[K]) {
+    setDraft((d) => ({ ...d, [k]: v }));
+  }
+
+  function toggleOpen(id: number) {
+    setOpenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) { next.delete(id); setEditingId(null); } else { next.add(id); setEditingId(id); }
+      return next;
+    });
+  }
+
+  async function save() {
+    if (!draft.title.trim()) return;
+    if (editingId !== null) {
+      await updateSpecial.mutateAsync({ id: editingId, ...draft });
+    } else {
+      await createSpecial.mutateAsync(draft);
+    }
+    setDraft(BLANK_SPECIAL);
+    setEditingId(null);
+    setOpenIds(new Set());
+  }
+
+  function startEdit(s: FeaturedSpecial) {
+    const { id, updatedAt, ...rest } = s;
+    setDraft(rest);
+    setEditingId(id);
+    setOpenIds(new Set([id]));
+  }
+
+  if (isLoading) return <p className="text-sm text-muted-foreground">Loading…</p>;
+
+  const BADGE_OPTIONS = ["Hotel Special", "Kathy's Pick", "Travel Tip", "Limited Offer", "New Tour", ""];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-foreground">Featured Specials</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">These appear as a spotlight strip on the homepage. Add hotel deals, picks, or anything you want to highlight.</p>
+        </div>
+      </div>
+
+      {/* Existing specials */}
+      {specials.length > 0 && (
+        <div className="space-y-2">
+          {specials.map((s) => {
+            const isOpen = openIds.has(s.id);
+            const editing = editingId === s.id ? draft : { title: s.title, badge: s.badge, description: s.description, imageUrl: s.imageUrl, linkUrl: s.linkUrl, sortOrder: s.sortOrder, active: s.active };
+            return (
+              <div key={s.id} className="border border-border rounded-xl overflow-hidden bg-card">
+                <div className="flex items-center justify-between px-4 py-3 gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <input
+                      type="checkbox"
+                      checked={s.active}
+                      onChange={(e) => updateSpecial.mutate({ id: s.id, active: e.target.checked })}
+                      className="rounded flex-shrink-0"
+                      title="Show on homepage"
+                    />
+                    {s.badge && <span className="text-[10px] font-bold uppercase tracking-widest text-secondary bg-secondary/10 px-2 py-0.5 rounded-full flex-shrink-0">{s.badge}</span>}
+                    <span className="text-sm font-medium text-foreground truncate">{s.title || <em className="text-muted-foreground">Untitled</em>}</span>
+                  </div>
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <button onClick={() => { startEdit(s); }} className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors" title="Edit">
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                    <button onClick={() => deleteSpecial.mutate(s.id)} className="p-1.5 rounded hover:bg-red-50 text-muted-foreground hover:text-red-600 transition-colors" title="Delete">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                    <button onClick={() => toggleOpen(s.id)} className="p-1.5 rounded hover:bg-muted text-muted-foreground transition-colors">
+                      <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                    </button>
+                  </div>
+                </div>
+                {isOpen && (
+                  <div className="px-4 pb-4 border-t border-border/40 pt-4 space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Title</label>
+                        <input className={inputCls} value={editing.title} onChange={(e) => setField("title", e.target.value)} placeholder="e.g. Rosemont: 3 Nights for 2" />
+                      </div>
+                      <div>
+                        <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Badge</label>
+                        <select className={inputCls} value={editing.badge} onChange={(e) => setField("badge", e.target.value)}>
+                          {BADGE_OPTIONS.map((b) => <option key={b} value={b}>{b || "— none —"}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Short Description</label>
+                      <textarea rows={2} className={inputCls} value={editing.description} onChange={(e) => setField("description", e.target.value)} placeholder="One or two sentences…" />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Link URL</label>
+                      <input className={inputCls} value={editing.linkUrl} onChange={(e) => setField("linkUrl", e.target.value)} placeholder="https://…" />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Image (optional)</label>
+                      <ImageUploadInput value={editing.imageUrl} onChange={(v) => setField("imageUrl", v)} />
+                    </div>
+                    <div className="flex justify-end gap-2 pt-2 border-t border-border/30">
+                      <button onClick={() => { setEditingId(null); setOpenIds(new Set()); setDraft(BLANK_SPECIAL); }} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">Cancel</button>
+                      <button onClick={save} disabled={updateSpecial.isPending} className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-60">
+                        <Save className="w-3.5 h-3.5" /> Save Changes
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Add new */}
+      {editingId === null && (
+        <div className="border border-dashed border-border rounded-xl p-5 bg-muted/20 space-y-4">
+          <h3 className="text-sm font-semibold text-foreground">Add New Special</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Title</label>
+              <input className={inputCls} value={draft.title} onChange={(e) => setField("title", e.target.value)} placeholder="e.g. Rosemont: 3 Nights for 2" />
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Badge</label>
+              <select className={inputCls} value={draft.badge} onChange={(e) => setField("badge", e.target.value)}>
+                {BADGE_OPTIONS.map((b) => <option key={b} value={b}>{b || "— none —"}</option>)}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Short Description</label>
+            <textarea rows={2} className={inputCls} value={draft.description} onChange={(e) => setField("description", e.target.value)} placeholder="One or two sentences…" />
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Link URL</label>
+            <input className={inputCls} value={draft.linkUrl} onChange={(e) => setField("linkUrl", e.target.value)} placeholder="https://…" />
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Image (optional)</label>
+            <ImageUploadInput value={draft.imageUrl} onChange={(v) => setField("imageUrl", v)} />
+          </div>
+          <div className="flex items-center gap-2">
+            <input type="checkbox" id="special-active" checked={draft.active} onChange={(e) => setField("active", e.target.checked)} className="rounded" />
+            <label htmlFor="special-active" className="text-sm cursor-pointer">Show on homepage immediately</label>
+          </div>
+          <button onClick={save} disabled={!draft.title.trim() || createSpecial.isPending} className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50">
+            <Plus className="w-4 h-4" /> Add Special
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 const TABS = [
   { id: "add-trips", label: "Add Trips" },
   { id: "tags", label: "Tour Tags" },
@@ -1348,6 +1529,7 @@ const TABS = [
   { id: "trips", label: "Featured Trips" },
   { id: "hotels", label: "Featured Hotels" },
   { id: "articles", label: "Journal Articles" },
+  { id: "specials", label: "Specials" },
   { id: "pages", label: "Pages" },
 ] as const;
 type TabId = typeof TABS[number]["id"];
@@ -1392,6 +1574,7 @@ export default function Admin() {
         {tab === "trips" && <FeaturedTripsTab />}
         {tab === "hotels" && <HotelsTab />}
         {tab === "articles" && <ArticlesTab />}
+        {tab === "specials" && <SpecialsTab />}
         {tab === "pages" && <PagesTab />}
 
       </div>

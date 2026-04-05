@@ -22,3 +22,4 @@ export * from "./tour-content";
 export * from "./site-content";
 export * from "./picks";
 export * from "./custom-tours";
+export * from "./specials";

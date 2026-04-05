@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import TourCard from "@/components/TourCard";
 import TourModal from "@/components/TourModal";
 import { useTours, type Tour } from "@/hooks/use-tours";
+import { useActiveSpecials } from "@/hooks/use-specials";
 
 const HERO_SLIDES = [
   {
@@ -52,6 +53,7 @@ const SLIDE_INTERVAL = 6000;
 
 export default function Home() {
   const { data: tours, isLoading } = useTours();
+  const { data: specials } = useActiveSpecials();
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -216,6 +218,49 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* FEATURED SPECIALS — only renders when there's something to show */}
+      {specials && specials.length > 0 && (
+        <section className="py-14 bg-muted/40 border-t border-border">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6">
+              Featured Right Now
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {specials.map((s) => (
+                <a
+                  key={s.id}
+                  href={s.linkUrl || "#"}
+                  target={s.linkUrl ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="group flex gap-4 bg-background rounded-xl border border-border p-4 hover:shadow-md transition-all hover:border-primary/20"
+                >
+                  {s.imageUrl && (
+                    <img
+                      src={s.imageUrl}
+                      alt={s.title}
+                      className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                    />
+                  )}
+                  <div className="min-w-0">
+                    {s.badge && (
+                      <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-secondary bg-secondary/10 px-2 py-0.5 rounded-full mb-1.5">
+                        {s.badge}
+                      </span>
+                    )}
+                    <p className="text-sm font-semibold text-foreground leading-snug group-hover:text-primary transition-colors">
+                      {s.title}
+                    </p>
+                    {s.description && (
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{s.description}</p>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* VALUE PROPS */}
       <section className="py-20 bg-background border-t border-border">

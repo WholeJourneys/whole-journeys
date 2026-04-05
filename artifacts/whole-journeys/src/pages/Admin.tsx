@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon, Loader2 } from "lucide-react";
+import RichTextEditor from "@/components/RichTextEditor";
 import { useTours, useUpdateTourTags, ALL_CATEGORIES, ALL_REGIONS, TRAVEFY_TOURS } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "@/components/TourCard";
 import {
@@ -1265,47 +1266,54 @@ function PagesTab() {
     setTimeout(() => setSaved((s) => ({ ...s, [key]: false })), 2000);
   }
 
-  const sections = [
-    {
-      key: "terms_and_conditions",
-      title: "Terms & Conditions",
-      hint: "Paste your Terms & Conditions HTML here. It will appear at /terms.",
-      rows: 20,
-    },
-    {
-      key: "trip_inquiry_form",
-      title: "Trip Inquiry Form",
-      hint: "Paste your Travefy inquiry form embed code here (iframe or script tag). It will appear at /inquiry.",
-      rows: 10,
-    },
-  ];
-
   return (
     <div className="space-y-8">
       <p className="text-sm text-muted-foreground">Manage the Terms &amp; Conditions page and the Trip Inquiry embed. Each section saves independently.</p>
-      {sections.map(({ key, title, hint, rows }) => (
-        <div key={key} className="bg-card border border-border rounded-xl p-5 space-y-3">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h3 className="font-semibold text-foreground">{title}</h3>
-              <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>
-            </div>
-            <button
-              onClick={() => save(key)}
-              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              {saved[key] ? <><Check className="w-3 h-3" /> Saved</> : <><Save className="w-3 h-3" /> Save</>}
-            </button>
+
+      {/* Terms & Conditions — rich text editor */}
+      <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="font-semibold text-foreground">Terms &amp; Conditions</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">Paste or type your terms here. Use the toolbar to add headings, bold, underline, lists, etc. Appears at /terms.</p>
           </div>
-          <textarea
-            rows={rows}
-            className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm font-mono resize-y focus:outline-none focus:ring-2 focus:ring-primary/20"
-            value={val(key)}
-            onChange={(e) => set(key, e.target.value)}
-            placeholder={`Paste ${title} content here…`}
-          />
+          <button
+            onClick={() => save("terms_and_conditions")}
+            className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            {saved["terms_and_conditions"] ? <><Check className="w-3 h-3" /> Saved</> : <><Save className="w-3 h-3" /> Save</>}
+          </button>
         </div>
-      ))}
+        {content !== undefined && (
+          <RichTextEditor
+            value={val("terms_and_conditions")}
+            onChange={(html) => set("terms_and_conditions", html)}
+          />
+        )}
+      </div>
+
+      {/* Trip Inquiry Form — embed code textarea */}
+      <div className="bg-card border border-border rounded-xl p-5 space-y-3">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="font-semibold text-foreground">Trip Inquiry Form</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">Paste your Travefy inquiry form embed code here (iframe or script tag). It will appear at /inquiry.</p>
+          </div>
+          <button
+            onClick={() => save("trip_inquiry_form")}
+            className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            {saved["trip_inquiry_form"] ? <><Check className="w-3 h-3" /> Saved</> : <><Save className="w-3 h-3" /> Save</>}
+          </button>
+        </div>
+        <textarea
+          rows={10}
+          className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm font-mono resize-y focus:outline-none focus:ring-2 focus:ring-primary/20"
+          value={val("trip_inquiry_form")}
+          onChange={(e) => set("trip_inquiry_form", e.target.value)}
+          placeholder="Paste embed code here…"
+        />
+      </div>
     </div>
   );
 }

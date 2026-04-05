@@ -48,6 +48,14 @@ const HERO_SLIDES = [
     url: "/machu-picchu.jpg",
     caption: "Machu Picchu, Peru",
   },
+  {
+    url: "/hero-triglav-lake.jpg",
+    caption: "Triglav National Park, Slovenia",
+  },
+  {
+    url: "/hero-triglav-hiker.jpg",
+    caption: "Triglav National Park, Slovenia",
+  },
 ];
 
 const SLIDE_INTERVAL = 6000;

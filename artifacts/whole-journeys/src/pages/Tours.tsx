@@ -35,6 +35,19 @@ export default function Tours() {
 
   const hasFilters = searchQuery || activeCategories.length > 0 || activeRegions.length > 0;
 
+  // Only show region/category chips that have at least one tour
+  const usedRegions = useMemo(() => {
+    if (!tours) return [] as string[];
+    const set = new Set(tours.map((t) => t.region));
+    return ALL_REGIONS.filter((r) => set.has(r));
+  }, [tours]);
+
+  const usedCategories = useMemo(() => {
+    if (!tours) return [] as string[];
+    const set = new Set(tours.flatMap((t) => t.categories));
+    return ALL_CATEGORIES.filter((c) => set.has(c));
+  }, [tours]);
+
   type FilterResult = {
     filteredTours: Tour[];
     fallbackMode: null | "style-only" | "region-only" | "all";
@@ -143,7 +156,7 @@ export default function Tours() {
             >
               Any
             </button>
-            {ALL_CATEGORIES.map((cat) => {
+            {usedCategories.map((cat) => {
               const colors = CATEGORY_COLORS[cat];
               const isActive = activeCategories.includes(cat);
               return (
@@ -177,7 +190,7 @@ export default function Tours() {
             >
               Any
             </button>
-            {ALL_REGIONS.map((region) => {
+            {usedRegions.map((region) => {
               const isActive = activeRegions.includes(region);
               return (
                 <button

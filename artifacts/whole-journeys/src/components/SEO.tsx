@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_NAME = "Whole Journeys by Kathy Dragon";
-const SITE_URL = "https://new.wholejourneys.com";
+const SITE_URL = "https://wholejourneys.com";
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80";
 
 interface SEOProps {

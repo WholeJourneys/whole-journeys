@@ -543,13 +543,79 @@ function TourTagsTab() {
 
 function TourContentTab() {
   const { data: tours } = useTours();
+  const { data: rawCustomTours = [] } = useCustomTours();
   const { data: dbContent = {} } = useTourContent();
   const saveTourContent = useSaveTourContent();
+  const saveCustomTour = useSaveCustomTour();
 
+  // ── Travefy tour state (description + highlights) ──────────────────────────
   const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[] }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
 
+  // ── Custom tour state (full form) ─────────────────────────────────────────
+  const [customDrafts, setCustomDrafts] = useState<Record<string, CustomTour>>({});
+  const [fetching, setFetching] = useState<Record<string, boolean>>({});
+  const [fetchError, setFetchError] = useState<Record<string, string>>({});
+  const [newHighlightCustom, setNewHighlightCustom] = useState<Record<string, string>>({});
+
+  function isCustom(tourId: string) { return tourId.startsWith("custom-"); }
+  function getDbId(tourId: string) { return parseInt(tourId.replace("custom-", ""), 10); }
+
+  function getCustomDraft(tourId: string): CustomTour {
+    if (customDrafts[tourId]) return customDrafts[tourId];
+    const dbId = getDbId(tourId);
+    const ct = rawCustomTours.find((c) => c.id === dbId);
+    return ct ?? { name: "", destination: "", region: "Europe", country: [], groupSize: "Private departures for 2+", categories: [], description: "", highlights: [], imageUrl: "", galleryImages: [], itineraryUrl: "", sortOrder: 0, active: true };
+  }
+
+  function setCustomField<K extends keyof CustomTour>(tourId: string, key: K, value: CustomTour[K]) {
+    setCustomDrafts((d) => ({ ...d, [tourId]: { ...getCustomDraft(tourId), [key]: value } }));
+  }
+
+  async function handleAutoFill(tourId: string) {
+    const draft = getCustomDraft(tourId);
+    if (!draft.itineraryUrl) return;
+    setFetching((f) => ({ ...f, [tourId]: true }));
+    setFetchError((e) => ({ ...e, [tourId]: "" }));
+    try {
+      const meta = await fetchUrlMeta(draft.itineraryUrl);
+      if (meta.title) setCustomField(tourId, "name", meta.title);
+      if (meta.imageUrl) setCustomField(tourId, "imageUrl", meta.imageUrl);
+      if (!meta.title && !meta.imageUrl) setFetchError((e) => ({ ...e, [tourId]: "Couldn't find title or image at that URL." }));
+    } catch {
+      setFetchError((e) => ({ ...e, [tourId]: "Failed to fetch URL." }));
+    } finally {
+      setFetching((f) => ({ ...f, [tourId]: false }));
+    }
+  }
+
+  function toggleCategory(tourId: string, cat: string) {
+    const current = getCustomDraft(tourId).categories;
+    setCustomField(tourId, "categories", current.includes(cat) ? current.filter((c) => c !== cat) : [...current, cat]);
+  }
+
+  function addCustomHighlight(tourId: string) {
+    const text = (newHighlightCustom[tourId] ?? "").trim();
+    if (!text) return;
+    setCustomField(tourId, "highlights", [...getCustomDraft(tourId).highlights, text]);
+    setNewHighlightCustom((h) => ({ ...h, [tourId]: "" }));
+  }
+
+  function removeCustomHighlight(tourId: string, idx: number) {
+    setCustomField(tourId, "highlights", getCustomDraft(tourId).highlights.filter((_, i) => i !== idx));
+  }
+
+  function saveCustom(tourId: string) {
+    saveCustomTour.mutate(getCustomDraft(tourId), {
+      onSuccess: () => {
+        setSaved((s) => ({ ...s, [tourId]: true }));
+        setTimeout(() => setSaved((s) => ({ ...s, [tourId]: false })), 2000);
+      },
+    });
+  }
+
+  // ── Travefy tour helpers ───────────────────────────────────────────────────
   function getDraft(tour: { id: string; description: string; highlights: string[] }) {
     if (drafts[tour.id]) return drafts[tour.id];
     const db = dbContent[tour.id];
@@ -559,14 +625,14 @@ function TourContentTab() {
     };
   }
 
-  function setDescription(tourId: string, value: string) {
-    setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
-  }
-
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
     if (!tour) return { description: "", highlights: [] };
     return getDraft(tour);
+  }
+
+  function setDescription(tourId: string, value: string) {
+    setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
   }
 
   function addHighlight(tourId: string) {
@@ -598,9 +664,191 @@ function TourContentTab() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        Edit the description and highlights shown in each tour's popup. Leave blank to use the built-in defaults.
+        Custom tours show the full editing form. Pre-loaded tours let you override the description and highlights.
       </p>
       {(tours ?? []).map((tour) => {
+        if (isCustom(tour.id)) {
+          const ct = getCustomDraft(tour.id);
+          return (
+            <div key={tour.id} className="bg-card border border-border rounded-xl overflow-hidden">
+              {/* Header */}
+              <div className="flex gap-4 p-4 border-b border-border/50">
+                <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${ct.imageUrl})` }} />
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h2 className="font-semibold text-sm leading-snug">{ct.name || tour.name}</h2>
+                      <div className="text-xs text-muted-foreground mt-0.5">{ct.destination || tour.destination}</div>
+                      <span className="inline-block mt-1 text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-secondary/10 text-secondary">Custom Tour</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
+                      <button onClick={() => saveCustom(tour.id)} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                        <Save className="w-3.5 h-3.5" /> Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Full form */}
+              <div className="p-4 space-y-5">
+                {/* Itinerary URL */}
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+                    Itinerary URL <span className="normal-case font-normal">(Travefy or any trip page)</span>
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      className={`${inputCls} flex-grow`}
+                      placeholder="https://trips.wholejourneys.com/..."
+                      value={ct.itineraryUrl}
+                      onChange={(e) => setCustomField(tour.id, "itineraryUrl", e.target.value)}
+                    />
+                    <button
+                      onClick={() => handleAutoFill(tour.id)}
+                      disabled={!ct.itineraryUrl || fetching[tour.id]}
+                      className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium bg-secondary text-white rounded-lg hover:bg-secondary/90 disabled:opacity-50 transition-colors whitespace-nowrap"
+                    >
+                      {fetching[tour.id] ? <Loader2 className="w-4 h-4 animate-spin" /> : <LinkIcon className="w-4 h-4" />}
+                      {fetching[tour.id] ? "Fetching…" : "Auto-Fill"}
+                    </button>
+                  </div>
+                  {fetchError[tour.id] && <p className="text-xs text-red-500 mt-1">{fetchError[tour.id]}</p>}
+                </div>
+
+                {/* Name */}
+                <Field label="Trip Name">
+                  <input className={inputCls} value={ct.name} onChange={(e) => setCustomField(tour.id, "name", e.target.value)} placeholder="e.g. Spain: The Basque Country" />
+                </Field>
+
+                {/* Destination + Region */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field label="Destination Display Name">
+                    <input className={inputCls} value={ct.destination} onChange={(e) => setCustomField(tour.id, "destination", e.target.value)} placeholder="e.g. Basque Country, Spain" />
+                  </Field>
+                  <Field label="Region">
+                    <select className={inputCls} value={ct.region} onChange={(e) => setCustomField(tour.id, "region", e.target.value)}>
+                      {ALL_REGIONS.map((r) => <option key={r} value={r}>{r}</option>)}
+                    </select>
+                  </Field>
+                </div>
+
+                {/* Country */}
+                <Field label="Country / Countries">
+                  <input
+                    className={inputCls}
+                    value={ct.country.join(", ")}
+                    onChange={(e) => setCustomField(tour.id, "country", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
+                    placeholder="e.g. Spain  or  Slovenia, Croatia"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Separate multiple countries with commas.</p>
+                </Field>
+
+                {/* Hero Image */}
+                <Field label="Hero Image URL">
+                  <input className={inputCls} placeholder="https://..." value={ct.imageUrl} onChange={(e) => setCustomField(tour.id, "imageUrl", e.target.value)} />
+                  {ct.imageUrl && <img src={ct.imageUrl} alt="Preview" className="mt-2 h-24 rounded-lg border border-border object-cover w-full max-w-xs" />}
+                </Field>
+
+                {/* Gallery Images */}
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+                    Additional Photos <span className="normal-case font-normal">(slideshow in pop-up — optional)</span>
+                  </label>
+                  <div className="space-y-2 mb-2">
+                    {(ct.galleryImages ?? []).map((url, i) => (
+                      <div key={i} className="flex items-center gap-2 group">
+                        {url && <img src={url} alt="" className="w-12 h-8 object-cover rounded border border-border flex-shrink-0" />}
+                        <input
+                          className={`${inputCls} flex-grow text-xs`}
+                          value={url}
+                          onChange={(e) => {
+                            const updated = [...(ct.galleryImages ?? [])];
+                            updated[i] = e.target.value;
+                            setCustomField(tour.id, "galleryImages", updated);
+                          }}
+                          placeholder="https://..."
+                        />
+                        <button onClick={() => setCustomField(tour.id, "galleryImages", (ct.galleryImages ?? []).filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive flex-shrink-0 transition-colors">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => setCustomField(tour.id, "galleryImages", [...(ct.galleryImages ?? []), ""])}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-dashed border-border rounded-lg hover:bg-muted transition-colors text-muted-foreground"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add Photo URL
+                  </button>
+                </div>
+
+                {/* Description */}
+                <Field label="Description">
+                  <textarea rows={3} className={textareaCls} value={ct.description} onChange={(e) => setCustomField(tour.id, "description", e.target.value)} placeholder="A 2–3 sentence summary shown in the tour card pop-up…" />
+                </Field>
+
+                {/* Highlights */}
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Highlights</label>
+                  <div className="space-y-1.5 mb-2">
+                    {ct.highlights.map((h, i) => (
+                      <div key={i} className="flex items-center gap-2 group">
+                        <span className="text-secondary text-xs">✦</span>
+                        <span className="text-sm flex-grow">{h}</span>
+                        <button onClick={() => removeCustomHighlight(tour.id, i)} className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity">
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={newHighlightCustom[tour.id] ?? ""}
+                      onChange={(e) => setNewHighlightCustom((h) => ({ ...h, [tour.id]: e.target.value }))}
+                      onKeyDown={(e) => e.key === "Enter" && addCustomHighlight(tour.id)}
+                      placeholder="Add a highlight and press Enter…"
+                      className="flex-grow text-sm border border-border rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                    <button onClick={() => addCustomHighlight(tour.id)} className="px-3 py-1.5 text-xs font-semibold bg-muted border border-border rounded-lg hover:bg-muted/80 transition-colors flex items-center gap-1">
+                      <Plus className="w-3.5 h-3.5" /> Add
+                    </button>
+                  </div>
+                </div>
+
+                {/* Categories */}
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-2">Categories</label>
+                  <div className="flex flex-wrap gap-2">
+                    {ALL_CATEGORIES.map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => toggleCategory(tour.id, cat)}
+                        className={`px-3 py-1 text-xs font-medium rounded-full border transition-all ${ct.categories.includes(cat) ? CATEGORY_ACTIVE[cat] : CATEGORY_INACTIVE[cat]}`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Group Size */}
+                <Field label="Group Size">
+                  <input className={inputCls} value={ct.groupSize} onChange={(e) => setCustomField(tour.id, "groupSize", e.target.value)} />
+                </Field>
+
+                {/* Active toggle */}
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input type="checkbox" checked={ct.active} onChange={(e) => setCustomField(tour.id, "active", e.target.checked)} className="rounded" />
+                  Show on Tours page
+                </label>
+              </div>
+            </div>
+          );
+        }
+
+        // Pre-loaded Travefy tours — description + highlights only
         const draft = getDraft(tour);
         return (
           <div key={tour.id} className="bg-card border border-border rounded-xl overflow-hidden">

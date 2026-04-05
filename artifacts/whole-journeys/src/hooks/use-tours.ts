@@ -22,6 +22,7 @@ export const ALL_CATEGORIES = [
   "Biking",
   "Country Estates",
   "Cruise/Sail",
+  "Culinary",
   "Culture",
   "Family",
   "Long Distance Walks",

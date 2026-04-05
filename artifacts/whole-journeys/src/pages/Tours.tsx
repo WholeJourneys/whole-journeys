@@ -93,6 +93,7 @@ export default function Tours() {
     "Biking":              { base: "border-lime-300 text-lime-800 hover:bg-lime-50",             active: "bg-lime-700 text-white border-lime-700" },
     "Country Estates":     { base: "border-stone-300 text-stone-700 hover:bg-stone-50",         active: "bg-stone-700 text-white border-stone-700" },
     "Cruise/Sail":         { base: "border-cyan-200 text-cyan-800 hover:bg-cyan-50",            active: "bg-cyan-800 text-white border-cyan-800" },
+    "Culinary":            { base: "border-red-200 text-red-800 hover:bg-red-50",               active: "bg-red-800 text-white border-red-800" },
     "Culture":             { base: "border-indigo-200 text-indigo-800 hover:bg-indigo-50",      active: "bg-indigo-800 text-white border-indigo-800" },
     "Family":              { base: "border-sky-200 text-sky-800 hover:bg-sky-50",               active: "bg-sky-800 text-white border-sky-800" },
     "Long Distance Walks": { base: "border-yellow-300 text-yellow-800 hover:bg-yellow-50",      active: "bg-yellow-700 text-white border-yellow-700" },

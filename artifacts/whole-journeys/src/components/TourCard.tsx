@@ -20,6 +20,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   "Walk/Hike":           "bg-green-900/75 text-green-50",
   "Wellness":            "bg-rose-900/75 text-rose-50",
   "Wildlife":            "bg-emerald-900/75 text-emerald-50",
+  "Culinary":            "bg-red-700/75 text-red-50",
   "Women's":             "bg-fuchsia-900/75 text-fuchsia-50",
 };
 

@@ -58,7 +58,7 @@ export default function Navbar() {
                 </span>
                 <span
                   className={cn(
-                    "text-[11px] tracking-[0.2em] uppercase font-medium mt-4",
+                    "text-[11px] tracking-[0.2em] uppercase font-medium mt-2",
                     (!isScrolled && isHome) ? "text-white/90" : "text-foreground/60"
                   )}
                 >

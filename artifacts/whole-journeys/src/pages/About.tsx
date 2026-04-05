@@ -87,7 +87,7 @@ export default function About() {
             {/* Photo carousel + Whole Journeys founding story */}
             <div className="space-y-8">
               <div className="relative">
-                <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[600px] relative">
+                <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[380px] sm:h-[500px] lg:h-[600px] relative">
                   {photos.map((photo, i) => (
                     <img
                       key={photo.src}
@@ -98,7 +98,7 @@ export default function About() {
                     />
                   ))}
                 </div>
-                <div className="absolute -bottom-6 left-6 right-6 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-4 border border-white/60 flex items-center justify-between">
+                <div className="absolute bottom-4 left-4 right-4 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-3 border border-white/60 flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-foreground/80">Kathy Dragon</p>
                     <p className="text-xs text-muted-foreground/80 mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>

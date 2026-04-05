@@ -54,9 +54,9 @@ export default function Navbar() {
               />
               <div className="flex flex-col leading-none">
                 <span
-                  style={{ fontFamily: "'Cinzel', serif" }}
+                  style={{ fontFamily: "'Great Vibes', cursive" }}
                   className={cn(
-                    "text-2xl font-semibold tracking-wider",
+                    "text-4xl font-normal",
                     (!isScrolled && isHome) ? "text-white" : "text-foreground"
                   )}
                 >
@@ -133,7 +133,7 @@ export default function Navbar() {
             <div className="flex justify-between items-center p-4 border-b border-border">
               <div className="flex items-center gap-2">
                 <Compass className="w-6 h-6 text-primary" />
-                <span style={{ fontFamily: "'Cinzel', serif" }} className="text-xl font-semibold tracking-wider text-primary">Whole Journeys</span>
+                <span style={{ fontFamily: "'Great Vibes', cursive" }} className="text-3xl font-normal text-primary">Whole Journeys</span>
               </div>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-foreground hover:text-primary">
                 <X className="w-6 h-6" />

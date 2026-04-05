@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-6 group">
               <Compass className="w-8 h-8 text-secondary" />
-              <span style={{ fontFamily: "'Cinzel', serif" }} className="text-2xl font-semibold tracking-wider text-white">
+              <span style={{ fontFamily: "'Great Vibes', cursive" }} className="text-4xl font-normal text-white">
                 Whole Journeys
               </span>
             </Link>

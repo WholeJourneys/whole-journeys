@@ -12,9 +12,9 @@ import { useActiveSpecials, buildSpecialUrl } from "@/hooks/use-specials";
 
 const HERO_SLIDES = [
   {
-    // Aerial view of Dalmatian coastline — no people
+    // Coastal village — likely Cinque Terre
     url: "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1920&q=85",
-    caption: "Dalmatian Coast, Croatia",
+    caption: "Cinque Terre, Italy",
   },
   {
     // Mirror-lake reflection of the Alps — no people
@@ -55,6 +55,14 @@ const HERO_SLIDES = [
   {
     url: "/hero-triglav-hiker.jpg",
     caption: "Hiking Slovenia",
+  },
+  {
+    url: "/hero-dalmatian-coast.jpg",
+    caption: "Dalmatian Coast, Croatia",
+  },
+  {
+    url: "/hero-stari-grad.jpg",
+    caption: "Stari Grad, Hvar, Croatia",
   },
 ];
 

@@ -236,7 +236,7 @@ export const TRAVEFY_TOURS: Tour[] = [
     id: "egypt-family",
     name: "Family Egypt with Red Sea: Sample",
     destination: "Egypt",
-    region: "Africa",
+    region: "Middle East",
     country: ["Egypt"],
     duration: null,
     price: null,

@@ -272,7 +272,7 @@ export default function Home() {
               {specials.map((s) => (
                 <a
                   key={s.id}
-                  href={s.linkUrl || "#"}
+                  href={buildSpecialUrl(s.linkUrl, s.referralTag)}
                   target={s.linkUrl ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   className="group flex gap-4 bg-background rounded-xl border border-border p-4 hover:shadow-md transition-all hover:border-primary/20"

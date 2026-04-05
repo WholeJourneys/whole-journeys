@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon, Loader2, ChevronDown } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
+import ImageUploadInput from "@/components/ImageUploadInput";
 import { useTours, useUpdateTourTags, ALL_CATEGORIES, ALL_REGIONS, TRAVEFY_TOURS } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "@/components/TourCard";
 import {
@@ -166,10 +167,7 @@ function AboutTab() {
           <div className="flex justify-end pt-1"><SaveBtn k="about_subtitle" /></div>
         </Field>
         <Field label="Kathy's Photo URL">
-          <input className={inputCls} value={val("about_photo_url")} onChange={(e) => set("about_photo_url", e.target.value)} />
-          {val("about_photo_url") && (
-            <img src={val("about_photo_url")} alt="Preview" className="mt-2 h-24 w-20 object-cover rounded-lg border border-border" />
-          )}
+          <ImageUploadInput value={val("about_photo_url")} onChange={(v) => set("about_photo_url", v)} />
           <div className="flex justify-end pt-1"><SaveBtn k="about_photo_url" /></div>
         </Field>
       </div>
@@ -209,7 +207,7 @@ function HotelForm({ initial, onSave, onCancel }: { initial: PicksHotel; onSave:
       </div>
       <Field label="Description"><textarea rows={3} className={textareaCls} value={h.description} onChange={(e) => set("description", e.target.value)} /></Field>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Field label="Image URL"><input className={inputCls} placeholder="https://..." value={h.imageUrl} onChange={(e) => set("imageUrl", e.target.value)} /></Field>
+        <Field label="Image"><ImageUploadInput value={h.imageUrl} onChange={(v) => set("imageUrl", v)} /></Field>
         <Field label="Book URL"><input className={inputCls} value={h.bookUrl} onChange={(e) => set("bookUrl", e.target.value)} /></Field>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -319,7 +317,7 @@ function ArticleForm({ initial, onSave, onCancel }: { initial: PicksArticle; onS
         <Field label="Read Time"><input className={inputCls} placeholder="e.g. 6 min read" value={a.readTime} onChange={(e) => set("readTime", e.target.value)} /></Field>
         <Field label="Article URL (Substack)"><input className={inputCls} placeholder="https://..." value={a.url} onChange={(e) => set("url", e.target.value)} /></Field>
       </div>
-      <Field label="Cover Image URL"><input className={inputCls} placeholder="https://..." value={a.imageUrl} onChange={(e) => set("imageUrl", e.target.value)} /></Field>
+      <Field label="Cover Image"><ImageUploadInput value={a.imageUrl} onChange={(v) => set("imageUrl", v)} /></Field>
       <div className="flex items-center justify-between pt-2">
         <label className="flex items-center gap-2 text-sm cursor-pointer">
           <input type="checkbox" checked={a.active} onChange={(e) => set("active", e.target.checked)} className="rounded" />
@@ -562,6 +560,11 @@ function TourContentTab() {
   const [fetchError, setFetchError] = useState<Record<string, string>>({});
   const [newHighlightCustom, setNewHighlightCustom] = useState<Record<string, string>>({});
 
+  const [open, setOpen] = useState<Set<string>>(new Set());
+  function toggleOpen(id: string) {
+    setOpen((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  }
+
   function isCustom(tourId: string) { return tourId.startsWith("custom-"); }
   function getDbId(tourId: string) { return parseInt(tourId.replace("custom-", ""), 10); }
 
@@ -667,15 +670,16 @@ function TourContentTab() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        Custom tours show the full editing form. Pre-loaded tours let you override the description and highlights.
+        Click <strong>Edit</strong> on any tour to expand its editing form. Custom tours have full controls; pre-loaded tours let you edit description and highlights.
       </p>
       {(tours ?? []).map((tour) => {
         if (isCustom(tour.id)) {
           const ct = getCustomDraft(tour.id);
+          const isOpen = open.has(tour.id);
           return (
             <div key={tour.id} className="bg-card border border-border rounded-xl overflow-hidden">
-              {/* Header */}
-              <div className="flex gap-4 p-4 border-b border-border/50">
+              {/* Header — always visible */}
+              <div className="flex gap-4 p-4">
                 <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${ct.imageUrl})` }} />
                 <div className="flex-grow min-w-0">
                   <div className="flex items-start justify-between gap-2">
@@ -686,15 +690,20 @@ function TourContentTab() {
                     </div>
                     <div className="flex items-center gap-2">
                       {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
-                      <button onClick={() => saveCustom(tour.id)} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
-                        <Save className="w-3.5 h-3.5" /> Save
+                      <button
+                        onClick={() => toggleOpen(tour.id)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md border transition-colors ${isOpen ? "bg-muted border-border text-foreground" : "bg-primary text-white border-primary hover:bg-primary/90"}`}
+                      >
+                        <Pencil className="w-3 h-3" />
+                        {isOpen ? "Close" : "Edit"}
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* Full form */}
-              <div className="p-4 space-y-5">
+              {/* Full form — only when expanded */}
+              {isOpen && <div className="border-t border-border/50 p-4 space-y-5">
                 {/* Itinerary URL */}
                 <div>
                   <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
@@ -748,9 +757,8 @@ function TourContentTab() {
                 </Field>
 
                 {/* Hero Image */}
-                <Field label="Hero Image URL">
-                  <input className={inputCls} placeholder="https://..." value={ct.imageUrl} onChange={(e) => setCustomField(tour.id, "imageUrl", e.target.value)} />
-                  {ct.imageUrl && <img src={ct.imageUrl} alt="Preview" className="mt-2 h-24 rounded-lg border border-border object-cover w-full max-w-xs" />}
+                <Field label="Hero Image">
+                  <ImageUploadInput value={ct.imageUrl} onChange={(v) => setCustomField(tour.id, "imageUrl", v)} />
                 </Field>
 
                 {/* Gallery Images */}
@@ -760,21 +768,23 @@ function TourContentTab() {
                   </label>
                   <div className="space-y-2 mb-2">
                     {(ct.galleryImages ?? []).map((url, i) => (
-                      <div key={i} className="flex items-center gap-2 group">
-                        {url && <img src={url} alt="" className="w-12 h-8 object-cover rounded border border-border flex-shrink-0" />}
-                        <input
-                          className={`${inputCls} flex-grow text-xs`}
+                      <div key={i} className="relative border border-border/60 rounded-lg p-2 bg-muted/20">
+                        <button
+                          onClick={() => setCustomField(tour.id, "galleryImages", (ct.galleryImages ?? []).filter((_, idx) => idx !== i))}
+                          className="absolute top-2 right-2 text-muted-foreground hover:text-destructive z-10"
+                          title="Remove photo"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                        <ImageUploadInput
                           value={url}
-                          onChange={(e) => {
+                          onChange={(v) => {
                             const updated = [...(ct.galleryImages ?? [])];
-                            updated[i] = e.target.value;
+                            updated[i] = v;
                             setCustomField(tour.id, "galleryImages", updated);
                           }}
-                          placeholder="https://..."
+                          showPreview={true}
                         />
-                        <button onClick={() => setCustomField(tour.id, "galleryImages", (ct.galleryImages ?? []).filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive flex-shrink-0 transition-colors">
-                          <X className="w-4 h-4" />
-                        </button>
                       </div>
                     ))}
                   </div>
@@ -782,7 +792,7 @@ function TourContentTab() {
                     onClick={() => setCustomField(tour.id, "galleryImages", [...(ct.galleryImages ?? []), ""])}
                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-dashed border-border rounded-lg hover:bg-muted transition-colors text-muted-foreground"
                   >
-                    <Plus className="w-3.5 h-3.5" /> Add Photo URL
+                    <Plus className="w-3.5 h-3.5" /> Add Photo
                   </button>
                 </div>
 
@@ -846,16 +856,23 @@ function TourContentTab() {
                   <input type="checkbox" checked={ct.active} onChange={(e) => setCustomField(tour.id, "active", e.target.checked)} className="rounded" />
                   Show on Tours page
                 </label>
-              </div>
+                {/* Save inside form */}
+                <div className="flex justify-end pt-2 border-t border-border/30">
+                  <button onClick={() => saveCustom(tour.id)} className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                    <Save className="w-3.5 h-3.5" /> Save Changes
+                  </button>
+                </div>
+              </div>}
             </div>
           );
         }
 
         // Pre-loaded Travefy tours — description + highlights only
         const draft = getDraft(tour);
+        const isOpen = open.has(tour.id);
         return (
           <div key={tour.id} className="bg-card border border-border rounded-xl overflow-hidden">
-            <div className="flex gap-4 p-4 border-b border-border/50">
+            <div className="flex gap-4 p-4">
               <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${tour.imageUrl})` }} />
               <div className="flex-grow min-w-0">
                 <div className="flex items-start justify-between gap-2">
@@ -866,20 +883,22 @@ function TourContentTab() {
                   <div className="flex items-center gap-2">
                     {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
                     <button
-                      onClick={() => save(tour.id)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+                      onClick={() => toggleOpen(tour.id)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md border transition-colors ${isOpen ? "bg-muted border-border text-foreground" : "bg-primary text-white border-primary hover:bg-primary/90"}`}
                     >
-                      <Save className="w-3.5 h-3.5" /> Save
+                      <Pencil className="w-3 h-3" />
+                      {isOpen ? "Close" : "Edit"}
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="p-4 space-y-4">
+            {isOpen && <div className="border-t border-border/50 p-4 space-y-4">
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Description</label>
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={draft.description}
                   onChange={(e) => setDescription(tour.id, e.target.value)}
                   className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
@@ -916,7 +935,12 @@ function TourContentTab() {
                   </button>
                 </div>
               </div>
-            </div>
+              <div className="flex justify-end pt-2 border-t border-border/30">
+                <button onClick={() => save(tour.id)} className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                  <Save className="w-3.5 h-3.5" /> Save Changes
+                </button>
+              </div>
+            </div>}
           </div>
         );
       })}
@@ -1039,11 +1063,8 @@ function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; on
       </Field>
 
       {/* Image URL */}
-      <Field label="Hero Image URL">
-        <input className={inputCls} placeholder="https://..." value={t.imageUrl} onChange={(e) => set("imageUrl", e.target.value)} />
-        {t.imageUrl && (
-          <img src={t.imageUrl} alt="Preview" className="mt-2 h-24 rounded-lg border border-border object-cover w-full max-w-xs" />
-        )}
+      <Field label="Hero Image">
+        <ImageUploadInput value={t.imageUrl} onChange={(v) => set("imageUrl", v)} />
       </Field>
 
       {/* Gallery Images */}
@@ -1053,24 +1074,23 @@ function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; on
         </label>
         <div className="space-y-2 mb-2">
           {t.galleryImages.map((url, i) => (
-            <div key={i} className="flex items-center gap-2 group">
-              {url && <img src={url} alt="" className="w-12 h-8 object-cover rounded border border-border flex-shrink-0" />}
-              <input
-                className={`${inputCls} flex-grow text-xs`}
-                value={url}
-                onChange={(e) => {
-                  const updated = [...t.galleryImages];
-                  updated[i] = e.target.value;
-                  set("galleryImages", updated);
-                }}
-                placeholder="https://..."
-              />
+            <div key={i} className="relative border border-border/60 rounded-lg p-2 bg-muted/20">
               <button
                 onClick={() => set("galleryImages", t.galleryImages.filter((_, idx) => idx !== i))}
-                className="text-muted-foreground hover:text-destructive flex-shrink-0 transition-colors"
+                className="absolute top-2 right-2 text-muted-foreground hover:text-destructive z-10"
+                title="Remove photo"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
+              <ImageUploadInput
+                value={url}
+                onChange={(v) => {
+                  const updated = [...t.galleryImages];
+                  updated[i] = v;
+                  set("galleryImages", updated);
+                }}
+                showPreview={true}
+              />
             </div>
           ))}
         </div>
@@ -1078,7 +1098,7 @@ function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; on
           onClick={() => set("galleryImages", [...t.galleryImages, ""])}
           className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-dashed border-border rounded-lg hover:bg-muted transition-colors text-muted-foreground"
         >
-          <Plus className="w-3.5 h-3.5" /> Add Photo URL
+          <Plus className="w-3.5 h-3.5" /> Add Photo
         </button>
         <p className="text-xs text-muted-foreground mt-1.5">These appear in a slideshow alongside the main hero image. Paste image URLs from Travefy or anywhere else.</p>
       </div>

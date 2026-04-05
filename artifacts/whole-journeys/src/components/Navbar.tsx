@@ -29,6 +29,7 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Explore Tours", path: "/tours" },
     { name: "Kathy's Picks", path: "/picks" },
+    { name: "About Kathy", path: "/about" },
   ];
 
   return (
@@ -164,15 +165,6 @@ export default function Navbar() {
                 className="w-full text-center px-6 py-4 bg-primary text-white rounded-md text-lg font-medium shadow-md"
               >
                 Browse & Book Hotels
-              </Link>
-              <Link
-                href="/about"
-                className={cn(
-                  "text-2xl font-display mt-2",
-                  location === "/about" ? "text-primary font-semibold" : "text-muted-foreground"
-                )}
-              >
-                About Kathy
               </Link>
             </nav>
           </motion.div>

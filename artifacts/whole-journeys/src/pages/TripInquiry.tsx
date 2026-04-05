@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import SEO from "@/components/SEO";
 import { useSiteContent } from "@/hooks/use-admin-data";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -43,6 +44,12 @@ export default function TripInquiry() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Plan Your Journey"
+        description="Ready to travel? Tell Kathy Dragon about your dream trip and she'll personally design an extraordinary journey tailored just for you."
+        path="/inquiry"
+        noIndex={false}
+      />
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

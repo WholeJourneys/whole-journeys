@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { Helmet } from "react-helmet-async";
 import { X, MapPin, Globe, Check, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { type Tour } from "@/hooks/use-tours";
 import { CATEGORY_COLORS } from "./TourCard";
@@ -106,8 +107,15 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
   const allImages = [tour.imageUrl, ...(tour.galleryImages ?? [])].filter(Boolean);
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <Dialog.Portal>
+    <>
+      {isOpen && (
+        <Helmet>
+          <title>{tour.name} | Whole Journeys by Kathy Dragon</title>
+          <meta name="description" content={tour.description ?? `Explore the ${tour.name} journey with Whole Journeys.`} />
+        </Helmet>
+      )}
+      <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         <Dialog.Content className="fixed left-[50%] top-[50%] z-[110] grid w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] gap-4 border-none bg-background shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-2xl overflow-hidden max-h-[90vh] flex flex-col">
 
@@ -213,6 +221,7 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
           </div>
         </Dialog.Content>
       </Dialog.Portal>
-    </Dialog.Root>
+      </Dialog.Root>
+    </>
   );
 }

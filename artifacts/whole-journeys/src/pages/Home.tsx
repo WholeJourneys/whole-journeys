@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
+import SEO from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown, Compass, Globe, Shield } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -72,6 +73,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="Curated Experiential Travel"
+        description="Thoughtfully designed extraordinary journeys for curious travelers. Explore signature walking tours in Europe and beyond, personally curated by Kathy Dragon — independent travel advisor and Virtuoso member."
+        path="/"
+      />
       <Navbar />
 
       {/* HERO SECTION */}

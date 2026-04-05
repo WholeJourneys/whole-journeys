@@ -1,4 +1,5 @@
 import { useSiteContent } from "@/hooks/use-admin-data";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -8,6 +9,12 @@ export default function TermsAndConditions() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Terms & Conditions"
+        description="Terms and conditions for Whole Journeys by Kathy Dragon."
+        path="/terms"
+        noIndex={true}
+      />
       <Navbar />
       <main className="flex-1 pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -16,9 +16,9 @@ export interface FeaturedSpecial {
 }
 
 /** Appends referralTag query params to a URL, handling existing ? correctly. */
-export function buildSpecialUrl(linkUrl: string, referralTag: string): string {
+export function buildSpecialUrl(linkUrl: string, referralTag?: string | null): string {
   if (!linkUrl) return "#";
-  if (!referralTag.trim()) return linkUrl;
+  if (!referralTag?.trim()) return linkUrl;
   const sep = linkUrl.includes("?") ? "&" : "?";
   return `${linkUrl}${sep}${referralTag.trim()}`;
 }

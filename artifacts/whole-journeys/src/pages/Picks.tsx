@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SEO from "@/components/SEO";
 import { ExternalLink, BookOpen, Hotel, Map, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -119,6 +120,11 @@ export default function Picks() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Kathy's Picks"
+        description="Kathy Dragon's personal recommendations — handpicked tours, boutique hotels, and travel reads she loves and trusts. Curated for curious, discerning travelers."
+        path="/picks"
+      />
       <Navbar />
 
       {/* Header */}

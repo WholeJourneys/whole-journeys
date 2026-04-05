@@ -94,3 +94,15 @@ Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHea
 ### `scripts` (`@workspace/scripts`)
 
 Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`. Scripts can import any workspace package (e.g., `@workspace/db`) by adding it as a dependency in `scripts/package.json`.
+
+## SEO
+
+`react-helmet-async` is installed and wired throughout the whole-journeys frontend:
+
+- **`HelmetProvider`** wraps the entire app in `App.tsx`
+- **`src/components/SEO.tsx`** — shared SEO component; sets `<title>`, `<meta name="description">`, Open Graph, and Twitter Card tags per page; accepts `title`, `description`, `image`, `path`, `noIndex` props
+- **Every page** (Home, Tours, About, Picks, Hotels, TripInquiry, TermsAndConditions) renders `<SEO>` with page-specific titles and descriptions
+- **TourModal** renders `<Helmet>` directly when open, overriding the page title with the tour name (browser tab reflects the open tour)
+- **`index.html`** has baseline fallback OG tags for crawlers that execute JS late
+- Terms & Conditions page uses `noIndex={true}` to exclude it from search engines
+- Site URL constant: `https://new.wholejourneys.com`

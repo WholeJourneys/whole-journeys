@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import SEO from "@/components/SEO";
 import { Search, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -105,6 +106,11 @@ export default function Tours() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Explore Signature Tours"
+        description="Browse signature walking and cultural tours through France, Italy, Croatia, Spain, and beyond. Small groups and private departures, personally designed by Kathy Dragon."
+        path="/tours"
+      />
       <Navbar />
 
       {/* Header */}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Leaf, Globe, HeartHandshake } from "lucide-react";
@@ -61,6 +62,11 @@ export default function About() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="About Kathy Dragon"
+        description="Meet Kathy Dragon — independent travel advisor and Virtuoso member with decades of experience designing extraordinary, immersive journeys for curious travelers worldwide."
+        path="/about"
+      />
       <Navbar />
 
       {/* Kathy Quote — top of page */}

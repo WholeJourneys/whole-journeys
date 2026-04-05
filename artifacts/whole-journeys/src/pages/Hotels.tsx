@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 import { ExternalLink, Star, Gift, Coffee, ArrowUpRight, CreditCard, Clock, CheckCircle2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -66,6 +67,11 @@ export default function Hotels() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Browse & Book Hotels"
+        description="Discover and book boutique hotels and luxury properties handpicked by Kathy Dragon. Access exclusive Virtuoso perks — complimentary breakfasts, upgrades, and amenities unavailable anywhere else."
+        path="/hotels"
+      />
       <Navbar />
 
       {/* HERO */}

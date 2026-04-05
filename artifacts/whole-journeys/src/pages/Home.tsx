@@ -145,8 +145,57 @@ export default function Home() {
                 <ChevronDown className="w-4 h-4" />
               </button>
             </div>
+
+            {/* ── OPTION C: Below the CTA button — subtle pill row ─────────────── */}
+            {specials && specials.length > 0 && (
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">C</span>
+                {specials.slice(0, 1).map((s) => (
+                  <a key={s.id} href={s.linkUrl || "#"} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 hover:bg-white/20 transition-all text-sm">
+                    {s.badge && <span className="text-[10px] font-bold uppercase tracking-wider text-secondary/90">{s.badge}</span>}
+                    <span className="font-medium">{s.title}</span>
+                    <span className="text-white/50">→</span>
+                  </a>
+                ))}
+              </div>
+            )}
           </motion.div>
         </div>
+
+        {/* ── OPTION B: Bottom-right floating card ──────────────────────────── */}
+        {specials && specials.length > 0 && (
+          <div className="absolute bottom-16 right-6 z-10">
+            <span className="absolute -top-5 right-0 text-[10px] font-bold uppercase tracking-widest text-white/50">B</span>
+            {specials.slice(0, 1).map((s) => (
+              <a key={s.id} href={s.linkUrl || "#"} target="_blank" rel="noopener noreferrer"
+                className="flex flex-col gap-1 w-56 px-4 py-3 rounded-xl bg-black/40 backdrop-blur-md border border-white/15 text-white hover:bg-black/55 transition-all">
+                {s.badge && <span className="text-[10px] font-bold uppercase tracking-widest text-secondary/90">{s.badge}</span>}
+                <span className="text-sm font-semibold leading-snug">{s.title}</span>
+                {s.description && <span className="text-xs text-white/60 leading-snug">{s.description}</span>}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* ── OPTION A: Full-width bottom strip ─────────────────────────────── */}
+        {specials && specials.length > 0 && (
+          <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-black/30 backdrop-blur-sm">
+            <span className="absolute -top-5 left-2 text-[10px] font-bold uppercase tracking-widest text-white/50">A</span>
+            <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center gap-4 overflow-x-auto">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 flex-shrink-0 hidden sm:block">Featured</span>
+              {specials.map((s) => (
+                <a key={s.id} href={s.linkUrl || "#"} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 flex-shrink-0 group">
+                  {s.badge && <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-secondary/30 text-secondary border border-secondary/20">{s.badge}</span>}
+                  <span className="text-sm text-white/85 font-medium group-hover:text-white transition-colors">{s.title}</span>
+                  {s.linkUrl && <span className="text-white/30 group-hover:text-white/60 transition-colors text-xs">→</span>}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
       </section>
 
       {/* PHILOSOPHY/INTRO */}

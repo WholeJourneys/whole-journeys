@@ -263,7 +263,7 @@ export default function About() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-display text-primary mb-4">Ready to Plan Your Journey?</h2>
           <p className="text-muted-foreground mb-8 leading-relaxed">
-            Send Kathy an email at <a href="mailto:travel@wholejourneys.com" className="text-secondary hover:underline font-medium">travel@wholejourneys.com</a> — she loves talking travel.
+            <a href="mailto:travel@wholejourneys.com" className="text-secondary hover:underline font-medium">Send Kathy an email</a> — she loves talking travel.
           </p>
           <a
             href="mailto:travel@wholejourneys.com"

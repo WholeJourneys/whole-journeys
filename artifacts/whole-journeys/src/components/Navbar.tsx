@@ -29,7 +29,6 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Explore Tours", path: "/tours" },
     { name: "Kathy's Picks", path: "/picks" },
-    { name: "About Kathy", path: "/about" },
   ];
 
   return (
@@ -159,6 +158,15 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                href="/about"
+                className={cn(
+                  "text-2xl font-display",
+                  location === "/about" ? "text-primary font-semibold" : "text-muted-foreground"
+                )}
+              >
+                About Kathy
+              </Link>
               <div className="w-full h-px bg-border my-4" />
               <Link
                 href="/hotels"

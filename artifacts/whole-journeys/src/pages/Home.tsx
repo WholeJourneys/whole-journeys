@@ -59,6 +59,10 @@ const HERO_SLIDES = [
     url: "/hero-stari-grad.jpg",
     caption: "Stari Grad, Hvar, Croatia",
   },
+  {
+    url: "/hero-portugal-womens.jpg",
+    caption: "Women's Hike, Portugal",
+  },
 ];
 
 const SLIDE_INTERVAL = 6000;

@@ -223,33 +223,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* COASTLINE BOOKING SECTION */}
-      <section className="py-24 relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80')` }}
-        />
-        <div className="absolute inset-0 bg-primary/90" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <Compass className="w-12 h-12 text-secondary mx-auto mb-6" />
-          <h2 className="text-4xl md:text-5xl font-display text-white mb-6">
-            Ready to book a hotel?
-          </h2>
-          <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-            Browse and book top hotels directly through my booking portal — with exclusive Virtuoso perks like complimentary breakfast, room upgrades, and property credits that you can't get on your own.
-          </p>
-          <a
-            href="https://travelpro365.com/consumer/wholejourneys"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-10 py-5 bg-white text-primary rounded-sm font-semibold tracking-wide uppercase hover:bg-secondary hover:text-white transition-colors shadow-xl"
-          >
-            Browse &amp; Book Hotels
-          </a>
-        </div>
-      </section>
-
       {/* VALUE PROPS */}
       <section className="py-20 bg-background border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -276,6 +249,33 @@ export default function Home() {
               <p className="text-muted-foreground text-base">From first conversation to your journey home, you work with me directly — not a team, not a ticket queue.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* COASTLINE BOOKING SECTION */}
+      <section className="py-24 relative overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=80')` }}
+        />
+        <div className="absolute inset-0 bg-primary/90" />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+          <Compass className="w-12 h-12 text-secondary mx-auto mb-6" />
+          <h2 className="text-4xl md:text-5xl font-display text-white mb-6">
+            Ready to book a hotel?
+          </h2>
+          <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+            Browse and book top hotels directly through my booking portal — with exclusive Virtuoso perks like complimentary breakfast, room upgrades, and property credits that you can't get on your own.
+          </p>
+          <a
+            href="https://travelpro365.com/consumer/wholejourneys"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-10 py-5 bg-white text-primary rounded-sm font-semibold tracking-wide uppercase hover:bg-secondary hover:text-white transition-colors shadow-xl"
+          >
+            Browse &amp; Book Hotels
+          </a>
         </div>
       </section>
 

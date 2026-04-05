@@ -134,11 +134,13 @@ export function useDeleteArticle() {
   });
 }
 
-// ─── TOUR CONTENT (description + highlights) ──────────────────────────────────
+// ─── TOUR CONTENT (description + highlights + destination + groupSize) ────────
 
 export interface TourContent {
   description: string | null;
   highlights: string[];
+  destination: string | null;
+  groupSize: string | null;
 }
 
 export function useTourContent() {
@@ -155,11 +157,11 @@ export function useTourContent() {
 export function useSaveTourContent() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ tourId, description, highlights }: { tourId: string } & TourContent) => {
+    mutationFn: async ({ tourId, description, highlights, destination, groupSize }: { tourId: string } & TourContent) => {
       const res = await fetch(`${API}/tours/content/${tourId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description, highlights }),
+        body: JSON.stringify({ description, highlights, destination, groupSize }),
       });
       return res.json();
     },

@@ -43,9 +43,14 @@ router.put("/tours/tags/:tourId", async (req, res) => {
 router.get("/tours/content", async (_req, res) => {
   try {
     const rows = await db.select().from(tourContentTable);
-    const map: Record<string, { description: string | null; highlights: string[] }> = {};
+    const map: Record<string, { description: string | null; highlights: string[]; destination: string | null; groupSize: string | null }> = {};
     for (const row of rows) {
-      map[row.tourId] = { description: row.description, highlights: row.highlights };
+      map[row.tourId] = {
+        description: row.description,
+        highlights: row.highlights,
+        destination: row.destination ?? null,
+        groupSize: row.groupSize ?? null,
+      };
     }
     res.json(map);
   } catch (err) {
@@ -55,7 +60,12 @@ router.get("/tours/content", async (_req, res) => {
 
 router.put("/tours/content/:tourId", async (req, res) => {
   const { tourId } = req.params;
-  const { description, highlights } = req.body as { description?: string; highlights?: string[] };
+  const { description, highlights, destination, groupSize } = req.body as {
+    description?: string;
+    highlights?: string[];
+    destination?: string;
+    groupSize?: string;
+  };
 
   try {
     await db
@@ -64,16 +74,20 @@ router.put("/tours/content/:tourId", async (req, res) => {
         tourId,
         description: description ?? null,
         highlights: highlights ?? [],
+        destination: destination ?? null,
+        groupSize: groupSize ?? null,
       })
       .onConflictDoUpdate({
         target: tourContentTable.tourId,
         set: {
           description: description ?? null,
           highlights: highlights ?? [],
+          destination: destination ?? null,
+          groupSize: groupSize ?? null,
           updatedAt: new Date(),
         },
       });
-    res.json({ tourId, description, highlights });
+    res.json({ tourId, description, highlights, destination, groupSize });
   } catch (err) {
     res.status(500).json({ error: "Failed to save tour content" });
   }

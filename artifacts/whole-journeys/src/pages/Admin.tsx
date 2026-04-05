@@ -550,8 +550,8 @@ function TourContentTab() {
   const saveTourContent = useSaveTourContent();
   const saveCustomTour = useSaveCustomTour();
 
-  // ── Travefy tour state (description + highlights) ──────────────────────────
-  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[] }>>({});
+  // ── Travefy tour state (description + highlights + destination + groupSize) ─
+  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[]; destination: string; groupSize: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
 
@@ -623,23 +623,29 @@ function TourContentTab() {
   }
 
   // ── Travefy tour helpers ───────────────────────────────────────────────────
-  function getDraft(tour: { id: string; description: string; highlights: string[] }) {
+  function getDraft(tour: { id: string; description: string; highlights: string[]; destination: string; groupSize: string }) {
     if (drafts[tour.id]) return drafts[tour.id];
     const db = dbContent[tour.id];
     return {
       description: db?.description ?? tour.description,
       highlights: db?.highlights?.length ? db.highlights : tour.highlights,
+      destination: db?.destination ?? tour.destination ?? "",
+      groupSize: db?.groupSize ?? tour.groupSize ?? "",
     };
   }
 
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
-    if (!tour) return { description: "", highlights: [] };
+    if (!tour) return { description: "", highlights: [], destination: "", groupSize: "" };
     return getDraft(tour);
   }
 
   function setDescription(tourId: string, value: string) {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
+  }
+
+  function setDraftField(tourId: string, key: "destination" | "groupSize", value: string) {
+    setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), [key]: value } }));
   }
 
   function addHighlight(tourId: string) {
@@ -658,7 +664,7 @@ function TourContentTab() {
   function save(tourId: string) {
     const draft = getDraftById(tourId);
     saveTourContent.mutate(
-      { tourId, description: draft.description, highlights: draft.highlights },
+      { tourId, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null },
       {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
@@ -896,6 +902,29 @@ function TourContentTab() {
               </div>
             </div>
             {isOpen && <div className="border-t border-border/50 p-4 space-y-4">
+              {/* Destination + Group Size */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Destination</label>
+                  <input
+                    className={inputCls}
+                    value={draft.destination}
+                    onChange={(e) => setDraftField(tour.id, "destination", e.target.value)}
+                    placeholder="e.g. Tuscany, Italy"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Shown on the tour card below the name.</p>
+                </div>
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Group Size</label>
+                  <input
+                    className={inputCls}
+                    value={draft.groupSize}
+                    onChange={(e) => setDraftField(tour.id, "groupSize", e.target.value)}
+                    placeholder="e.g. Small groups of 8–14"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Shown in tour details / pop-up.</p>
+                </div>
+              </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Description</label>
                 <textarea

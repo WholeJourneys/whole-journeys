@@ -337,7 +337,7 @@ async function fetchTags(): Promise<Record<string, string[]>> {
   }
 }
 
-async function fetchContent(): Promise<Record<string, { description: string | null; highlights: string[] }>> {
+async function fetchContent(): Promise<Record<string, { description: string | null; highlights: string[]; destination: string | null; groupSize: string | null }>> {
   try {
     const res = await fetch(`${BASE_API}/tours/content`);
     if (!res.ok) return {};
@@ -404,6 +404,8 @@ export function useTours() {
           categories: storedTags[tour.id] ?? tour.categories,
           description: content?.description ?? tour.description,
           highlights: content?.highlights?.length ? content.highlights : tour.highlights,
+          destination: content?.destination ?? tour.destination,
+          groupSize: content?.groupSize ?? tour.groupSize,
         };
       });
       return [...hardcoded, ...customTours];

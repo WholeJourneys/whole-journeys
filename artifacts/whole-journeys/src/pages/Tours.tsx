@@ -12,13 +12,11 @@ export default function Tours() {
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeRegions, setActiveRegions] = useState<string[]>([]);
 
-  function toggleCategory(cat: string) {
-    setActiveCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
+  function selectCategory(cat: string) {
+    setActiveCategory((prev) => (prev === cat ? null : cat));
   }
 
   function toggleRegion(region: string) {
@@ -29,11 +27,11 @@ export default function Tours() {
 
   function clearAll() {
     setSearchQuery("");
-    setActiveCategories([]);
+    setActiveCategory(null);
     setActiveRegions([]);
   }
 
-  const hasFilters = searchQuery || activeCategories.length > 0 || activeRegions.length > 0;
+  const hasFilters = searchQuery || activeCategory !== null || activeRegions.length > 0;
 
   // Only show region/category chips that have at least one tour
   const usedRegions = useMemo(() => {
@@ -63,8 +61,7 @@ export default function Tours() {
       tour.country.some((c) => c.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const matchesCategory = (tour: Tour) =>
-      activeCategories.length === 0 ||
-      activeCategories.every((cat) => tour.categories.includes(cat));
+      activeCategory === null || tour.categories.includes(activeCategory);
 
     const matchesRegion = (tour: Tour) =>
       activeRegions.length === 0 || activeRegions.includes(tour.region);
@@ -74,7 +71,7 @@ export default function Tours() {
     if (full.length > 0) return { filteredTours: full, fallbackMode: null };
 
     // If no results and both style+region are active, try falling back gracefully
-    if (activeCategories.length > 0 && activeRegions.length > 0) {
+    if (activeCategory !== null && activeRegions.length > 0) {
       const styleOnly = tours.filter((t) => matchesSearch(t) && matchesCategory(t));
       if (styleOnly.length > 0) return { filteredTours: styleOnly, fallbackMode: "style-only" };
 
@@ -82,11 +79,11 @@ export default function Tours() {
       if (regionOnly.length > 0) return { filteredTours: regionOnly, fallbackMode: "region-only" };
     }
 
-    // Last resort: show all (only when there's a search query or single filter)
+    // Last resort: show all
     if (hasFilters) return { filteredTours: tours, fallbackMode: "all" };
 
     return { filteredTours: tours, fallbackMode: null };
-  }, [tours, searchQuery, activeCategories, activeRegions, hasFilters]);
+  }, [tours, searchQuery, activeCategory, activeRegions, hasFilters]);
 
   const CATEGORY_COLORS: Record<string, { base: string; active: string }> = {
     "Adventure":           { base: "border-amber-300 text-amber-800 hover:bg-amber-50",         active: "bg-amber-800 text-white border-amber-800" },
@@ -148,9 +145,9 @@ export default function Tours() {
           </div>
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => setActiveCategories([])}
+              onClick={() => setActiveCategory(null)}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
-                activeCategories.length === 0
+                activeCategory === null
                   ? "bg-primary text-white border-primary"
                   : "border-border text-muted-foreground hover:bg-muted/50"
               }`}
@@ -159,11 +156,11 @@ export default function Tours() {
             </button>
             {usedCategories.map((cat) => {
               const colors = CATEGORY_COLORS[cat];
-              const isActive = activeCategories.includes(cat);
+              const isActive = activeCategory === cat;
               return (
                 <button
                   key={cat}
-                  onClick={() => toggleCategory(cat)}
+                  onClick={() => selectCategory(cat)}
                   className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
                     isActive ? colors.active : colors.base
                   }`}
@@ -216,7 +213,7 @@ export default function Tours() {
             {fallbackMode ? (
               <div className="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-200 px-4 py-2 rounded-lg">
                 <span>
-                  {fallbackMode === "style-only" && `No ${activeCategories.join(" + ")} tours in that region — showing all ${activeCategories.join(" + ")} tours instead.`}
+                  {fallbackMode === "style-only" && `No ${activeCategory} tours in that region — showing all ${activeCategory} tours instead.`}
                   {fallbackMode === "region-only" && `No tours in that region with that style — showing all ${activeRegions.join(", ")} tours instead.`}
                   {fallbackMode === "all" && "No tours match those filters — showing all tours instead."}
                 </span>

@@ -1372,13 +1372,15 @@ function PagesTab() {
 
 // ─── SPECIALS TAB ──────────────────────────────────────────────────────────────
 
+const DEFAULT_REFERRAL_TAG = "iata=05504844&agent=KathyDragon&company=WholJourneys";
+
 const BLANK_SPECIAL: Omit<FeaturedSpecial, "id" | "updatedAt"> = {
   title: "",
   badge: "",
   description: "",
   imageUrl: "",
   linkUrl: "",
-  referralTag: "",
+  referralTag: DEFAULT_REFERRAL_TAG,
   sortOrder: 0,
   active: true,
 };
@@ -1500,7 +1502,7 @@ function SpecialsTab() {
                         className={inputCls}
                         value={editing.referralTag}
                         onChange={(e) => setField("referralTag", e.target.value)}
-                        placeholder="e.g. ref=wholejourneys&iata=12345678&agent=KathyDragon"
+                        placeholder="e.g. iata=05504844&agent=KathyDragon&company=WholJourneys"
                       />
                       {editing.linkUrl && editing.referralTag && (
                         <p className="text-xs text-muted-foreground mt-1 break-all">
@@ -1558,7 +1560,7 @@ function SpecialsTab() {
               className={inputCls}
               value={draft.referralTag}
               onChange={(e) => setField("referralTag", e.target.value)}
-              placeholder="e.g. ref=wholejourneys&iata=12345678&agent=KathyDragon"
+              placeholder="e.g. iata=05504844&agent=KathyDragon&company=WholJourneys"
             />
             {draft.linkUrl && draft.referralTag && (
               <p className="text-xs text-muted-foreground mt-1 break-all">

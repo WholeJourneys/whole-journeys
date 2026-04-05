@@ -202,7 +202,7 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                   </div>
                 </div>
 
-                <div className="pt-6 space-y-3">
+                <div className="hidden lg:block pt-6 space-y-3">
                   <a
                     href={tour.travefyUrl}
                     target="_blank"
@@ -218,6 +218,21 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               </div>
 
             </div>
+          </div>
+
+          {/* Mobile-only sticky CTA */}
+          <div className="lg:hidden flex-shrink-0 px-6 py-4 border-t border-border bg-background">
+            <a
+              href={tour.travefyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors shadow-sm flex items-center justify-center gap-2"
+            >
+              View Full Itinerary <ExternalLink className="w-4 h-4" />
+            </a>
+            <p className="text-xs text-center text-muted-foreground italic mt-2">
+              All itineraries are sample tours — fully customizable for your group.
+            </p>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

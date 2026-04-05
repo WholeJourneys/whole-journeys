@@ -165,6 +165,15 @@ export default function Navbar() {
               >
                 Browse & Book Hotels
               </Link>
+              <Link
+                href="/about"
+                className={cn(
+                  "text-2xl font-display mt-2",
+                  location === "/about" ? "text-primary font-semibold" : "text-muted-foreground"
+                )}
+              >
+                About Kathy
+              </Link>
             </nav>
           </motion.div>
         )}

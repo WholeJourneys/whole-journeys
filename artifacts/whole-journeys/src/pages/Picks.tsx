@@ -151,10 +151,13 @@ export default function Picks() {
       {showArticles && (
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 mb-10">
+            <div className="flex items-center gap-3 mb-4">
               <BookOpen className="w-6 h-6 text-secondary" />
-              <h2 className="text-3xl font-display text-primary">From the Journal</h2>
+              <h2 className="text-3xl font-display text-primary">Kathy's Substack</h2>
             </div>
+            <p className="text-muted-foreground mb-10 text-sm">
+              Dispatches from the road — travel stories, tips, and recommendations from Kathy's newsletter.
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {displayArticles.map((article, idx) => (
                 <motion.a

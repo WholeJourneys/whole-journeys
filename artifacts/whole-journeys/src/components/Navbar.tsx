@@ -29,7 +29,6 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Explore Tours", path: "/tours" },
     { name: "Kathy's Picks", path: "/picks" },
-    { name: "About Kathy", path: "/about" },
   ];
 
   return (
@@ -96,6 +95,19 @@ export default function Navbar() {
                 )}
               >
                 Browse &amp; Book Hotels
+              </Link>
+              <Link
+                href="/about"
+                className={cn(
+                  "text-base font-medium tracking-wide uppercase transition-colors duration-200 hover:text-secondary",
+                  location === "/about"
+                    ? "text-secondary"
+                    : (!isScrolled && isHome)
+                      ? "text-white/90 hover:text-white"
+                      : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                About Kathy
               </Link>
             </nav>
 

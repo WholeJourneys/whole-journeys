@@ -7,6 +7,7 @@ export const featuredSpecialsTable = pgTable("featured_specials", {
   description: text("description").notNull().default(""),
   imageUrl: text("image_url").notNull().default(""),
   linkUrl: text("link_url").notNull().default(""),
+  referralTag: text("referral_tag").notNull().default(""),
   sortOrder: integer("sort_order").notNull().default(0),
   active: boolean("active").notNull().default(true),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),

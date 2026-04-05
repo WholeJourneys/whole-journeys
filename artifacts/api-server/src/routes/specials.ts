@@ -22,6 +22,7 @@ router.post("/specials", async (req, res) => {
       description: body.description ?? "",
       imageUrl: body.imageUrl ?? "",
       linkUrl: body.linkUrl ?? "",
+      referralTag: body.referralTag ?? "",
       sortOrder: body.sortOrder ?? 0,
       active: body.active ?? true,
     }).returning();

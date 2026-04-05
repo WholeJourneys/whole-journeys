@@ -1378,6 +1378,7 @@ const BLANK_SPECIAL: Omit<FeaturedSpecial, "id" | "updatedAt"> = {
   description: "",
   imageUrl: "",
   linkUrl: "",
+  referralTag: "",
   sortOrder: 0,
   active: true,
 };
@@ -1442,7 +1443,7 @@ function SpecialsTab() {
         <div className="space-y-2">
           {specials.map((s) => {
             const isOpen = openIds.has(s.id);
-            const editing = editingId === s.id ? draft : { title: s.title, badge: s.badge, description: s.description, imageUrl: s.imageUrl, linkUrl: s.linkUrl, sortOrder: s.sortOrder, active: s.active };
+            const editing = editingId === s.id ? draft : { title: s.title, badge: s.badge, description: s.description, imageUrl: s.imageUrl, linkUrl: s.linkUrl, referralTag: s.referralTag ?? "", sortOrder: s.sortOrder, active: s.active };
             return (
               <div key={s.id} className="border border-border rounded-xl overflow-hidden bg-card">
                 <div className="flex items-center justify-between px-4 py-3 gap-3">
@@ -1492,6 +1493,22 @@ function SpecialsTab() {
                       <input className={inputCls} value={editing.linkUrl} onChange={(e) => setField("linkUrl", e.target.value)} placeholder="https://…" />
                     </div>
                     <div>
+                      <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+                        Referral Tag <span className="normal-case font-normal text-muted-foreground">(appended to link for agent credit)</span>
+                      </label>
+                      <input
+                        className={inputCls}
+                        value={editing.referralTag}
+                        onChange={(e) => setField("referralTag", e.target.value)}
+                        placeholder="e.g. ref=wholejourneys&iata=12345678&agent=KathyDragon"
+                      />
+                      {editing.linkUrl && editing.referralTag && (
+                        <p className="text-xs text-muted-foreground mt-1 break-all">
+                          Final URL: <span className="text-foreground">{editing.linkUrl}{editing.linkUrl.includes("?") ? "&" : "?"}{editing.referralTag}</span>
+                        </p>
+                      )}
+                    </div>
+                    <div>
                       <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Image (optional)</label>
                       <ImageUploadInput value={editing.imageUrl} onChange={(v) => setField("imageUrl", v)} />
                     </div>
@@ -1532,6 +1549,22 @@ function SpecialsTab() {
           <div>
             <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Link URL</label>
             <input className={inputCls} value={draft.linkUrl} onChange={(e) => setField("linkUrl", e.target.value)} placeholder="https://…" />
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+              Referral Tag <span className="normal-case font-normal text-muted-foreground">(appended to link for agent credit)</span>
+            </label>
+            <input
+              className={inputCls}
+              value={draft.referralTag}
+              onChange={(e) => setField("referralTag", e.target.value)}
+              placeholder="e.g. ref=wholejourneys&iata=12345678&agent=KathyDragon"
+            />
+            {draft.linkUrl && draft.referralTag && (
+              <p className="text-xs text-muted-foreground mt-1 break-all">
+                Final URL: <span className="text-foreground">{draft.linkUrl}{draft.linkUrl.includes("?") ? "&" : "?"}{draft.referralTag}</span>
+              </p>
+            )}
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Image (optional)</label>

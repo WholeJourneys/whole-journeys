@@ -9,9 +9,18 @@ export interface FeaturedSpecial {
   description: string;
   imageUrl: string;
   linkUrl: string;
+  referralTag: string;
   sortOrder: number;
   active: boolean;
   updatedAt: string;
+}
+
+/** Appends referralTag query params to a URL, handling existing ? correctly. */
+export function buildSpecialUrl(linkUrl: string, referralTag: string): string {
+  if (!linkUrl) return "#";
+  if (!referralTag.trim()) return linkUrl;
+  const sep = linkUrl.includes("?") ? "&" : "?";
+  return `${linkUrl}${sep}${referralTag.trim()}`;
 }
 
 export function useSpecials() {

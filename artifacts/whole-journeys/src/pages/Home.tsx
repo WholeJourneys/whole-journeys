@@ -50,11 +50,11 @@ const HERO_SLIDES = [
   },
   {
     url: "/hero-triglav-lake.jpg",
-    caption: "Triglav National Park, Slovenia",
+    caption: "7 Lakes Hike, Triglav National Park",
   },
   {
     url: "/hero-triglav-hiker.jpg",
-    caption: "Triglav National Park, Slovenia",
+    caption: "Hiking Slovenia",
   },
 ];
 

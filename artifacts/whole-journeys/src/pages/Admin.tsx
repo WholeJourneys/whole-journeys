@@ -487,12 +487,23 @@ function TourTagsTab() {
   const { data: tours } = useTours();
   const updateTags = useUpdateTourTags();
   const [saved, setSaved] = useState<Record<string, boolean>>({});
+  const [saveError, setSaveError] = useState<Record<string, boolean>>({});
 
   function toggleTag(tourId: string, cat: string, current: string[]) {
     const next = current.includes(cat) ? current.filter((c) => c !== cat) : [...current, cat];
-    updateTags.mutate({ tourId, categories: next });
-    setSaved((s) => ({ ...s, [tourId]: true }));
-    setTimeout(() => setSaved((s) => ({ ...s, [tourId]: false })), 1500);
+    updateTags.mutate(
+      { tourId, categories: next },
+      {
+        onSuccess: () => {
+          setSaved((s) => ({ ...s, [tourId]: true }));
+          setTimeout(() => setSaved((s) => ({ ...s, [tourId]: false })), 1500);
+        },
+        onError: () => {
+          setSaveError((s) => ({ ...s, [tourId]: true }));
+          setTimeout(() => setSaveError((s) => ({ ...s, [tourId]: false })), 3000);
+        },
+      }
+    );
   }
 
   function resetTags(tourId: string) {
@@ -519,6 +530,7 @@ function TourTagsTab() {
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
+                  {saveError[tour.id] && <span className="text-xs text-red-500 font-medium">Save failed</span>}
                   <button onClick={() => resetTags(tour.id)} title="Reset to defaults" className="text-muted-foreground hover:text-foreground p-1 rounded"><RotateCcw className="w-3.5 h-3.5" /></button>
                 </div>
               </div>
@@ -553,6 +565,7 @@ function TourContentTab() {
   // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
   const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
+  const [saveError, setSaveError] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
 
   // ── Custom tour state (full form) ─────────────────────────────────────────
@@ -672,6 +685,10 @@ function TourContentTab() {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
           setTimeout(() => setSaved((s) => ({ ...s, [tourId]: false })), 2000);
+        },
+        onError: () => {
+          setSaveError((s) => ({ ...s, [tourId]: true }));
+          setTimeout(() => setSaveError((s) => ({ ...s, [tourId]: false })), 4000);
         },
       }
     );
@@ -892,6 +909,7 @@ function TourContentTab() {
                   </div>
                   <div className="flex items-center gap-2">
                     {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
+                    {saveError[tour.id] && <span className="text-xs text-red-500 font-medium">Save failed — use wholejourneys.com/admin</span>}
                     <button
                       onClick={() => toggleOpen(tour.id)}
                       className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md border transition-colors ${isOpen ? "bg-muted border-border text-foreground" : "bg-primary text-white border-primary hover:bg-primary/90"}`}

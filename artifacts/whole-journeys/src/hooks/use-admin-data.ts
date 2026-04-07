@@ -166,6 +166,7 @@ export function useSaveTourContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }),
       });
+      if (!res.ok) throw new Error(`Save failed (${res.status})`);
       return res.json();
     },
     onSuccess: () => {

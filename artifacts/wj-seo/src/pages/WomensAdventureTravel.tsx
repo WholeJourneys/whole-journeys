@@ -20,10 +20,10 @@ export default function WomensAdventureTravel() {
             Women's Travel
           </p>
           <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 600, lineHeight: 1.2, marginBottom: "1rem" }}>
-            Women's Adventure Travel — Active, Expert-Led, All-Female
+            Women's Adventure Travel — Active, Expert-Led, Women-Only Groups
           </h1>
           <p style={{ opacity: 0.75, fontSize: "1rem", lineHeight: 1.7 }}>
-            Women's adventure travel on a guided tour is an all-female group experience — guests and guide — that combines hiking, walking, or multi-sport activity with the particular social dynamic of women traveling together. Kathy Dragon has been leading women's-only adventures for over two decades.
+            Women's adventure travel on a Whole Journeys trip is a women-only group experience that combines hiking, walking, or multi-sport activity with the particular social dynamic of women traveling together. Kathy Dragon has been designing and leading women's adventures for over two decades.
           </p>
         </div>
       </section>
@@ -32,7 +32,7 @@ export default function WomensAdventureTravel() {
         <div className="prose-wj">
 
           <p style={{ fontSize: "1.05rem", fontWeight: 500, color: primary, lineHeight: 1.7 }}>
-            Women's adventure travel on a guided tour is an all-female group experience — guests and guide — that combines hiking, walking, or multi-sport activity with the particular social dynamic of women traveling together, which many participants describe as distinctly different from mixed-group active travel.
+            Women's adventure travel on a guided tour is a women-only group experience that combines hiking, walking, or multi-sport activity with the particular social dynamic of women traveling together — which many participants describe as distinctly different from mixed-group active travel.
           </p>
 
           <h2>What is the 2026 Women's Highlights of the Camino de Santiago?</h2>
@@ -40,7 +40,7 @@ export default function WomensAdventureTravel() {
             The 2026 Women's Highlights of the Camino de Santiago is a scheduled group departure — the only fixed-date Whole Journeys departure in the current calendar — designed for women who want to walk one of the most meaningful routes in the world in the company of like-minded women, guided by Kathy Dragon.
           </p>
           <p>
-            The trip follows the Camino de Santiago Francés route — the most walked pilgrimage in the world — completing the most soul-rich highlights sections and arriving at the Cathedral of Santiago de Compostela on foot. The group size is a maximum of 12 guests. Luggage is transferred daily between boutique properties. A local guide joins on key cultural and historical days. The format is designed to give participants both the independence of the Camino experience and the community of a like-minded women's group.
+            The trip follows the Camino de Santiago Francés route — the most walked pilgrimage in the world — completing the most soul-rich highlights sections and arriving at the Cathedral of Santiago de Compostela on foot. The group size is a maximum of 12 guests. Luggage is transferred daily between boutique properties. Kathy guides throughout the trip, joined by the best local expert guides on key cultural and historical days. The format is designed to give participants both the independence of the Camino experience and the community of a like-minded women's group.
           </p>
           <p>
             To inquire about availability and dates for the 2026 Women's Camino departure, contact Kathy at <a href="mailto:kathy@wholejourneys.com">kathy@wholejourneys.com</a>.
@@ -51,7 +51,7 @@ export default function WomensAdventureTravel() {
             The consistent feedback from Whole Journeys women's trip alumni is that the group dynamic in a women's-only setting changes the experience of the trip in ways that are hard to predict before going and unmistakable after. The conversations are different. The pace is different — not faster or slower, but more negotiated and more honest. The support given and received between strangers who become close acquaintances over seven to ten days of shared physical effort is different.
           </p>
           <p>
-            Kathy Dragon has been leading women's adventures since the 1990s — which means she has seen this dynamic at work across dozens of trips and itineraries. She designs the social structure of her women's trips deliberately: shared meals are included, the evenings are structured loosely enough for conversation to develop naturally, and the local women experts who join on key days are selected for the quality of their first-hand knowledge as much as their guiding skill.
+            Kathy Dragon has been leading women's adventures since the 1990s — which means she has seen this dynamic at work across dozens of trips and itineraries. She is always one of the guides on the trips she designs, and she partners with the best local experts in each destination — selected as much for the quality of their first-hand knowledge as for their guiding skill. She designs the social structure of her women's trips deliberately: shared meals are included, the evenings are structured loosely enough for conversation to develop naturally.
           </p>
 
           <h2>What is the Slovenia Women's Hike?</h2>

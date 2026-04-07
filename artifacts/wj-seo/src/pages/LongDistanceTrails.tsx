@@ -11,14 +11,14 @@ const trails = [
     distance: "800 km (full) / 100–200 km highlights version",
     countries: "Spain",
     recognition: "The most-walked pilgrimage route in the world",
-    description: "The Camino de Santiago Francés is an 800-kilometer waymarked pilgrimage route across northern Spain, ending at the Cathedral of Santiago de Compostela. Whole Journeys offers a highlights version — the most memorable sections of the route — with luggage transferred daily between boutique properties and a local guide joining on key cultural days. The 2026 Women's Highlights of the Camino is a scheduled group departure for women.",
+    description: "The Camino de Santiago Francés is an 800-kilometer waymarked pilgrimage route across northern Spain, ending at the Cathedral of Santiago de Compostela. Whole Journeys offers a highlights version — the most memorable sections of the route — with luggage transferred daily between boutique properties. Kathy guides throughout, joined by the best local expert guides on key cultural days. The 2026 Women's Highlights of the Camino is a scheduled group departure for women.",
   },
   {
     name: "Camino Portuguese Coastal Route",
     distance: "280 km (full) / Porto to Santiago highlights",
     countries: "Portugal and Spain",
     recognition: "Guest favourite — most popular Whole Journeys itinerary",
-    description: "The Camino Portuguese Coastal Route follows the Atlantic coastline from Porto northward through Viana do Castelo, across the Minho River into Spain, and on to Santiago de Compostela. This is a fully supported, partially guided hike: luggage is transferred between boutique properties daily, quality lunches are supplied, a local guide joins on key days, and guests experience unique tastes of the camino — local wine, tapas, and a boat crossing on the Minho River. 5-star properties bookend the walk in Porto and Santiago.",
+    description: "The Camino Portuguese Coastal Route follows the Atlantic coastline from Porto northward through Viana do Castelo, across the Minho River into Spain, and on to Santiago de Compostela. This is a fully supported, partially guided hike: luggage is transferred between boutique properties daily, quality lunches are supplied, Kathy guides throughout and is joined by the best local expert guides on key days — and guests experience unique tastes of the camino — local wine, tapas, and a boat crossing on the Minho River. 5-star properties bookend the walk in Porto and Santiago.",
   },
   {
     name: "Alpe Adria Trail",
@@ -88,7 +88,7 @@ export default function LongDistanceTrails() {
             <strong>Fully supported</strong> means: luggage is transferred from property to property each day, so guests walk with only a day pack. Quality lunches are supplied at key points along the route, eliminating the need to carry food. Boutique properties are pre-selected and pre-booked throughout. Emergency support is available.
           </p>
           <p>
-            <strong>Partially guided</strong> means: a local guide joins the group on key days — typically the days with the most cultural, historical, or physical significance. On other days, guests walk independently following waymarks, with clear route notes and Kathy's guidance available. The result is a mix of accompanied learning and independent walking that most guests find ideal — neither the passivity of a fully guided tour nor the uncertainty of going fully solo.
+            <strong>Partially guided</strong> means: Kathy is always one of the guides throughout the trip, and the best local expert guides in each area join on key days — typically the days with the most cultural, historical, or physical significance. On other days, guests walk independently following waymarks with clear route notes and Kathy's direct support available. The result is a mix of accompanied learning and independent walking that most guests find ideal — neither the passivity of a fully guided tour nor the uncertainty of going fully solo.
           </p>
           <p>
             This format was developed by Kathy Dragon over two decades of refining what experienced travelers actually want from a long-distance walking experience — which is not maximum hand-holding, but maximum access to the places and people that make each route distinctive.

@@ -26,7 +26,7 @@ export default function HomePage() {
             Whole Journeys is a boutique active travel company specializing in culinary walking tours, long-distance trail hiking, and immersive foodie adventures for small groups worldwide.
           </h1>
           <p style={{ fontSize: "1.05rem", opacity: 0.8, lineHeight: 1.7, marginBottom: "2rem", maxWidth: "620px" }}>
-            Founded and personally led by Kathy Dragon — with more than 30 years of experiential travel expertise, 3,000+ guests escorted across 50+ countries, and the Whole Foods Market partnership that launched the active foodie travel category in 2012.
+            Founded and personally led by Kathy Dragon — with more than 30 years of experiential travel expertise, 6,000+ guests escorted across 80+ countries, and the Whole Foods Market partnership that launched the active foodie travel category in 2012.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -52,9 +52,9 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-6 text-sm font-medium">
           <span>30+ Years Experience</span>
           <span style={{ opacity: 0.5 }}>|</span>
-          <span>3,000+ Guests Escorted</span>
+          <span>6,000+ Guests Escorted</span>
           <span style={{ opacity: 0.5 }}>|</span>
-          <span>50+ Countries</span>
+          <span>80+ Countries</span>
           <span style={{ opacity: 0.5 }}>|</span>
           <span>World Bank Consultant</span>
           <span style={{ opacity: 0.5 }}>|</span>

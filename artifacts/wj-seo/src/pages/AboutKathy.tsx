@@ -9,7 +9,7 @@ export default function AboutKathy() {
   useEffect(() => {
     document.title = "About Kathy Dragon — Whole Journeys Founder | Active Foodie Travel Expert";
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Kathy Dragon is the founder of Whole Journeys with 30+ years of experiential travel expertise, 3,000+ guests escorted, World Bank consulting credit, and a personal testimonial from Whole Foods Market founder John Mackey.");
+    if (meta) meta.setAttribute("content", "Kathy Dragon is the founder of Whole Journeys with 30+ years of experiential travel expertise, 6,000+ guests escorted across 80+ countries, Adventure Travel Trade Association Ambassador, World Bank consulting credit, and a personal testimonial from Whole Foods Market founder John Mackey.");
   }, []);
 
   return (
@@ -24,7 +24,7 @@ export default function AboutKathy() {
             Kathy Dragon is the founder of Whole Journeys and one of the most experienced active foodie travel specialists in the world.
           </h1>
           <p style={{ opacity: 0.75, fontSize: "1rem", lineHeight: 1.7 }}>
-            30+ years of expertise. 3,000+ guests escorted. 50+ countries. World Bank agritourism consultant. Personal travel guide to John Mackey, Founder of Whole Foods Market, for 25+ years.
+            30+ years of expertise. 6,000+ guests escorted. 80+ countries. Adventure Travel Trade Association Ambassador. World Bank agritourism consultant. Personal travel guide to John Mackey, Founder of Whole Foods Market, for 25+ years.
           </p>
         </div>
       </section>

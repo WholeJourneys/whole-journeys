@@ -84,48 +84,33 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-            {/* Photo carousel + Whole Journeys founding story */}
-            <div className="space-y-8">
-              <div className="relative">
-                <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[380px] sm:h-[500px] lg:h-[600px] relative">
-                  {photos.map((photo, i) => (
-                    <img
-                      key={photo.src}
-                      src={photo.src}
-                      alt={photo.alt}
-                      className={`absolute inset-0 w-full h-full object-cover ${photo.position ?? "object-top"} transition-opacity duration-300`}
-                      style={{ opacity: i === activePhoto ? (fading ? 0 : 1) : 0 }}
+            {/* Photo carousel */}
+            <div className="relative">
+              <div className="rounded-2xl shadow-xl overflow-hidden w-full h-[380px] sm:h-[500px] lg:h-[600px] relative">
+                {photos.map((photo, i) => (
+                  <img
+                    key={photo.src}
+                    src={photo.src}
+                    alt={photo.alt}
+                    className={`absolute inset-0 w-full h-full object-cover ${photo.position ?? "object-top"} transition-opacity duration-300`}
+                    style={{ opacity: i === activePhoto ? (fading ? 0 : 1) : 0 }}
+                  />
+                ))}
+              </div>
+              <div className="absolute bottom-4 left-4 right-4 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-3 border border-white/60 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-foreground/80">Kathy Dragon</p>
+                  <p className="text-xs text-muted-foreground/80 mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>
+                </div>
+                <div className="flex gap-2">
+                  {photos.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setFading(true); setTimeout(() => { setActivePhoto(i); setFading(false); }, 400); }}
+                      className={`w-2 h-2 rounded-full transition-colors ${i === activePhoto ? "bg-secondary" : "bg-border"}`}
+                      aria-label={`Photo ${i + 1}`}
                     />
                   ))}
-                </div>
-                <div className="absolute bottom-4 left-4 right-4 bg-white/75 backdrop-blur-sm rounded-xl shadow-sm p-3 border border-white/60 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-foreground/80">Kathy Dragon</p>
-                    <p className="text-xs text-muted-foreground/80 mt-0.5">Founder & Chief Curator · Boulder, Colorado</p>
-                  </div>
-                  <div className="flex gap-2">
-                    {photos.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => { setFading(true); setTimeout(() => { setActivePhoto(i); setFading(false); }, 400); }}
-                        className={`w-2 h-2 rounded-full transition-colors ${i === activePhoto ? "bg-secondary" : "bg-border"}`}
-                        aria-label={`Photo ${i + 1}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Whole Journeys founding story — right under the photo */}
-              <div className="mt-8 pt-2 border-t border-border/40">
-                <h3 className="text-2xl font-display text-primary mb-4">How Whole Journeys Began</h3>
-                <div className="space-y-4 text-base text-muted-foreground leading-relaxed">
-                  <p>
-                    In 2012 I pitched an idea to my good friend and longtime client John Mackey: a travel company centered around what I called the <em>"active foodie"</em> experience — wellness-focused, hands-on cooking, hiking and biking trips designed around meeting Whole Foods Market producers in the field around the world. He said yes, and Whole Journeys was born. When Whole Foods was acquired by Amazon in 2016, I reacquired the company and continued building it independently.
-                  </p>
-                  <p>
-                    Today Whole Journeys is a boutique tour operator specializing in active, cultural, and food-focused travel — worldwide, for both small groups and FIT (individual, couples, and families) in guided and self-guided formats.
-                  </p>
                 </div>
               </div>
             </div>
@@ -142,6 +127,19 @@ export default function About() {
                   <p>{c("about_bio_2")}</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* How Whole Journeys Began — full width below the two columns */}
+          <div className="mt-16 pt-10 border-t border-border/40">
+            <h3 className="text-2xl font-display text-primary mb-4">How Whole Journeys Began</h3>
+            <div className="space-y-4 text-base text-muted-foreground leading-relaxed max-w-3xl">
+              <p>
+                In 2012 I pitched an idea to my good friend and longtime client John Mackey: a travel company centered around what I called the <em>"active foodie"</em> experience — wellness-focused, hands-on cooking, hiking and biking trips designed around meeting Whole Foods Market producers in the field around the world. He said yes, and Whole Journeys was born. When Whole Foods was acquired by Amazon in 2016, I reacquired the company and continued building it independently.
+              </p>
+              <p>
+                Today Whole Journeys is a boutique tour operator specializing in active, cultural, and food-focused travel — worldwide, for both small groups and FIT (individual, couples, and families) in guided and self-guided formats.
+              </p>
             </div>
           </div>
         </div>

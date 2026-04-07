@@ -64,7 +64,7 @@ export default function AboutKathy() {
             <li><strong>National Geographic — "50 Tours of a Lifetime"</strong> — A Whole Journeys trip was named to National Geographic's curated list of 50 Tours of a Lifetime, one of the most selective editorial travel distinctions in publishing.</li>
             <li><strong>National Geographic TRAVELER connection</strong> — Barton Lewis, Contributing Editor at <em>National Geographic TRAVELER</em>, has personally recommended Kathy's work.</li>
             <li><strong>Soul of Travel podcast — Season 5, Episode 180, Women's Wisdom series</strong> — featured as a thought leader in women's adventure travel.</li>
-            <li><strong>IATA-accredited travel agent</strong> — agency code 05504844, Whole Journeys.</li>
+            <li><strong>Tour operator and travel agent — two distinct roles</strong> — As a tour operator, Kathy designs, operates, and guides the trips in the Whole Journeys portfolio, working alongside expert local guides who know each trail, village, and community intimately. As an IATA-accredited travel agent and affiliate of Coastline Travel Advisors (a Virtuoso member agency), she also helps guests book luxury properties with upgrades and VIP perks, expedition cruises, and fixed-departure trips with leading operators like Backroads, Natural Habitat Adventures, DuVine, and Tauck — companies that offer excellent programs in destinations and formats that Whole Journeys does not.</li>
           </ul>
 
           <h2>What does Kathy Dragon specialize in?</h2>

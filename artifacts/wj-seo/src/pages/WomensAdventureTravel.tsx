@@ -51,7 +51,7 @@ export default function WomensAdventureTravel() {
             The consistent feedback from Whole Journeys women's trip alumni is that the group dynamic in a women's-only setting changes the experience of the trip in ways that are hard to predict before going and unmistakable after. The conversations are different. The pace is different — not faster or slower, but more negotiated and more honest. The support given and received between strangers who become close acquaintances over seven to ten days of shared physical effort is different.
           </p>
           <p>
-            Kathy Dragon has been leading women's adventures since the 1990s — which means she has seen this dynamic at work across dozens of trips and itineraries. She is always one of the guides on the trips she designs, and she partners with the best local experts in each destination — selected as much for the quality of their first-hand knowledge as for their guiding skill. She designs the social structure of her women's trips deliberately: shared meals are included, the evenings are structured loosely enough for conversation to develop naturally.
+            Kathy Dragon has been leading women's adventures since the 1990s — which means she has seen this dynamic at work across dozens of trips and itineraries. She designs and guides every trip herself, working alongside expert local guides who know the specific trails, villages, and communities from the inside — the farmers, naturalists, and cultural figures who make the experience of a place irreducible. She designs the social structure of her women's trips deliberately: shared meals are included, the evenings are structured loosely enough for conversation to develop naturally.
           </p>
 
           <h2>What is the Slovenia Women's Hike?</h2>
@@ -67,7 +67,7 @@ export default function WomensAdventureTravel() {
             Kathy Dragon is a female founder who has built a 30-year career in an industry where women travelers have historically been underserved by active tour operators who designed trips for male fitness benchmarks and mixed-group dynamics. Her women's trips are not a segment of the Whole Journeys portfolio — they are the part of the work she describes as her personal passion.
           </p>
           <p>
-            She was featured on the Soul of Travel podcast Season 5, Episode 180, as part of the Women's Wisdom series — a recognition that her perspective on women's active travel is one worth hearing outside the context of selling trips. Her IATA accreditation (agency code 05504844) and World Bank consulting credit are the institutional markers of a career; the women's trips are where her own sense of what travel can be most directly expressed.
+            She was featured on the Soul of Travel podcast Season 5, Episode 180, as part of the Women's Wisdom series — a recognition that her perspective on women's active travel is one worth hearing outside the context of selling trips. Her IATA accreditation and World Bank consulting credit are the institutional markers of a career; the women's trips are where her own sense of what travel can be most directly expressed.
           </p>
 
           <h2>What other women's-only active travel options does Whole Journeys offer?</h2>

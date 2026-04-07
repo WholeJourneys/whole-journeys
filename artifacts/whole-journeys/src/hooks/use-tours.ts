@@ -354,7 +354,7 @@ async function fetchTags(): Promise<Record<string, string[]>> {
   }
 }
 
-async function fetchContent(): Promise<Record<string, { tourName: string | null; description: string | null; highlights: string[]; destination: string | null; groupSize: string | null; imageUrl: string | null; seoTitle: string | null; seoDescription: string | null }>> {
+async function fetchContent(): Promise<Record<string, { tourName: string | null; description: string | null; highlights: string[]; destination: string | null; country: string[]; groupSize: string | null; imageUrl: string | null; seoTitle: string | null; seoDescription: string | null }>> {
   try {
     const res = await fetch(`${BASE_API}/tours/content`);
     if (!res.ok) return {};
@@ -423,6 +423,7 @@ export function useTours() {
           description: content?.description ?? tour.description,
           highlights: content?.highlights?.length ? content.highlights : tour.highlights,
           destination: content?.destination ?? tour.destination,
+          country: content?.country?.length ? content.country : tour.country,
           groupSize: content?.groupSize ?? tour.groupSize,
           imageUrl: content?.imageUrl ?? tour.imageUrl,
           seoTitle: content?.seoTitle ?? null,

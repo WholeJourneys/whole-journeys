@@ -6,6 +6,7 @@ export const tourContentTable = pgTable("tour_content", {
   description: text("description"),
   highlights: text("highlights").array().notNull().default([]),
   destination: text("destination"),
+  country: text("country").array().notNull().default([]),
   groupSize: text("group_size"),
   imageUrl: text("image_url"),
   seoTitle: text("seo_title"),

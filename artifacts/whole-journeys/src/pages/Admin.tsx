@@ -563,7 +563,7 @@ function TourContentTab() {
   const saveCustomTour = useSaveCustomTour();
 
   // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
-  const [drafts, setDrafts] = useState<Record<string, { tourName: string; description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string }>>({});
+  const [drafts, setDrafts] = useState<Record<string, { tourName: string; description: string; highlights: string[]; destination: string; country: string[]; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [saveError, setSaveError] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
@@ -652,7 +652,7 @@ function TourContentTab() {
   }
 
   // ── Travefy tour helpers ───────────────────────────────────────────────────
-  function getDraft(tour: { id: string; name: string; description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string }) {
+  function getDraft(tour: { id: string; name: string; description: string; highlights: string[]; destination: string; country: string[]; groupSize: string; imageUrl: string }) {
     if (drafts[tour.id]) return drafts[tour.id];
     const db = dbContent[tour.id];
     return {
@@ -660,6 +660,7 @@ function TourContentTab() {
       description: db?.description ?? tour.description,
       highlights: db?.highlights?.length ? db.highlights : tour.highlights,
       destination: db?.destination ?? tour.destination ?? "",
+      country: db?.country?.length ? db.country : tour.country ?? [],
       groupSize: db?.groupSize ?? tour.groupSize ?? "",
       imageUrl: db?.imageUrl ?? "",
       seoTitle: db?.seoTitle ?? "",
@@ -669,7 +670,7 @@ function TourContentTab() {
 
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
-    if (!tour) return { tourName: "", description: "", highlights: [], destination: "", groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "" };
+    if (!tour) return { tourName: "", description: "", highlights: [], destination: "", country: [] as string[], groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "" };
     return getDraft(tour);
   }
 
@@ -679,6 +680,11 @@ function TourContentTab() {
 
   function setDraftField(tourId: string, key: "tourName" | "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription", value: string) {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), [key]: value } }));
+  }
+
+  function setDraftCountry(tourId: string, raw: string) {
+    const country = raw.split(",").map((s) => s.trim()).filter(Boolean);
+    setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), country } }));
   }
 
   function addHighlight(tourId: string) {
@@ -697,7 +703,7 @@ function TourContentTab() {
   function save(tourId: string) {
     const draft = getDraftById(tourId);
     saveTourContent.mutate(
-      { tourId, tourName: draft.tourName || null, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
+      { tourId, tourName: draft.tourName || null, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, country: draft.country, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
       {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
@@ -951,28 +957,38 @@ function TourContentTab() {
                 />
                 <p className="text-xs text-muted-foreground mt-1">Override the default tour name. Leave blank to use the original.</p>
               </div>
-              {/* Destination + Group Size */}
+              {/* Country + Destination + Group Size */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Country</label>
+                  <input
+                    className={inputCls}
+                    value={draft.country.join(", ")}
+                    onChange={(e) => setDraftCountry(tour.id, e.target.value)}
+                    placeholder="e.g. Portugal, Spain"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Shown as filter tags on the tour card. Separate multiple with commas.</p>
+                </div>
                 <div>
                   <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Destination</label>
                   <input
                     className={inputCls}
                     value={draft.destination}
                     onChange={(e) => setDraftField(tour.id, "destination", e.target.value)}
-                    placeholder="e.g. Tuscany, Italy"
+                    placeholder="e.g. Porto & Santiago"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">Shown on the tour card below the name.</p>
+                  <p className="text-xs text-muted-foreground mt-1">Specific region or city — shown below the tour name on the card.</p>
                 </div>
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Group Size</label>
-                  <input
-                    className={inputCls}
-                    value={draft.groupSize}
-                    onChange={(e) => setDraftField(tour.id, "groupSize", e.target.value)}
-                    placeholder="e.g. Small groups of 8–14"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">Shown in tour details / pop-up.</p>
-                </div>
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Group Size</label>
+                <input
+                  className={inputCls}
+                  value={draft.groupSize}
+                  onChange={(e) => setDraftField(tour.id, "groupSize", e.target.value)}
+                  placeholder="e.g. Small groups of 8–14"
+                />
+                <p className="text-xs text-muted-foreground mt-1">Shown in tour details / pop-up.</p>
               </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Description</label>

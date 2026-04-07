@@ -141,6 +141,7 @@ export interface TourContent {
   description: string | null;
   highlights: string[];
   destination: string | null;
+  country: string[];
   groupSize: string | null;
   imageUrl: string | null;
   seoTitle: string | null;
@@ -161,11 +162,11 @@ export function useTourContent() {
 export function useSaveTourContent() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ tourId, tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }: { tourId: string } & TourContent) => {
+    mutationFn: async ({ tourId, tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription }: { tourId: string } & TourContent) => {
       const res = await fetch(`${API}/tours/content/${tourId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }),
+        body: JSON.stringify({ tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription }),
       });
       if (!res.ok) throw new Error(`Save failed (${res.status})`);
       return res.json();

@@ -48,6 +48,7 @@ router.get("/tours/content", async (_req, res) => {
       description: string | null;
       highlights: string[];
       destination: string | null;
+      country: string[];
       groupSize: string | null;
       imageUrl: string | null;
       seoTitle: string | null;
@@ -59,6 +60,7 @@ router.get("/tours/content", async (_req, res) => {
         description: row.description,
         highlights: row.highlights,
         destination: row.destination ?? null,
+        country: row.country ?? [],
         groupSize: row.groupSize ?? null,
         imageUrl: row.imageUrl ?? null,
         seoTitle: row.seoTitle ?? null,
@@ -73,11 +75,12 @@ router.get("/tours/content", async (_req, res) => {
 
 router.put("/tours/content/:tourId", async (req, res) => {
   const { tourId } = req.params;
-  const { tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription } = req.body as {
+  const { tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription } = req.body as {
     tourName?: string;
     description?: string;
     highlights?: string[];
     destination?: string;
+    country?: string[];
     groupSize?: string;
     imageUrl?: string;
     seoTitle?: string;
@@ -93,6 +96,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
         description: description ?? null,
         highlights: highlights ?? [],
         destination: destination ?? null,
+        country: country ?? [],
         groupSize: groupSize ?? null,
         imageUrl: imageUrl ?? null,
         seoTitle: seoTitle ?? null,
@@ -105,6 +109,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
           description: description ?? null,
           highlights: highlights ?? [],
           destination: destination ?? null,
+          country: country ?? [],
           groupSize: groupSize ?? null,
           imageUrl: imageUrl ?? null,
           seoTitle: seoTitle ?? null,
@@ -112,7 +117,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
           updatedAt: new Date(),
         },
       });
-    res.json({ tourId, tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription });
+    res.json({ tourId, tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription });
   } catch (err) {
     res.status(500).json({ error: "Failed to save tour content" });
   }

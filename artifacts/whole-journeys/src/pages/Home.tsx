@@ -67,7 +67,7 @@ export default function Home() {
   const { data: tours, isLoading } = useTours();
   const { data: specials } = useActiveSpecials();
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(() => Math.floor(Math.random() * HERO_SLIDES.length));
 
   const featuredTours = tours?.slice(0, 3) || [];
 

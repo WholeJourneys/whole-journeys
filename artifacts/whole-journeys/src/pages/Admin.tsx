@@ -567,6 +567,22 @@ function TourContentTab() {
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [saveError, setSaveError] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
+  const [fetchingImage, setFetchingImage] = useState<Record<string, boolean>>({});
+
+  async function handleFetchTravefyImage(tourId: string, travefyUrl: string) {
+    if (!travefyUrl) return;
+    setFetchingImage((f) => ({ ...f, [tourId]: true }));
+    try {
+      const meta = await fetchUrlMeta(travefyUrl);
+      if (meta.imageUrl) {
+        setDraftField(tourId, "imageUrl", meta.imageUrl);
+      }
+    } catch {
+      // silently ignore
+    } finally {
+      setFetchingImage((f) => ({ ...f, [tourId]: false }));
+    }
+  }
 
   // ── Custom tour state (full form) ─────────────────────────────────────────
   const [customDrafts, setCustomDrafts] = useState<Record<string, CustomTour>>({});
@@ -996,21 +1012,46 @@ function TourContentTab() {
                 </div>
               </div>
               {/* Photo Override */}
-              <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-2 bg-muted/20">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Tour Photo Override</p>
-                <p className="text-xs text-muted-foreground">Upload a replacement photo to use instead of the one pulled from Travefy.</p>
-                <ImageUploadInput
-                  value={draft.imageUrl}
-                  onChange={(v) => setDraftField(tour.id, "imageUrl", v)}
-                />
-                {draft.imageUrl && (
-                  <button
-                    onClick={() => setDraftField(tour.id, "imageUrl", "")}
-                    className="text-xs text-destructive hover:underline"
-                  >
-                    Remove override (revert to Travefy photo)
-                  </button>
-                )}
+              <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-3 bg-muted/20">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Tour Photo</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {draft.imageUrl ? "Override active — this photo is used on the site." : "Currently using the photo from Travefy (shown below)."}
+                    </p>
+                  </div>
+                  {tour.travefyUrl && (
+                    <button
+                      onClick={() => handleFetchTravefyImage(tour.id, tour.travefyUrl)}
+                      disabled={fetchingImage[tour.id]}
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors whitespace-nowrap"
+                    >
+                      {fetchingImage[tour.id] ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <LinkIcon className="w-3.5 h-3.5" />}
+                      {fetchingImage[tour.id] ? "Fetching…" : "Load from Travefy"}
+                    </button>
+                  )}
+                </div>
+                {/* Current image preview */}
+                <div className="flex gap-3 items-start">
+                  <div
+                    className="w-28 h-20 flex-shrink-0 rounded-lg bg-cover bg-center border border-border/50"
+                    style={{ backgroundImage: `url(${draft.imageUrl || tour.imageUrl})` }}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <ImageUploadInput
+                      value={draft.imageUrl}
+                      onChange={(v) => setDraftField(tour.id, "imageUrl", v)}
+                    />
+                    {draft.imageUrl && (
+                      <button
+                        onClick={() => setDraftField(tour.id, "imageUrl", "")}
+                        className="text-xs text-destructive hover:underline mt-1"
+                      >
+                        Remove override (revert to Travefy photo)
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
               {/* SEO */}
               <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-3 bg-muted/20">

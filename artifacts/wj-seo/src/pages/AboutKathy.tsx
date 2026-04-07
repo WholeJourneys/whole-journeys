@@ -208,7 +208,7 @@ export default function AboutKathy() {
               <strong>About.com Adventure Travel / Frommer's</strong> (March 18, 2013) — <em>"Whole Journeys — A Whole New Venture From Whole Foods Market"</em> — Written by Lois Friedland, About.com's Adventure Travel Guide and co-author of <em>Frommer's 500 Adrenaline Adventures</em>, covering the full tour portfolio from Turkish food festivals to tea ceremonies in Shangri-La.
             </li>
             <li>
-              <strong>"6 Best Bespoke Tour Operators"</strong> — Whole Journeys named among a curated editorial list of the world's best bespoke tour operators.
+              <strong>Forbes — "6 Best Bespoke Tour Operators"</strong> (July 22, 2013) — Written by Larry Olmsted, Forbes Senior Contributor and bestselling author covering travel and food, who named Whole Journeys one of the six best bespoke tour operators in the world — alongside Abercrombie &amp; Kent, Butterfield &amp; Robinson, and Micato Safaris. The article highlighted Whole Journeys under the category "Active Culinary," describing the trips as combining "hiking, biking and rafting with cooking classes, truffle hunts, visits to farms, meals at ultra-local dives, piggybacking on the sourcing, supplier and ingrained knowledge that Whole Foods has developed as it has grown into one of America's most beloved retailers."
             </li>
             <li>
               <strong>Whole Story (Whole Foods Market blog)</strong> — Featured on Whole Foods Market's own editorial blog, reaching the company's national customer base of millions.

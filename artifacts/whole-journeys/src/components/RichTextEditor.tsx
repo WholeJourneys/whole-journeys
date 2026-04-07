@@ -19,6 +19,7 @@ import {
 interface RichTextEditorProps {
   value: string;
   onChange: (html: string) => void;
+  compact?: boolean;
 }
 
 function ToolbarButton({
@@ -51,7 +52,7 @@ function ToolbarButton({
   );
 }
 
-export default function RichTextEditor({ value, onChange }: RichTextEditorProps) {
+export default function RichTextEditor({ value, onChange, compact = false }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content: value,
@@ -60,8 +61,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
     },
     editorProps: {
       attributes: {
-        class:
-          "prose prose-sm max-w-none focus:outline-none min-h-[400px] p-4 text-foreground",
+        class: `prose prose-sm max-w-none focus:outline-none ${compact ? "min-h-[100px]" : "min-h-[400px]"} p-4 text-foreground`,
       },
     },
   });

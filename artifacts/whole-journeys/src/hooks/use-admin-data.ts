@@ -137,6 +137,7 @@ export function useDeleteArticle() {
 // ─── TOUR CONTENT (description + highlights + destination + groupSize) ────────
 
 export interface TourContent {
+  tourName: string | null;
   description: string | null;
   highlights: string[];
   destination: string | null;
@@ -160,11 +161,11 @@ export function useTourContent() {
 export function useSaveTourContent() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ tourId, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }: { tourId: string } & TourContent) => {
+    mutationFn: async ({ tourId, tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }: { tourId: string } & TourContent) => {
       const res = await fetch(`${API}/tours/content/${tourId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }),
+        body: JSON.stringify({ tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }),
       });
       if (!res.ok) throw new Error(`Save failed (${res.status})`);
       return res.json();

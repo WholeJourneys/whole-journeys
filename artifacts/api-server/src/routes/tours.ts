@@ -43,9 +43,19 @@ router.put("/tours/tags/:tourId", async (req, res) => {
 router.get("/tours/content", async (_req, res) => {
   try {
     const rows = await db.select().from(tourContentTable);
-    const map: Record<string, { description: string | null; highlights: string[]; destination: string | null; groupSize: string | null; imageUrl: string | null; seoTitle: string | null; seoDescription: string | null }> = {};
+    const map: Record<string, {
+      tourName: string | null;
+      description: string | null;
+      highlights: string[];
+      destination: string | null;
+      groupSize: string | null;
+      imageUrl: string | null;
+      seoTitle: string | null;
+      seoDescription: string | null;
+    }> = {};
     for (const row of rows) {
       map[row.tourId] = {
+        tourName: row.tourName ?? null,
         description: row.description,
         highlights: row.highlights,
         destination: row.destination ?? null,
@@ -63,7 +73,8 @@ router.get("/tours/content", async (_req, res) => {
 
 router.put("/tours/content/:tourId", async (req, res) => {
   const { tourId } = req.params;
-  const { description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription } = req.body as {
+  const { tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription } = req.body as {
+    tourName?: string;
     description?: string;
     highlights?: string[];
     destination?: string;
@@ -78,6 +89,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
       .insert(tourContentTable)
       .values({
         tourId,
+        tourName: tourName ?? null,
         description: description ?? null,
         highlights: highlights ?? [],
         destination: destination ?? null,
@@ -89,6 +101,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
       .onConflictDoUpdate({
         target: tourContentTable.tourId,
         set: {
+          tourName: tourName ?? null,
           description: description ?? null,
           highlights: highlights ?? [],
           destination: destination ?? null,
@@ -99,7 +112,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
           updatedAt: new Date(),
         },
       });
-    res.json({ tourId, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription });
+    res.json({ tourId, tourName, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription });
   } catch (err) {
     res.status(500).json({ error: "Failed to save tour content" });
   }

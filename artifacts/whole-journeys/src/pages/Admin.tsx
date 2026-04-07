@@ -206,7 +206,7 @@ function HotelForm({ initial, onSave, onCancel }: { initial: PicksHotel; onSave:
         <Field label="Hotel Name"><input className={inputCls} value={h.name} onChange={(e) => set("name", e.target.value)} /></Field>
         <Field label="Location"><input className={inputCls} value={h.location} onChange={(e) => set("location", e.target.value)} /></Field>
       </div>
-      <Field label="Description"><textarea rows={3} className={textareaCls} value={h.description} onChange={(e) => set("description", e.target.value)} /></Field>
+      <Field label="Description"><RichTextEditor compact value={h.description} onChange={(html) => set("description", html)} /></Field>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Image"><ImageUploadInput value={h.imageUrl} onChange={(v) => set("imageUrl", v)} /></Field>
         <Field label="Book URL"><input className={inputCls} value={h.bookUrl} onChange={(e) => set("bookUrl", e.target.value)} /></Field>
@@ -312,7 +312,7 @@ function ArticleForm({ initial, onSave, onCancel }: { initial: PicksArticle; onS
   return (
     <div className="bg-muted/40 border border-border rounded-xl p-5 space-y-4">
       <Field label="Title"><input className={inputCls} value={a.title} onChange={(e) => set("title", e.target.value)} /></Field>
-      <Field label="Excerpt / Teaser"><textarea rows={3} className={textareaCls} value={a.excerpt} onChange={(e) => set("excerpt", e.target.value)} /></Field>
+      <Field label="Excerpt / Teaser"><RichTextEditor compact value={a.excerpt} onChange={(html) => set("excerpt", html)} /></Field>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Field label="Category Tag"><input className={inputCls} placeholder="e.g. Gear & Planning" value={a.category} onChange={(e) => set("category", e.target.value)} /></Field>
         <Field label="Read Time"><input className={inputCls} placeholder="e.g. 6 min read" value={a.readTime} onChange={(e) => set("readTime", e.target.value)} /></Field>
@@ -563,7 +563,7 @@ function TourContentTab() {
   const saveCustomTour = useSaveCustomTour();
 
   // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
-  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string }>>({});
+  const [drafts, setDrafts] = useState<Record<string, { tourName: string; description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [saveError, setSaveError] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
@@ -636,10 +636,11 @@ function TourContentTab() {
   }
 
   // ── Travefy tour helpers ───────────────────────────────────────────────────
-  function getDraft(tour: { id: string; description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string }) {
+  function getDraft(tour: { id: string; name: string; description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string }) {
     if (drafts[tour.id]) return drafts[tour.id];
     const db = dbContent[tour.id];
     return {
+      tourName: db?.tourName ?? "",
       description: db?.description ?? tour.description,
       highlights: db?.highlights?.length ? db.highlights : tour.highlights,
       destination: db?.destination ?? tour.destination ?? "",
@@ -652,7 +653,7 @@ function TourContentTab() {
 
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
-    if (!tour) return { description: "", highlights: [], destination: "", groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "" };
+    if (!tour) return { tourName: "", description: "", highlights: [], destination: "", groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "" };
     return getDraft(tour);
   }
 
@@ -660,7 +661,7 @@ function TourContentTab() {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
   }
 
-  function setDraftField(tourId: string, key: "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription", value: string) {
+  function setDraftField(tourId: string, key: "tourName" | "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription", value: string) {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), [key]: value } }));
   }
 
@@ -680,7 +681,7 @@ function TourContentTab() {
   function save(tourId: string) {
     const draft = getDraftById(tourId);
     saveTourContent.mutate(
-      { tourId, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
+      { tourId, tourName: draft.tourName || null, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
       {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
@@ -825,7 +826,7 @@ function TourContentTab() {
 
                 {/* Description */}
                 <Field label="Description">
-                  <textarea rows={3} className={textareaCls} value={ct.description} onChange={(e) => setCustomField(tour.id, "description", e.target.value)} placeholder="A 2–3 sentence summary shown in the tour card pop-up…" />
+                  <RichTextEditor value={ct.description} onChange={(html) => setCustomField(tour.id, "description", html)} />
                 </Field>
 
                 {/* Highlights */}
@@ -923,6 +924,17 @@ function TourContentTab() {
               </div>
             </div>
             {isOpen && <div className="border-t border-border/50 p-4 space-y-4">
+              {/* Tour Name */}
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Tour Name</label>
+                <input
+                  className={inputCls}
+                  value={draft.tourName}
+                  onChange={(e) => setDraftField(tour.id, "tourName", e.target.value)}
+                  placeholder={tour.name}
+                />
+                <p className="text-xs text-muted-foreground mt-1">Override the default tour name. Leave blank to use the original.</p>
+              </div>
               {/* Destination + Group Size */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -948,12 +960,9 @@ function TourContentTab() {
               </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Description</label>
-                <textarea
-                  rows={4}
+                <RichTextEditor
                   value={draft.description}
-                  onChange={(e) => setDescription(tour.id, e.target.value)}
-                  className="w-full text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
-                  placeholder="Describe this tour for guests…"
+                  onChange={(html) => setDescription(tour.id, html)}
                 />
               </div>
               <div>
@@ -1200,7 +1209,7 @@ function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; on
 
       {/* Description */}
       <Field label="Description">
-        <textarea rows={3} className={textareaCls} value={t.description} onChange={(e) => set("description", e.target.value)} placeholder="A 2–3 sentence summary shown in the tour card pop-up…" />
+        <RichTextEditor value={t.description} onChange={(html) => set("description", html)} />
       </Field>
 
       {/* Highlights */}
@@ -1553,7 +1562,7 @@ function SpecialsTab() {
                     </div>
                     <div>
                       <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Short Description</label>
-                      <textarea rows={2} className={inputCls} value={editing.description} onChange={(e) => setField("description", e.target.value)} placeholder="One or two sentences…" />
+                      <RichTextEditor compact value={editing.description} onChange={(html) => setField("description", html)} />
                     </div>
                     <div>
                       <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Link URL</label>
@@ -1611,7 +1620,7 @@ function SpecialsTab() {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Short Description</label>
-            <textarea rows={2} className={inputCls} value={draft.description} onChange={(e) => setField("description", e.target.value)} placeholder="One or two sentences…" />
+            <RichTextEditor compact value={draft.description} onChange={(html) => setField("description", html)} />
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">Link URL</label>

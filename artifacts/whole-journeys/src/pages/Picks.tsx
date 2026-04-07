@@ -195,7 +195,11 @@ export default function Picks() {
                   </div>
                   <div className="p-6">
                     <h3 className="font-display text-lg font-medium text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{article.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 mb-4">{article.excerpt}</p>
+                    {article.excerpt?.startsWith("<") ? (
+                      <div className="text-muted-foreground text-sm leading-relaxed line-clamp-3 mb-4 prose prose-sm max-w-none prose-p:text-muted-foreground prose-p:my-0" dangerouslySetInnerHTML={{ __html: article.excerpt }} />
+                    ) : (
+                      <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 mb-4">{article.excerpt}</p>
+                    )}
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>{article.readTime}</span>
                       <span className="flex items-center gap-1 text-primary font-medium">Read <ExternalLink className="w-3.5 h-3.5" /></span>
@@ -281,7 +285,11 @@ export default function Picks() {
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="text-xs text-muted-foreground font-medium uppercase tracking-widest mb-1">{hotel.location}</div>
                     <h3 className="font-display text-xl font-medium text-foreground mb-3">{hotel.name}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow">{hotel.description}</p>
+                    {hotel.description?.startsWith("<") ? (
+                      <div className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow prose prose-sm max-w-none prose-p:text-muted-foreground prose-p:my-1" dangerouslySetInnerHTML={{ __html: hotel.description }} />
+                    ) : (
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow">{hotel.description}</p>
+                    )}
                     {[hotel.perk1, hotel.perk2, hotel.perk3].some(Boolean) && (
                       <div className="mb-5 space-y-1.5">
                         <div className="text-xs font-semibold text-secondary uppercase tracking-widest mb-2">Virtuoso Perks</div>

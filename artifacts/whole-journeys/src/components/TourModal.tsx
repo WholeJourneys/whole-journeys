@@ -111,7 +111,7 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
       {isOpen && (
         <Helmet>
           <title>{tour.seoTitle ? `${tour.seoTitle} | Whole Journeys by Kathy Dragon` : `${tour.name} | Whole Journeys by Kathy Dragon`}</title>
-          <meta name="description" content={tour.seoDescription ?? tour.description ?? `Explore the ${tour.name} journey with Whole Journeys.`} />
+          <meta name="description" content={tour.seoDescription ?? (tour.description ? tour.description.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() : null) ?? `Explore the ${tour.name} journey with Whole Journeys.`} />
         </Helmet>
       )}
       <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -158,7 +158,14 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
 
                 <div>
                   <h3 className="text-2xl font-display font-medium text-foreground mb-4">About this Journey</h3>
-                  <p className="text-muted-foreground leading-relaxed">{tour.description}</p>
+                  {tour.description?.startsWith("<") ? (
+                    <div
+                      className="text-muted-foreground leading-relaxed prose prose-sm max-w-none prose-p:text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground"
+                      dangerouslySetInnerHTML={{ __html: tour.description }}
+                    />
+                  ) : (
+                    <p className="text-muted-foreground leading-relaxed">{tour.description}</p>
+                  )}
                 </div>
 
                 <div>

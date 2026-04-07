@@ -62,7 +62,7 @@ export default function TourCard({ tour, onClick }: TourCardProps) {
         </h3>
 
         <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-grow">
-          {tour.description}
+          {tour.description?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()}
         </p>
 
         <div className="pt-4 border-t border-border mt-auto flex items-center justify-between gap-3">

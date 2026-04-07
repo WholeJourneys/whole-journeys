@@ -2,6 +2,7 @@ import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const tourContentTable = pgTable("tour_content", {
   tourId: text("tour_id").primaryKey(),
+  tourName: text("tour_name"),
   description: text("description"),
   highlights: text("highlights").array().notNull().default([]),
   destination: text("destination"),

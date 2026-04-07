@@ -182,7 +182,7 @@ export default function Home() {
                 )}
                 <span className="text-sm font-semibold leading-snug">{s.title}</span>
                 {s.description && (
-                  <span className="text-xs text-white/60 leading-snug line-clamp-2">{s.description}</span>
+                  <span className="text-xs text-white/60 leading-snug line-clamp-2">{s.description.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()}</span>
                 )}
               </a>
             ))}
@@ -294,7 +294,7 @@ export default function Home() {
                       {s.title}
                     </p>
                     {s.description && (
-                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{s.description}</p>
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{s.description.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()}</p>
                     )}
                   </div>
                 </a>

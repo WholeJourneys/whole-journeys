@@ -106,3 +106,35 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 - **`index.html`** has baseline fallback OG tags for crawlers that execute JS late
 - Terms & Conditions page uses `noIndex={true}` to exclude it from search engines
 - Site URL constant: `https://new.wholejourneys.com`
+
+### JSON-LD Schema (Static — Crawler-Visible)
+
+`artifacts/whole-journeys/index.html` has been updated to include all structured data as static JSON-LD blocks in the `<head>` — delivered in the initial server response before JavaScript runs:
+
+- **Person schema** (Kathy Dragon) — credentials, knowsAbout, founder, worksFor, sameAs
+- **Organization schema** (Whole Journeys as TravelAgency) — description, founder, areaServed, sameAs
+- **Review schema** (John Mackey testimonial) — author, reviewBody, reviewRating
+- **FAQPage schema** (5 questions) — active foodie travel, Kathy Dragon, Alpe Adria, custom trips, long-distance trails
+- **TouristTrip schemas** (5 signature tours) — Alpe Adria Trail, Camino Portuguese Coastal, Tuscany, 2026 Women's Camino, Kenya Safari
+
+Same static schemas are in `artifacts/wj-seo/index.html`.
+
+## SEO Hub (Parallel Site)
+
+`artifacts/wj-seo` (`@workspace/wj-seo`) — A separate React+Vite site serving as the authoritative content hub for AI search and crawlers. Running at `/wj-seo/`.
+
+**7 pages with full content following the developer's 5 content rules:**
+1. **Home** (`/`) — company overview, John Mackey testimonial, credentials bar, content grid
+2. **About Kathy** (`/about-kathy`) — full credentials, World Bank, John Mackey context, 30-year history
+3. **What Is Active Foodie Travel?** (`/what-is-active-foodie-travel`) — definitional page, category origin
+4. **Long-Distance Trails** (`/long-distance-trail-hiking-guide`) — Camino, Alpe Adria, Via Francigena, Juliana, Rota Vicentina
+5. **Italy Culinary Tours** (`/culinary-walking-tours-italy`) — Tuscany, Dolomites, Via Francigena
+6. **Women's Travel** (`/womens-adventure-travel`) — 2026 Women's Camino, Slovenia Women's Hike
+7. **Private & Custom Trips** (`/private-custom-trips`) — consultation process, $600 fee explained, trip types
+
+**Content rules followed per page:**
+- Lead with the definition (first sentence is the AI-extractable answer)
+- Question-format H2 headings with immediate answers
+- Named specific entities: trail names, towns, producers, credentials
+- Credentials paired with practical implications for travelers
+- Every page ends with a self-contained Summary section

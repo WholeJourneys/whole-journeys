@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/wj-seo/"
+title = "Whole Journeys SEO Hub"
+version = "1.0.0"
+id = "artifacts/wj-seo"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/wj-seo/" ]
+localPort = 19483
+
+[services.development]
+run = "pnpm --filter @workspace/wj-seo run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/wj-seo", "run", "build" ]
+publicDir = "artifacts/wj-seo/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19483"
+BASE_PATH = "/wj-seo/"

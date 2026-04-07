@@ -700,6 +700,12 @@ function TourContentTab() {
     setDrafts((d) => ({ ...d, [tourId]: { ...current, highlights: current.highlights.filter((_, i) => i !== idx) } }));
   }
 
+  function updateHighlight(tourId: string, idx: number, value: string) {
+    const current = getDraftById(tourId);
+    const updated = current.highlights.map((h, i) => i === idx ? value : h);
+    setDrafts((d) => ({ ...d, [tourId]: { ...current, highlights: updated } }));
+  }
+
   function save(tourId: string) {
     const draft = getDraftById(tourId);
     saveTourContent.mutate(
@@ -946,6 +952,17 @@ function TourContentTab() {
               </div>
             </div>
             {isOpen && <div className="border-t border-border/50 p-4 space-y-4">
+              {/* Save bar — top */}
+              <div className="flex items-center justify-between pb-2 border-b border-border/30">
+                <p className="text-xs text-muted-foreground">Edit fields below, then save. Remember to use wholejourneys.com/admin to save changes.</p>
+                <div className="flex items-center gap-3">
+                  {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
+                  {saveError[tour.id] && <span className="text-xs text-red-500 font-medium">Save failed — use wholejourneys.com/admin</span>}
+                  <button onClick={() => save(tour.id)} className="flex items-center gap-1.5 px-4 py-1.5 text-sm font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                    <Save className="w-3.5 h-3.5" /> Save Changes
+                  </button>
+                </div>
+              </div>
               {/* Tour Name */}
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Tour Name</label>
@@ -1001,10 +1018,19 @@ function TourContentTab() {
                 <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Highlights</label>
                 <div className="space-y-1.5 mb-2">
                   {draft.highlights.map((h, i) => (
-                    <div key={i} className="flex items-center gap-2 group">
-                      <span className="text-secondary text-xs">✦</span>
-                      <span className="text-sm flex-grow">{h}</span>
-                      <button onClick={() => removeHighlight(tour.id, i)} className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="text-secondary text-xs flex-shrink-0">✦</span>
+                      <input
+                        type="text"
+                        value={h}
+                        onChange={(e) => updateHighlight(tour.id, i, e.target.value)}
+                        className="flex-grow text-sm border border-transparent hover:border-border focus:border-border rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-transparent hover:bg-white focus:bg-white transition-colors"
+                      />
+                      <button
+                        onClick={() => removeHighlight(tour.id, i)}
+                        className="text-muted-foreground hover:text-destructive flex-shrink-0 transition-colors"
+                        title="Remove highlight"
+                      >
                         <X className="w-3.5 h-3.5" />
                       </button>
                     </div>

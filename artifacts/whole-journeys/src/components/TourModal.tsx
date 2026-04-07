@@ -202,6 +202,7 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                   </div>
                 </div>
 
+                {tour.travefyUrl && (
                 <div className="hidden lg:block pt-6 space-y-3">
                   <a
                     href={tour.travefyUrl}
@@ -215,12 +216,14 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     All itineraries are sample tours — fully customizable for your group.
                   </p>
                 </div>
+                )}
               </div>
 
             </div>
           </div>
 
           {/* Mobile-only sticky CTA */}
+          {tour.travefyUrl && (
           <div className="lg:hidden flex-shrink-0 px-6 py-4 border-t border-border bg-background">
             <a
               href={tour.travefyUrl}
@@ -234,6 +237,7 @@ export default function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               All itineraries are sample tours — fully customizable for your group.
             </p>
           </div>
+          )}
         </Dialog.Content>
       </Dialog.Portal>
       </Dialog.Root>

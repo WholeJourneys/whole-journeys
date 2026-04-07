@@ -141,6 +141,7 @@ export interface TourContent {
   highlights: string[];
   destination: string | null;
   groupSize: string | null;
+  imageUrl: string | null;
   seoTitle: string | null;
   seoDescription: string | null;
 }
@@ -159,11 +160,11 @@ export function useTourContent() {
 export function useSaveTourContent() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ tourId, description, highlights, destination, groupSize, seoTitle, seoDescription }: { tourId: string } & TourContent) => {
+    mutationFn: async ({ tourId, description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }: { tourId: string } & TourContent) => {
       const res = await fetch(`${API}/tours/content/${tourId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description, highlights, destination, groupSize, seoTitle, seoDescription }),
+        body: JSON.stringify({ description, highlights, destination, groupSize, imageUrl, seoTitle, seoDescription }),
       });
       return res.json();
     },

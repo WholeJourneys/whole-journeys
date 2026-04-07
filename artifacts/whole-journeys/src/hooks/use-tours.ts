@@ -408,6 +408,7 @@ export function useTours() {
           highlights: content?.highlights?.length ? content.highlights : tour.highlights,
           destination: content?.destination ?? tour.destination,
           groupSize: content?.groupSize ?? tour.groupSize,
+          imageUrl: content?.imageUrl ?? tour.imageUrl,
           seoTitle: content?.seoTitle ?? null,
           seoDescription: content?.seoDescription ?? null,
         };

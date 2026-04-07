@@ -6,6 +6,7 @@ export const tourContentTable = pgTable("tour_content", {
   highlights: text("highlights").array().notNull().default([]),
   destination: text("destination"),
   groupSize: text("group_size"),
+  imageUrl: text("image_url"),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),

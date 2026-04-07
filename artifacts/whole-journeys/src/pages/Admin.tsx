@@ -551,7 +551,7 @@ function TourContentTab() {
   const saveCustomTour = useSaveCustomTour();
 
   // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
-  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[]; destination: string; groupSize: string; seoTitle: string; seoDescription: string }>>({});
+  const [drafts, setDrafts] = useState<Record<string, { description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
 
@@ -623,7 +623,7 @@ function TourContentTab() {
   }
 
   // ── Travefy tour helpers ───────────────────────────────────────────────────
-  function getDraft(tour: { id: string; description: string; highlights: string[]; destination: string; groupSize: string }) {
+  function getDraft(tour: { id: string; description: string; highlights: string[]; destination: string; groupSize: string; imageUrl: string }) {
     if (drafts[tour.id]) return drafts[tour.id];
     const db = dbContent[tour.id];
     return {
@@ -631,6 +631,7 @@ function TourContentTab() {
       highlights: db?.highlights?.length ? db.highlights : tour.highlights,
       destination: db?.destination ?? tour.destination ?? "",
       groupSize: db?.groupSize ?? tour.groupSize ?? "",
+      imageUrl: db?.imageUrl ?? "",
       seoTitle: db?.seoTitle ?? "",
       seoDescription: db?.seoDescription ?? "",
     };
@@ -638,7 +639,7 @@ function TourContentTab() {
 
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
-    if (!tour) return { description: "", highlights: [], destination: "", groupSize: "", seoTitle: "", seoDescription: "" };
+    if (!tour) return { description: "", highlights: [], destination: "", groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "" };
     return getDraft(tour);
   }
 
@@ -646,7 +647,7 @@ function TourContentTab() {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
   }
 
-  function setDraftField(tourId: string, key: "destination" | "groupSize" | "seoTitle" | "seoDescription", value: string) {
+  function setDraftField(tourId: string, key: "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription", value: string) {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), [key]: value } }));
   }
 
@@ -666,7 +667,7 @@ function TourContentTab() {
   function save(tourId: string) {
     const draft = getDraftById(tourId);
     saveTourContent.mutate(
-      { tourId, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
+      { tourId, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
       {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
@@ -966,6 +967,23 @@ function TourContentTab() {
                     <Plus className="w-3.5 h-3.5" /> Add
                   </button>
                 </div>
+              </div>
+              {/* Photo Override */}
+              <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-2 bg-muted/20">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Tour Photo Override</p>
+                <p className="text-xs text-muted-foreground">Upload a replacement photo to use instead of the one pulled from Travefy.</p>
+                <ImageUploadInput
+                  value={draft.imageUrl}
+                  onChange={(v) => setDraftField(tour.id, "imageUrl", v)}
+                />
+                {draft.imageUrl && (
+                  <button
+                    onClick={() => setDraftField(tour.id, "imageUrl", "")}
+                    className="text-xs text-destructive hover:underline"
+                  >
+                    Remove override (revert to Travefy photo)
+                  </button>
+                )}
               </div>
               {/* SEO */}
               <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-3 bg-muted/20">

@@ -182,36 +182,54 @@ export default function AboutKathy() {
 
           <h2>Where has Whole Journeys been covered in the press?</h2>
           <p>
-            Since its launch in 2012 as a Whole Foods Market division, Whole Journeys received coverage across trade publications, regional media, grocery and retail industry outlets, and national travel platforms. A selected list:
+            Since its launch in 2012 as a Whole Foods Market division, Whole Journeys was covered by national newspapers, major travel magazines, food publications, and trade outlets. A confirmed list:
           </p>
 
           <ul>
             <li>
+              <strong>The New York Times — "New Outfitter, Familiar Name"</strong> (February 28, 2013) — Coverage in the NYT's travel blog <em>In Transit</em>, covering the launch of Whole Journeys as a distinctive new entry in the culinary adventure travel space.
+            </li>
+            <li>
+              <strong>Travel + Leisure — "Whole Foods Launches Culinary-Themed Tours"</strong> — Feature coverage in one of the leading travel magazines in the United States, highlighting Whole Journeys' positioning at the intersection of adventure travel and food culture.
+            </li>
+            <li>
+              <strong>Departures — "Exotic Culinary Tours"</strong> — Inclusion in a curated slideshow of the world's best culinary travel experiences in <em>Departures</em>, the luxury travel magazine published for American Express Platinum and Centurion cardholders. Being included alongside the world's leading culinary tour operators is a significant editorial endorsement.
+            </li>
+            <li>
               <strong>National Geographic — "50 Tours of a Lifetime"</strong> — A Whole Journeys trip was named to National Geographic's curated list of 50 Tours of a Lifetime, one of the most selective editorial travel distinctions in publishing. Announced via Whole Foods Market press release.
             </li>
             <li>
-              <strong>About.com Adventure Travel / Frommer's</strong> (March 18, 2013) — <em>"Whole Journeys — A Whole New Venture From Whole Foods Market"</em> — Written by Lois Friedland, About.com's Adventure Travel Guide and co-author of <em>Frommer's 500 Adrenaline Adventures</em>. The article was picked up and republished on the Whole Journeys blog. Coverage described the full tour portfolio — from tea ceremonies in Shangri-La to hiking Cappadocia's fairy chimneys — and noted Whole Journeys as an authoritative voice in active foodie travel.
+              <strong>Hartford Courant — "Culinary Tourism Gives Travelers A True Taste of a Culture"</strong> (July 21, 2013) — Feature in the oldest continuously published newspaper in the United States, covering the growing culinary tourism category with Whole Journeys as a leading example.
             </li>
             <li>
-              <strong>AndNowUKnow</strong> (November 13, 2012) — <em>"Whole Foods Market Launches New Travel Venture"</em> — Coverage of the Whole Journeys launch, including a direct quote from Kathy Dragon: "Why we travel, where we travel, what we do and who we meet while we are there, and how we share the experiences when we return home, can affect positive change in the world."
+              <strong>Edible Manhattan — "From Whole Foods, a Whole New Way to Travel"</strong> — In-depth profile in the respected food publication, with extended quotes from Kathy Dragon on the philosophy of active foodie travel: "There's adventure travel and then there's food travel, but we're putting those two together to create a new category. I call it the active foodie."
             </li>
             <li>
-              <strong>CultureMap Dallas</strong> (April 14, 2013) — <em>"Whole Foods embarks on Whole Journeys, an international, food-focused travel venture"</em> — Regional coverage of the launch portfolio and travel philosophy.
+              <strong>About.com Adventure Travel / Frommer's</strong> (March 18, 2013) — <em>"Whole Journeys — A Whole New Venture From Whole Foods Market"</em> — Written by Lois Friedland, About.com's Adventure Travel Guide and co-author of <em>Frommer's 500 Adrenaline Adventures</em>, covering the full tour portfolio from Turkish food festivals to tea ceremonies in Shangri-La.
             </li>
             <li>
-              <strong>Orange Coast Magazine</strong> (January 17, 2014) — <em>"Hey Active Foodies! Whole Foods Introduces Travel Plans Just For You"</em> — Coverage describing Whole Journeys as excursions for "active foodies," with itineraries ranging from Turkish food festivals to tea ceremonies in Shangri-La.
+              <strong>"6 Best Bespoke Tour Operators"</strong> — Whole Journeys named among a curated editorial list of the world's best bespoke tour operators.
             </li>
             <li>
-              <strong>Broward Palm Beach New Times</strong> — <em>"Whole Foods Is Your Travel Agent: Foodie-Inspired Trips with Whole Journeys"</em> — Alternative weekly coverage of the Whole Journeys concept and booking process.
+              <strong>Whole Story (Whole Foods Market blog)</strong> — Featured on Whole Foods Market's own editorial blog, reaching the company's national customer base of millions.
             </li>
             <li>
-              <strong>Grocery Dive</strong> — <em>"Whole Foods starts a travel company for food lovers"</em> — Trade publication coverage of the launch, widely circulated in the grocery and retail industry.
+              <strong>Orange Coast Magazine</strong> (January 17, 2014) — <em>"Hey Active Foodies! Whole Foods Introduces Travel Plans Just For You"</em> — Coverage in Southern California's leading regional lifestyle magazine.
             </li>
             <li>
-              <strong>RetailWire</strong> — <em>"Whole Foods Launches Foodie Adventure Tours"</em> — Retail trade coverage noting the strategic significance of Whole Foods expanding into travel.
+              <strong>CultureMap Dallas</strong> (April 14, 2013) — <em>"Whole Foods embarks on Whole Journeys, an international, food-focused travel venture"</em>
             </li>
             <li>
-              <strong>Whole Foods Market Official Press Releases</strong> — The launch, 2015 destinations expansion, and immersion program were each covered in dedicated official releases at media.wholefoodsmarket.com, including a press release specifically announcing the National Geographic 50 Tours recognition.
+              <strong>Broward Palm Beach New Times</strong> — <em>"Whole Foods Is Your Travel Agent: Foodie-Inspired Trips with Whole Journeys"</em>
+            </li>
+            <li>
+              <strong>AndNowUKnow</strong> (November 13, 2012) — <em>"Whole Foods Market Launches New Travel Venture"</em> — Included a direct quote from Kathy Dragon at launch.
+            </li>
+            <li>
+              <strong>Grocery Dive / RetailWire</strong> — Trade publication coverage of the launch circulated widely across the grocery and retail industry.
+            </li>
+            <li>
+              <strong>Whole Foods Market Official Press Releases</strong> — The launch, 2015 destinations expansion, immersion program, and National Geographic 50 Tours recognition each had dedicated releases at media.wholefoodsmarket.com.
             </li>
           </ul>
 

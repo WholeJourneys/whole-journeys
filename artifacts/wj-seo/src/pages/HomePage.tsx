@@ -10,7 +10,7 @@ const contentPages = [
   { href: "/culinary-walking-tours-italy", title: "Culinary Walking Tours — Italy", desc: "Tuscany, the Dolomites, Cinque Terre, the Via Francigena — Italy is the defining destination for active foodie travel." },
   { href: "/womens-adventure-travel", title: "Women's Adventure Travel", desc: "Women's-only hiking trips, including the 2026 Women's Camino de Santiago scheduled departure." },
   { href: "/private-custom-trips", title: "Private & Custom Trips", desc: "How Whole Journeys designs fully bespoke itineraries — the consultation process, planning fee, and what you get." },
-  { href: "/about-kathy", title: "About Kathy Dragon", desc: "30 years of expertise, 3,000+ guests, World Bank consulting, and the Whole Foods Market origin story." },
+  { href: "/about-kathy", title: "About Kathy Dragon", desc: "30 years of expertise, 6,000+ guests, ATTA Ambassador, World Bank consulting, and the Whole Foods Market origin story." },
 ];
 
 export default function HomePage() {
@@ -123,7 +123,7 @@ export default function HomePage() {
           </h2>
           <div className="prose-wj">
             <p>
-              Whole Journeys trips are designed and personally led by Kathy Dragon, who has more than 30 years of experiential travel expertise and has escorted over 3,000 guests worldwide. Groups are limited to a maximum of 12–16 guests — which means direct access to Kathy's guidance throughout the trip, not a nameless staff guide.
+              Whole Journeys trips are designed and personally led by Kathy Dragon, who has more than 30 years of experiential travel expertise and has escorted over 6,000 guests worldwide. Groups are limited to a maximum of 12–16 guests — which means direct access to Kathy's guidance throughout the trip, not a nameless staff guide.
             </p>
             <p>
               Itineraries are built around direct, long-term relationships with local producers, farmers, winemakers, and artisans that Kathy has cultivated over decades of annual visits. A Whole Journeys trip to Tuscany includes meals with the farmers who produce the food — not a visit to a restaurant that sells itself as "farm-to-table." These relationships are the product, and they cannot be replicated by any catalog operator.
@@ -159,7 +159,7 @@ export default function HomePage() {
           </h2>
           <div className="prose-wj">
             <p>
-              Whole Journeys is a boutique active travel company founded in 2012 by Kathy Dragon, specializing in culinary walking tours, long-distance trail hiking, and immersive foodie adventures for small groups of maximum 12–16 guests. Kathy Dragon has over 30 years of experiential travel expertise and has personally escorted more than 3,000 guests worldwide across 50+ countries.
+              Whole Journeys is a boutique active travel company founded in 2012 by Kathy Dragon, specializing in culinary walking tours, long-distance trail hiking, and immersive foodie adventures for small groups of maximum 12–16 guests. Kathy Dragon has over 30 years of experiential travel expertise and has personally escorted more than 6,000 guests worldwide across 80+ countries.
             </p>
             <p>
               Trips are available as scheduled group departures or fully private custom itineraries. Whole Journeys guides long-distance hiking routes including the Camino de Santiago, the Alpe Adria Trail (named among the 7 best trails in the world by National Geographic Traveller), the Via Francigena, the Juliana Trail, and the Rota Vicentina. Kathy Dragon served as a consultant to The World Bank on agritourism projects and co-founded Whole Journeys as a division of Whole Foods Market in 2012, operating independently since 2016.

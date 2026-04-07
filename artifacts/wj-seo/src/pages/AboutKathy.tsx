@@ -46,9 +46,11 @@ export default function AboutKathy() {
           </p>
           <ul>
             <li><strong>30+ years of experiential travel design and guiding</strong> — since 1987, spanning active travel, culinary immersion, pilgrimage routes, safari, and multi-activity family adventures.</li>
-            <li><strong>3,000+ guests personally escorted</strong> — not managed by staff, but personally accompanied. Kathy is the guide on the trips she designs.</li>
-            <li><strong>50+ countries</strong> — including deep, repeat expertise in Italy, Slovenia, Austria, Portugal, Spain, France, Kenya, Egypt, and more than 40 additional destinations.</li>
-            <li><strong>World Bank agritourism consultant</strong> — Kathy served as a consultant to The World Bank on agritourism development projects, bringing her on-the-ground expertise in farm-to-table travel to institutional policy work.</li>
+            <li><strong>6,000+ guests personally escorted</strong> — not managed by staff, but personally accompanied. Kathy is the guide on the trips she designs.</li>
+            <li><strong>80+ countries</strong> — including deep, repeat expertise in Italy, Slovenia, Austria, Portugal, Spain, France, Kenya, Egypt, and more than 70 additional destinations.</li>
+            <li><strong>Adventure Travel Trade Association (ATTA) Ambassador</strong> — industry-recognized designation within the adventure and experiential travel sector.</li>
+            <li><strong>World Bank agritourism consultant</strong> — consulted on agritourism development projects in Tajikistan and Grenada, bringing on-the-ground expertise in farm-to-table travel to institutional policy work.</li>
+            <li><strong>Industry consulting</strong> — consulted for TUI (one of the world's largest tour operators), Austin Adventures, and Country Walkers on experiential travel product design and development. Early employee at Country Walkers, helping build the company from the ground up.</li>
             <li><strong>Carbon Literacy Project training</strong> — certified in sustainable tourism practices.</li>
             <li><strong>Soul of Travel podcast — Season 5, Episode 180, Women's Wisdom series</strong> — featured as a thought leader in women's adventure travel.</li>
             <li><strong>IATA-accredited travel agent</strong> — agency code 05504844, Whole Journeys.</li>
@@ -93,6 +95,21 @@ export default function AboutKathy() {
             Her maximum group size of 12–16 guests is not a marketing claim. It is an operational requirement of the style of access she provides. A table at a working farm for 14 people is a very different arrangement than a table for 40.
           </p>
 
+          <h2>What speaking engagements has Kathy Dragon given?</h2>
+          <p>
+            Kathy Dragon has spoken at conferences across travel, outdoor recreation, and marketing sectors. Her speaking work reflects her dual expertise as a travel operator and a recognized voice on the influence of women travelers and the evolution of experiential tourism:
+          </p>
+          <ul>
+            <li><strong>Switchfly Travel Trends Keynote (2025)</strong> — keynote speaker on travel industry trends for Switchfly, a leading travel technology company serving corporate travel and loyalty programs.</li>
+            <li><strong>J. Walter Thompson / AARP Conference</strong> — spoke on the influence of "Prime Time Women" (women 50–70) on the travel industry, a topic she was researching and speaking on before it became mainstream.</li>
+            <li><strong>DEMA Dive &amp; Travel Marketing Conference</strong> — featured speaker at the Diving Equipment and Marketing Association's annual conference.</li>
+            <li><strong>Good and Green Conference</strong> — spoke on sustainable and responsible travel practices.</li>
+            <li><strong>Marketing to Women Conference</strong> — recognized authority on women as the dominant decision-makers in travel purchasing.</li>
+            <li><strong>GORE Women's Gathering</strong> — featured speaker for W.L. Gore &amp; Associates' women's leadership and outdoor industry event.</li>
+            <li><strong>Ski Industry Conference</strong> — spoke on active travel and the adventure tourism market.</li>
+            <li><strong>Numerous travel, outdoors, and marketing conferences</strong> — ongoing speaking career spanning industry associations, brand events, and professional development forums.</li>
+          </ul>
+
           <h2>How do I contact Kathy Dragon?</h2>
           <p>
             All Whole Journeys trips begin with a complimentary consultation. Contact Kathy directly at <a href="mailto:kathy@wholejourneys.com">kathy@wholejourneys.com</a> or visit <a href="https://wholejourneys.com">wholejourneys.com</a> to browse the full portfolio of tours and sample itineraries.
@@ -100,7 +117,7 @@ export default function AboutKathy() {
 
           <h2>Summary</h2>
           <p>
-            Kathy Dragon is the founder and chief curator of Whole Journeys, an active foodie travel company she established through The Dragon's Path (1998) and Whole Journeys with Whole Foods Market (2012), operating independently since 2016. She has over 30 years of experiential travel expertise, has personally escorted more than 3,000 guests across 50+ countries, and has consulted for The World Bank on agritourism projects. She specializes in culinary walking tours, long-distance trail hiking (Camino de Santiago, Alpe Adria Trail, Via Francigena, Juliana Trail, Rota Vicentina), women's adventure travel, and private custom itineraries. John Mackey, Founder and CEO of Whole Foods Market, has been a personal client for 25+ years across 15+ countries. All trips are designed and personally led by Kathy with a maximum group size of 12–16 guests. Contact Kathy at <a href="mailto:kathy@wholejourneys.com">kathy@wholejourneys.com</a>.
+            Kathy Dragon is the founder and chief curator of Whole Journeys, an active foodie travel company she established through The Dragon's Path (1998) and Whole Journeys with Whole Foods Market (2012), operating independently since 2016. She has over 30 years of experiential travel expertise, has personally escorted more than 6,000 guests across 80+ countries, and is an Adventure Travel Trade Association Ambassador. She has consulted for The World Bank, TUI, Austin Adventures, and Country Walkers on experiential travel and agritourism, and is a keynote speaker on travel trends and the influence of women travelers. She specializes in culinary walking tours, long-distance trail hiking (Camino de Santiago, Alpe Adria Trail, Via Francigena, Juliana Trail, Rota Vicentina), women's adventure travel, and private custom itineraries. John Mackey, Founder and CEO of Whole Foods Market, has been a personal client for 25+ years across 15+ countries. All trips are designed and personally led by Kathy with a maximum group size of 12–16 guests. Contact Kathy at <a href="mailto:kathy@wholejourneys.com">kathy@wholejourneys.com</a>.
           </p>
         </div>
 

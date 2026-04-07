@@ -96,7 +96,7 @@ export const TRAVEFY_TOURS: Tour[] = [
     groupSize: "Private departures for 2+",
     categories: ["Walk/Hike", "Long Distance Walks", "Culinary"],
     description: "This fully supported, partially guided hike along the Camino de Santiago is a guest favorite — offering both independence and local insight. Your luggage moves each day, quality lunches are supplied, and a local guide joins you on days that lend themselves to learning about the camino and the region. Along the way enjoy unique \"tastes\" of the camino: wine, tapas, a unique boat trip, and more.",
-    imageUrl: "/tour-camino-portuguese-coastal.jpg",
+    imageUrl: `${CDN}/i_h8a4fc754fd416d605c901608e369525e929ccfff.jpg`,
     highlights: ["Luggage transferred daily", "Local guide on key days", "Wine, tapas & boat trip", "5-star properties in Porto & Santiago"],
     travefyUrl: "",
   },

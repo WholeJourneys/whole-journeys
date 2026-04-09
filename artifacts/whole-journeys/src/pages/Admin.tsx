@@ -69,7 +69,7 @@ function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
 const CATEGORY_ACTIVE: Record<string, string> = {
   "Adventure":           "bg-orange-500 text-white border-orange-500",
   "Biking":              "bg-lime-600 text-white border-lime-600",
-  "Country Estates":     "bg-amber-700 text-white border-amber-700",
+  "Villas/Farms":        "bg-amber-700 text-white border-amber-700",
   "Cruise/Sail":         "bg-cyan-600 text-white border-cyan-600",
   "Culinary":            "bg-red-600 text-white border-red-600",
   "Culture":             "bg-violet-600 text-white border-violet-600",
@@ -86,7 +86,7 @@ const CATEGORY_ACTIVE: Record<string, string> = {
 const CATEGORY_INACTIVE: Record<string, string> = {
   "Adventure":           "border-orange-400 text-orange-600 hover:bg-orange-50",
   "Biking":              "border-lime-500 text-lime-700 hover:bg-lime-50",
-  "Country Estates":     "border-amber-600 text-amber-700 hover:bg-amber-50",
+  "Villas/Farms":        "border-amber-600 text-amber-700 hover:bg-amber-50",
   "Cruise/Sail":         "border-cyan-400 text-cyan-600 hover:bg-cyan-50",
   "Culinary":            "border-red-400 text-red-600 hover:bg-red-50",
   "Culture":             "border-violet-400 text-violet-600 hover:bg-violet-50",

@@ -100,7 +100,7 @@ export default function Tours() {
   const CATEGORY_COLORS: Record<string, { base: string; active: string }> = {
     "Adventure":           { base: "border-amber-300 text-amber-800 hover:bg-amber-50",         active: "bg-amber-800 text-white border-amber-800" },
     "Biking":              { base: "border-lime-300 text-lime-800 hover:bg-lime-50",             active: "bg-lime-700 text-white border-lime-700" },
-    "Country Estates":     { base: "border-stone-300 text-stone-700 hover:bg-stone-50",         active: "bg-stone-700 text-white border-stone-700" },
+    "Villas/Farms":        { base: "border-stone-300 text-stone-700 hover:bg-stone-50",         active: "bg-stone-700 text-white border-stone-700" },
     "Cruise/Sail":         { base: "border-cyan-200 text-cyan-800 hover:bg-cyan-50",            active: "bg-cyan-800 text-white border-cyan-800" },
     "Culinary":            { base: "border-red-200 text-red-800 hover:bg-red-50",               active: "bg-red-800 text-white border-red-800" },
     "Culture":             { base: "border-indigo-200 text-indigo-800 hover:bg-indigo-50",      active: "bg-indigo-800 text-white border-indigo-800" },

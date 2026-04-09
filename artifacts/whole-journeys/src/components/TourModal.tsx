@@ -8,7 +8,7 @@ import { CATEGORY_COLORS } from "./TourCard";
 const CATEGORY_LIGHT: Record<string, string> = {
   "Adventure":           "bg-orange-100 text-orange-700 border-orange-200",
   "Biking":              "bg-lime-100 text-lime-700 border-lime-200",
-  "Country Estates":     "bg-amber-100 text-amber-800 border-amber-200",
+  "Villas/Farms":        "bg-amber-100 text-amber-800 border-amber-200",
   "Cruise/Sail":         "bg-cyan-100 text-cyan-700 border-cyan-200",
   "Culture":             "bg-violet-100 text-violet-700 border-violet-200",
   "Family":              "bg-sky-100 text-sky-700 border-sky-200",

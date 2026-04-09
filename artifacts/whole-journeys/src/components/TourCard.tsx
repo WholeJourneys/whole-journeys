@@ -9,7 +9,7 @@ interface TourCardProps {
 export const CATEGORY_COLORS: Record<string, string> = {
   "Adventure":           "bg-amber-900/75 text-amber-50",
   "Biking":              "bg-lime-800/75 text-lime-50",
-  "Country Estates":     "bg-stone-700/75 text-stone-50",
+  "Villas/Farms":        "bg-stone-700/75 text-stone-50",
   "Cruise/Sail":         "bg-cyan-900/75 text-cyan-50",
   "Culture":             "bg-indigo-900/75 text-indigo-50",
   "Family":              "bg-sky-900/75 text-sky-50",

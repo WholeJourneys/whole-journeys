@@ -764,9 +764,9 @@ function TourContentTab() {
                     </div>
                     <div className="flex items-center gap-2">
                       {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
-                      <div className="flex flex-col gap-0.5">
-                        <button onClick={() => moveTour(tour.id, "up")} disabled={tourIdx === 0} title="Move up" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowUp className="w-3.5 h-3.5" /></button>
-                        <button onClick={() => moveTour(tour.id, "down")} disabled={tourIdx === allTours.length - 1} title="Move down" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowDown className="w-3.5 h-3.5" /></button>
+                      <div className="flex items-center gap-1">
+                        <button onClick={() => moveTour(tour.id, "up")} disabled={tourIdx === 0} title="Move up in list" className="flex items-center gap-1 px-2 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><ArrowUp className="w-3 h-3" /></button>
+                        <button onClick={() => moveTour(tour.id, "down")} disabled={tourIdx === allTours.length - 1} title="Move down in list" className="flex items-center gap-1 px-2 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><ArrowDown className="w-3 h-3" /></button>
                       </div>
                       <button
                         onClick={() => toggleOpen(tour.id)}
@@ -961,9 +961,9 @@ function TourContentTab() {
                   <div className="flex items-center gap-2">
                     {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
                     {saveError[tour.id] && <span className="text-xs text-red-500 font-medium">Save failed — use wholejourneys.com/admin</span>}
-                    <div className="flex flex-col gap-0.5">
-                      <button onClick={() => moveTour(tour.id, "up")} disabled={tourIdx === 0} title="Move up" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowUp className="w-3.5 h-3.5" /></button>
-                      <button onClick={() => moveTour(tour.id, "down")} disabled={tourIdx === allTours.length - 1} title="Move down" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowDown className="w-3.5 h-3.5" /></button>
+                    <div className="flex items-center gap-1">
+                      <button onClick={() => moveTour(tour.id, "up")} disabled={tourIdx === 0} title="Move up in list" className="flex items-center gap-1 px-2 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><ArrowUp className="w-3 h-3" /></button>
+                      <button onClick={() => moveTour(tour.id, "down")} disabled={tourIdx === allTours.length - 1} title="Move down in list" className="flex items-center gap-1 px-2 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><ArrowDown className="w-3 h-3" /></button>
                     </div>
                     <button
                       onClick={() => toggleOpen(tour.id)}

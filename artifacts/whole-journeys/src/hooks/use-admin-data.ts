@@ -156,7 +156,27 @@ export function useTourContent() {
       const res = await fetch(`${API}/tours/content`);
       return res.json();
     },
-    staleTime: 30_000,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function useUpdateTourSortOrder() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ tourId, sortOrder }: { tourId: string; sortOrder: number | null }) => {
+      const res = await fetch(`${API}/tours/sortorder/${tourId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sortOrder }),
+      });
+      if (!res.ok) throw new Error(`Save failed (${res.status})`);
+      return res.json();
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["tour-content"] });
+      qc.invalidateQueries({ queryKey: ["tours"] });
+    },
   });
 }
 

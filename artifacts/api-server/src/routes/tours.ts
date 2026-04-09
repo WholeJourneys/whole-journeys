@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db, tourTagsTable, tourContentTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 const router: IRouter = Router();
 
@@ -125,6 +125,28 @@ router.put("/tours/content/:tourId", async (req, res) => {
     res.json({ tourId, tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription, sortOrder });
   } catch (err) {
     res.status(500).json({ error: "Failed to save tour content" });
+  }
+});
+
+router.put("/tours/sortorder/:tourId", async (req, res) => {
+  const { tourId } = req.params;
+  const { sortOrder } = req.body as { sortOrder: number | null };
+
+  if (sortOrder !== null && typeof sortOrder !== "number") {
+    res.status(400).json({ error: "sortOrder must be a number or null" });
+    return;
+  }
+
+  try {
+    const existing = await db.select().from(tourContentTable).where(eq(tourContentTable.tourId, tourId)).limit(1);
+    if (existing.length > 0) {
+      await db.update(tourContentTable).set({ sortOrder: sortOrder ?? null, updatedAt: new Date() }).where(eq(tourContentTable.tourId, tourId));
+    } else {
+      await db.insert(tourContentTable).values({ tourId, sortOrder: sortOrder ?? null, highlights: [], country: [] });
+    }
+    res.json({ tourId, sortOrder });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to save sort order" });
   }
 });
 

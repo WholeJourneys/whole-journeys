@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon, Loader2, ChevronDown } from "lucide-react";
+import { ArrowLeft, ArrowUp, ArrowDown, Check, RotateCcw, Lock, Pencil, Trash2, Plus, X, Save, Link as LinkIcon, Loader2, ChevronDown } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
 import ImageUploadInput from "@/components/ImageUploadInput";
 import { useTours, useUpdateTourTags, ALL_CATEGORIES, ALL_REGIONS, TRAVEFY_TOURS } from "@/hooks/use-tours";
@@ -11,7 +11,7 @@ import {
   usePicksHotels, useSaveHotel, useDeleteHotel, type PicksHotel,
   usePicksArticles, useSaveArticle, useDeleteArticle, type PicksArticle,
   usePicksTrips, useSavePicksTrips,
-  useTourContent, useSaveTourContent,
+  useTourContent, useSaveTourContent, useUpdateTourSortOrder,
   useCustomTours, useSaveCustomTour, useDeleteCustomTour, fetchUrlMeta, type CustomTour,
 } from "@/hooks/use-admin-data";
 
@@ -560,6 +560,7 @@ function TourContentTab() {
   const { data: rawCustomTours = [] } = useCustomTours();
   const { data: dbContent = {} } = useTourContent();
   const saveTourContent = useSaveTourContent();
+  const updateSortOrder = useUpdateTourSortOrder();
   const saveCustomTour = useSaveCustomTour();
 
   // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
@@ -725,12 +726,27 @@ function TourContentTab() {
     );
   }
 
+  function moveTour(tourId: string, direction: "up" | "down") {
+    if (!tours) return;
+    const idx = tours.findIndex((t) => t.id === tourId);
+    if (idx === -1) return;
+    const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= tours.length) return;
+    const tourA = tours[idx];
+    const tourB = tours[swapIdx];
+    const orderA = typeof tourA.sortOrder === "number" ? tourA.sortOrder : (idx + 1) * 10;
+    const orderB = typeof tourB.sortOrder === "number" ? tourB.sortOrder : (swapIdx + 1) * 10;
+    updateSortOrder.mutate({ tourId: tourA.id, sortOrder: orderB });
+    updateSortOrder.mutate({ tourId: tourB.id, sortOrder: orderA });
+  }
+
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
         Click <strong>Edit</strong> on any tour to expand its editing form. Custom tours have full controls; pre-loaded tours let you edit description and highlights.
       </p>
-      {(tours ?? []).map((tour) => {
+      {(tours ?? []).map((tour, tourIdx) => {
+        const allTours = tours ?? [];
         if (isCustom(tour.id)) {
           const ct = getCustomDraft(tour.id);
           const isOpen = open.has(tour.id);
@@ -748,6 +764,10 @@ function TourContentTab() {
                     </div>
                     <div className="flex items-center gap-2">
                       {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
+                      <div className="flex flex-col gap-0.5">
+                        <button onClick={() => moveTour(tour.id, "up")} disabled={tourIdx === 0} title="Move up" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowUp className="w-3.5 h-3.5" /></button>
+                        <button onClick={() => moveTour(tour.id, "down")} disabled={tourIdx === allTours.length - 1} title="Move down" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowDown className="w-3.5 h-3.5" /></button>
+                      </div>
                       <button
                         onClick={() => toggleOpen(tour.id)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md border transition-colors ${isOpen ? "bg-muted border-border text-foreground" : "bg-primary text-white border-primary hover:bg-primary/90"}`}
@@ -941,6 +961,10 @@ function TourContentTab() {
                   <div className="flex items-center gap-2">
                     {saved[tour.id] && <span className="text-xs text-green-600 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>}
                     {saveError[tour.id] && <span className="text-xs text-red-500 font-medium">Save failed — use wholejourneys.com/admin</span>}
+                    <div className="flex flex-col gap-0.5">
+                      <button onClick={() => moveTour(tour.id, "up")} disabled={tourIdx === 0} title="Move up" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowUp className="w-3.5 h-3.5" /></button>
+                      <button onClick={() => moveTour(tour.id, "down")} disabled={tourIdx === allTours.length - 1} title="Move down" className="p-0.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-20 transition-colors"><ArrowDown className="w-3.5 h-3.5" /></button>
+                    </div>
                     <button
                       onClick={() => toggleOpen(tour.id)}
                       className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md border transition-colors ${isOpen ? "bg-muted border-border text-foreground" : "bg-primary text-white border-primary hover:bg-primary/90"}`}

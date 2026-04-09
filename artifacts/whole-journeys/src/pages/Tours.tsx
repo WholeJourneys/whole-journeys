@@ -262,13 +262,14 @@ export default function Tours() {
         {hasFilters && (
           <div className="flex items-center justify-between mb-6">
             {fallbackMode ? (
-              <div className="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-200 px-4 py-2 rounded-lg">
+              <div className="flex items-center gap-3 text-sm text-amber-900 bg-amber-100 border-2 border-amber-300 px-4 py-2.5 rounded-xl shadow-sm font-medium">
+                <span className="text-amber-500 text-base">⚠</span>
                 <span>
                   {fallbackMode === "style-only" && `No ${activeCategory} tours in that region — showing all ${activeCategory} tours instead.`}
                   {fallbackMode === "region-only" && `No tours in that region with that style — showing all ${activeRegions.join(", ")} tours instead.`}
                   {fallbackMode === "all" && "No tours match those filters — showing all tours instead."}
                 </span>
-                <button onClick={clearAll} className="font-semibold underline ml-1">Clear filters</button>
+                <button onClick={clearAll} className="ml-1 px-2.5 py-1 text-xs font-semibold bg-amber-400 hover:bg-amber-500 text-amber-900 rounded-lg transition-colors whitespace-nowrap">Clear filters</button>
               </div>
             ) : (
               <span className="text-sm text-muted-foreground">

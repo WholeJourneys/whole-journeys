@@ -126,6 +126,8 @@ const ABOUT_DEFAULTS: Record<string, string> = {
   about_photo_url: "http://s3.amazonaws.com/whole-journeys-assets/production/page-images/kathy.jpg",
 };
 
+const ABOUT_BIO_DEFAULT_HTML = `<p>My journey in the travel industry began in 1987, when I started leading bike trips in New England. That early work eventually grew into running all of North American Tours for the company that is now VBT. From there I moved into student programs, developing Rainforest Workshops in Costa Rica and immersive cultural programs for high school students in Peru and Ecuador — experiences designed to go well beyond typical tourism.</p><p>In 1994 I became one of the first employees at Country Walkers, where I helped grow the company from 300 to 3,000+ guests, personally researched and designed over 70% of its worldwide walking vacations, and trained local guides across more than 30 countries.</p><p>Four years later, in 1998, I founded my own company, The Dragon's Path, offering cultural walking vacations worldwide. During that period I also created ActiveWomen.com and began speaking publicly on the influence and importance of what I called "Prime Time Women" — women between 50 and 70 — and their forceful influence on the travel industry.</p><p>Around 2006, I consulted for EONS.com, an ambitious Boomer-focused platform, and built out their travel division. I later took over the site and relaunched it as TravelDragon.com — a curated search engine that today hosts 8,000+ itineraries from 1,700+ boutique travel providers. In 2016 and 2018, I consulted for two World Bank teams on the ground — in St. Lucia, Grenada, and Tajikistan — reviewing tourism and agricultural products for food tourism development. Between 2016 and 2017, I also served as Activities Concierge aboard the National Geographic Orion for Lindblad Expeditions, developing independent hiking, biking, and food and wine experiences for guests throughout Europe, the British Isles, and Scandinavia.</p>`;
+
 function AboutTab() {
   const { data: content } = useSiteContent();
   const saveContent = useSaveContent();
@@ -133,7 +135,10 @@ function AboutTab() {
   const [saved, setSaved] = useState<Record<string, boolean>>({});
 
   function val(key: string) {
-    return draft[key] ?? content?.[key] ?? ABOUT_DEFAULTS[key] ?? "";
+    if (draft[key] !== undefined) return draft[key];
+    if (content?.[key] !== undefined) return content[key];
+    if (key === "about_bio_html") return ABOUT_BIO_DEFAULT_HTML;
+    return ABOUT_DEFAULTS[key] ?? "";
   }
 
   function set(key: string, value: string) {
@@ -159,7 +164,7 @@ function AboutTab() {
 
   return (
     <div className="space-y-6">
-      <p className="text-sm text-muted-foreground">Edit the content that appears on the Our Philosophy page. Each field saves independently.</p>
+      <p className="text-sm text-muted-foreground">Edit the content on the About Kathy page. Changes save independently.</p>
 
       <div className="bg-card border border-border rounded-xl p-5 space-y-5">
         <h3 className="font-semibold text-foreground">Page Header</h3>
@@ -173,20 +178,16 @@ function AboutTab() {
         </Field>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-5 space-y-5">
-        <h3 className="font-semibold text-foreground">Bio — A Life Spent Exploring</h3>
-        <p className="text-xs text-muted-foreground -mt-2">These four paragraphs appear under "A Life Spent Exploring" on the About page, in order.</p>
-        {([
-          { key: "about_bio_1", label: "Paragraph 1 — Early career (1987 – VBT, Costa Rica, Ecuador)" },
-          { key: "about_bio_1b", label: "Paragraph 2 — Country Walkers (1995)" },
-          { key: "about_bio_1c", label: "Paragraph 3 — The Dragon's Path & ActiveWomen.com (1998)" },
-          { key: "about_bio_2", label: "Paragraph 4 — EONS / TravelDragon / World Bank (2008+)" },
-        ] as const).map(({ key, label }) => (
-          <Field key={key} label={label}>
-            <textarea rows={4} className={textareaCls} value={val(key)} onChange={(e) => set(key, e.target.value)} />
-            <div className="flex justify-end pt-1"><SaveBtn k={key} /></div>
-          </Field>
-        ))}
+      <div className="bg-card border border-border rounded-xl p-5 space-y-4">
+        <div>
+          <h3 className="font-semibold text-foreground">Bio — A Life Spent Exploring</h3>
+          <p className="text-xs text-muted-foreground mt-1">This text appears next to Kathy's photo. You can use bold, italic, headings, bullet lists, and links. To add a link: select text, click the link icon (🔗), then enter a URL or a path like <code className="bg-muted px-1 rounded">/tours</code>.</p>
+        </div>
+        <RichTextEditor
+          value={val("about_bio_html")}
+          onChange={(html) => set("about_bio_html", html)}
+        />
+        <div className="flex justify-end pt-1"><SaveBtn k="about_bio_html" /></div>
       </div>
     </div>
   );

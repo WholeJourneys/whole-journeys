@@ -120,12 +120,19 @@ export default function About() {
               <div>
                 <span className="text-secondary font-medium tracking-widest uppercase text-sm mb-2 block">Our Story</span>
                 <h1 className="text-4xl font-display font-semibold text-primary mb-6">A Life Spent Exploring</h1>
-                <div className="space-y-4 text-muted-foreground leading-relaxed">
-                  <p>{c("about_bio_1")}</p>
-                  <p>{c("about_bio_1b")}</p>
-                  <p>{c("about_bio_1c")}</p>
-                  <p>{c("about_bio_2")}</p>
-                </div>
+                {content?.["about_bio_html"] ? (
+                  <div
+                    className="prose prose-sm prose-muted max-w-none text-muted-foreground leading-relaxed [&_a]:text-secondary [&_a]:underline [&_a]:font-medium [&_h2]:text-primary [&_h3]:text-primary"
+                    dangerouslySetInnerHTML={{ __html: content["about_bio_html"] }}
+                  />
+                ) : (
+                  <div className="space-y-4 text-muted-foreground leading-relaxed">
+                    <p>{c("about_bio_1")}</p>
+                    <p>{c("about_bio_1b")}</p>
+                    <p>{c("about_bio_1c")}</p>
+                    <p>{c("about_bio_2")}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

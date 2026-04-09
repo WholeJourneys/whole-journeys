@@ -1,7 +1,8 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import { useEffect } from "react";
+import Link from "@tiptap/extension-link";
+import { useEffect, useState } from "react";
 import {
   Bold,
   Italic,
@@ -14,6 +15,8 @@ import {
   Undo,
   Redo,
   Minus,
+  LinkIcon,
+  Unlink,
 } from "lucide-react";
 
 interface RichTextEditorProps {
@@ -53,15 +56,27 @@ function ToolbarButton({
 }
 
 export default function RichTextEditor({ value, onChange, compact = false }: RichTextEditorProps) {
+  const [linkInput, setLinkInput] = useState<string | null>(null);
+
   const editor = useEditor({
-    extensions: [StarterKit, Underline],
+    extensions: [
+      StarterKit,
+      Underline,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: "text-secondary underline cursor-pointer",
+          rel: "noopener noreferrer",
+        },
+      }),
+    ],
     content: value,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
     editorProps: {
       attributes: {
-        class: `prose prose-sm max-w-none focus:outline-none ${compact ? "min-h-[100px]" : "min-h-[400px]"} p-4 text-foreground`,
+        class: `prose prose-sm max-w-none focus:outline-none ${compact ? "min-h-[100px]" : "min-h-[300px]"} p-4 text-foreground`,
       },
     },
   });
@@ -73,6 +88,23 @@ export default function RichTextEditor({ value, onChange, compact = false }: Ric
   }, [value]);
 
   if (!editor) return null;
+
+  function openLinkInput() {
+    const existing = editor?.getAttributes("link").href ?? "";
+    setLinkInput(existing);
+  }
+
+  function applyLink() {
+    if (linkInput === null) return;
+    const url = linkInput.trim();
+    if (!url) {
+      editor?.chain().focus().unsetLink().run();
+    } else {
+      const href = url.startsWith("http") || url.startsWith("/") || url.startsWith("mailto:") ? url : `https://${url}`;
+      editor?.chain().focus().setLink({ href }).run();
+    }
+    setLinkInput(null);
+  }
 
   return (
     <div className="border border-border rounded-lg overflow-hidden bg-background">
@@ -131,6 +163,26 @@ export default function RichTextEditor({ value, onChange, compact = false }: Ric
         <div className="w-px h-5 bg-border mx-1" />
 
         <ToolbarButton
+          onClick={openLinkInput}
+          active={editor.isActive("link")}
+          title="Add / edit link"
+        >
+          <LinkIcon className="w-4 h-4" />
+        </ToolbarButton>
+
+        {editor.isActive("link") && (
+          <ToolbarButton
+            onClick={() => editor.chain().focus().unsetLink().run()}
+            active={false}
+            title="Remove link"
+          >
+            <Unlink className="w-4 h-4" />
+          </ToolbarButton>
+        )}
+
+        <div className="w-px h-5 bg-border mx-1" />
+
+        <ToolbarButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           active={editor.isActive("bulletList")}
           title="Bullet list"
@@ -172,6 +224,39 @@ export default function RichTextEditor({ value, onChange, compact = false }: Ric
           <Redo className="w-4 h-4" />
         </ToolbarButton>
       </div>
+
+      {/* Link input bar — shows when link button is clicked */}
+      {linkInput !== null && (
+        <div className="flex items-center gap-2 px-3 py-2 border-b border-border bg-muted/20">
+          <LinkIcon className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+          <input
+            autoFocus
+            type="text"
+            placeholder="https://… or /tours/my-tour or mailto:you@example.com"
+            value={linkInput}
+            onChange={(e) => setLinkInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") { e.preventDefault(); applyLink(); }
+              if (e.key === "Escape") setLinkInput(null);
+            }}
+            className="flex-1 text-sm bg-transparent outline-none placeholder:text-muted-foreground/60"
+          />
+          <button
+            type="button"
+            onMouseDown={(e) => { e.preventDefault(); applyLink(); }}
+            className="px-3 py-1 text-xs font-semibold bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+          >
+            Apply
+          </button>
+          <button
+            type="button"
+            onMouseDown={(e) => { e.preventDefault(); setLinkInput(null); }}
+            className="px-2 py-1 text-xs border border-border rounded-md hover:bg-muted transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
 
       {/* Editor area */}
       <EditorContent editor={editor} className="rich-editor" />

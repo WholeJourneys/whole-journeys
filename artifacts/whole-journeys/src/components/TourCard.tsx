@@ -38,11 +38,11 @@ export default function TourCard({ tour, onClick }: TourCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
 
         {/* Category Tags */}
-        <div className="absolute top-4 left-4 flex flex-wrap gap-1.5 max-w-[85%]">
+        <div className="absolute top-4 left-4 right-4 flex flex-nowrap gap-1.5 overflow-hidden">
           {tour.categories.map((cat) => (
             <span
               key={cat}
-              className={`px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm rounded-full ${CATEGORY_COLORS[cat] ?? "bg-white/90 text-primary"}`}
+              className={`whitespace-nowrap shrink-0 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm rounded-full ${CATEGORY_COLORS[cat] ?? "bg-white/90 text-primary"}`}
             >
               {cat}
             </span>

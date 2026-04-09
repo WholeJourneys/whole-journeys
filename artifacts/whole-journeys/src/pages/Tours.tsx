@@ -224,39 +224,6 @@ export default function Tours() {
           </div>
         </div>
 
-        {/* Country Filter Chips */}
-        {usedCountries.length > 1 && (
-          <div className="mb-8">
-            <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2.5">
-              Country
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => setActiveCountry(null)}
-                className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
-                  activeCountry === null
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border text-muted-foreground hover:bg-muted/50"
-                }`}
-              >
-                Any
-              </button>
-              {usedCountries.map((country) => (
-                <button
-                  key={country}
-                  onClick={() => setActiveCountry((prev) => (prev === country ? null : country))}
-                  className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
-                    activeCountry === country
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border text-muted-foreground hover:bg-muted/50"
-                  }`}
-                >
-                  {country}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Filter status bar */}
         {hasFilters && (

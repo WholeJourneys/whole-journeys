@@ -17,6 +17,7 @@ export interface Tour {
   travefyUrl: string;
   seoTitle?: string | null;
   seoDescription?: string | null;
+  sortOrder?: number | null;
 }
 
 export const ALL_CATEGORIES = [
@@ -354,7 +355,7 @@ async function fetchTags(): Promise<Record<string, string[]>> {
   }
 }
 
-async function fetchContent(): Promise<Record<string, { tourName: string | null; description: string | null; highlights: string[]; destination: string | null; country: string[]; groupSize: string | null; imageUrl: string | null; seoTitle: string | null; seoDescription: string | null }>> {
+async function fetchContent(): Promise<Record<string, { tourName: string | null; description: string | null; highlights: string[]; destination: string | null; country: string[]; groupSize: string | null; imageUrl: string | null; seoTitle: string | null; seoDescription: string | null; sortOrder: number | null }>> {
   try {
     const res = await fetch(`${BASE_API}/tours/content`);
     if (!res.ok) return {};
@@ -414,7 +415,7 @@ export function useTours() {
         fetchContent(),
         fetchCustomTours(),
       ]);
-      const hardcoded = TRAVEFY_TOURS.map((tour) => {
+      const hardcoded = TRAVEFY_TOURS.map((tour, idx) => {
         const content = storedContent[tour.id];
         return {
           ...tour,
@@ -428,9 +429,16 @@ export function useTours() {
           imageUrl: content?.imageUrl ?? tour.imageUrl,
           seoTitle: content?.seoTitle ?? null,
           seoDescription: content?.seoDescription ?? null,
+          sortOrder: content?.sortOrder ?? (idx + 1) * 10,
         };
       });
-      return [...hardcoded, ...customTours];
+      const all = [...hardcoded, ...customTours];
+      all.sort((a, b) => {
+        const aOrder = a.sortOrder ?? 9999;
+        const bOrder = b.sortOrder ?? 9999;
+        return aOrder - bOrder;
+      });
+      return all;
     },
   });
 }

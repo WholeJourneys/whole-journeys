@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer } from "drizzle-orm/pg-core";
 
 export const tourContentTable = pgTable("tour_content", {
   tourId: text("tour_id").primaryKey(),
@@ -11,6 +11,7 @@ export const tourContentTable = pgTable("tour_content", {
   imageUrl: text("image_url"),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
+  sortOrder: integer("sort_order"),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

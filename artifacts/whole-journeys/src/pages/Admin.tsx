@@ -563,7 +563,7 @@ function TourContentTab() {
   const saveCustomTour = useSaveCustomTour();
 
   // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
-  const [drafts, setDrafts] = useState<Record<string, { tourName: string; description: string; highlights: string[]; destination: string; country: string[]; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string }>>({});
+  const [drafts, setDrafts] = useState<Record<string, { tourName: string; description: string; highlights: string[]; destination: string; country: string[]; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string; sortOrder: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [saveError, setSaveError] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
@@ -665,12 +665,13 @@ function TourContentTab() {
       imageUrl: db?.imageUrl ?? "",
       seoTitle: db?.seoTitle ?? "",
       seoDescription: db?.seoDescription ?? "",
+      sortOrder: db?.sortOrder != null ? String(db.sortOrder) : "",
     };
   }
 
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
-    if (!tour) return { tourName: "", description: "", highlights: [], destination: "", country: [] as string[], groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "" };
+    if (!tour) return { tourName: "", description: "", highlights: [], destination: "", country: [] as string[], groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "", sortOrder: "" };
     return getDraft(tour);
   }
 
@@ -678,7 +679,7 @@ function TourContentTab() {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
   }
 
-  function setDraftField(tourId: string, key: "tourName" | "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription", value: string) {
+  function setDraftField(tourId: string, key: "tourName" | "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription" | "sortOrder", value: string) {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), [key]: value } }));
   }
 
@@ -708,8 +709,9 @@ function TourContentTab() {
 
   function save(tourId: string) {
     const draft = getDraftById(tourId);
+    const sortOrderNum = draft.sortOrder !== "" ? parseInt(draft.sortOrder, 10) : null;
     saveTourContent.mutate(
-      { tourId, tourName: draft.tourName || null, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, country: draft.country, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null },
+      { tourId, tourName: draft.tourName || null, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, country: draft.country, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null, sortOrder: isNaN(sortOrderNum as number) ? null : sortOrderNum },
       {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
@@ -963,16 +965,30 @@ function TourContentTab() {
                   </button>
                 </div>
               </div>
-              {/* Tour Name */}
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Tour Name</label>
-                <input
-                  className={inputCls}
-                  value={draft.tourName}
-                  onChange={(e) => setDraftField(tour.id, "tourName", e.target.value)}
-                  placeholder={tour.name}
-                />
-                <p className="text-xs text-muted-foreground mt-1">Override the default tour name. Leave blank to use the original.</p>
+              {/* Tour Name + Sort Order */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Tour Name</label>
+                  <input
+                    className={inputCls}
+                    value={draft.tourName}
+                    onChange={(e) => setDraftField(tour.id, "tourName", e.target.value)}
+                    placeholder={tour.name}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Override the default tour name. Leave blank to use the original.</p>
+                </div>
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5 block">Display Order</label>
+                  <input
+                    type="number"
+                    className={inputCls}
+                    value={draft.sortOrder}
+                    onChange={(e) => setDraftField(tour.id, "sortOrder", e.target.value)}
+                    placeholder="e.g. 10"
+                    min={1}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Lower = appears first. Leave blank to use default.</p>
+                </div>
               </div>
               {/* Country + Destination + Group Size */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -15,6 +15,7 @@ export default function Tours() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeRegions, setActiveRegions] = useState<string[]>([]);
+  const [activeCountry, setActiveCountry] = useState<string | null>(null);
 
   function selectCategory(cat: string) {
     setActiveCategory((prev) => (prev === cat ? null : cat));
@@ -30,9 +31,10 @@ export default function Tours() {
     setSearchQuery("");
     setActiveCategory(null);
     setActiveRegions([]);
+    setActiveCountry(null);
   }
 
-  const hasFilters = searchQuery || activeCategory !== null || activeRegions.length > 0;
+  const hasFilters = searchQuery || activeCategory !== null || activeRegions.length > 0 || activeCountry !== null;
 
   // Only show region/category chips that have at least one tour
   const usedRegions = useMemo(() => {
@@ -45,6 +47,12 @@ export default function Tours() {
     if (!tours) return [] as string[];
     const set = new Set(tours.flatMap((t) => t.categories));
     return ALL_CATEGORIES.filter((c) => set.has(c));
+  }, [tours]);
+
+  const usedCountries = useMemo(() => {
+    if (!tours) return [] as string[];
+    const set = new Set(tours.flatMap((t) => t.country));
+    return Array.from(set).sort();
   }, [tours]);
 
   type FilterResult = {
@@ -67,16 +75,19 @@ export default function Tours() {
     const matchesRegion = (tour: Tour) =>
       activeRegions.length === 0 || activeRegions.includes(tour.region);
 
+    const matchesCountry = (tour: Tour) =>
+      activeCountry === null || tour.country.includes(activeCountry);
+
     // Full match: all active filters
-    const full = tours.filter((t) => matchesSearch(t) && matchesCategory(t) && matchesRegion(t));
+    const full = tours.filter((t) => matchesSearch(t) && matchesCategory(t) && matchesRegion(t) && matchesCountry(t));
     if (full.length > 0) return { filteredTours: full, fallbackMode: null };
 
     // If no results and both style+region are active, try falling back gracefully
     if (activeCategory !== null && activeRegions.length > 0) {
-      const styleOnly = tours.filter((t) => matchesSearch(t) && matchesCategory(t));
+      const styleOnly = tours.filter((t) => matchesSearch(t) && matchesCategory(t) && matchesCountry(t));
       if (styleOnly.length > 0) return { filteredTours: styleOnly, fallbackMode: "style-only" };
 
-      const regionOnly = tours.filter((t) => matchesSearch(t) && matchesRegion(t));
+      const regionOnly = tours.filter((t) => matchesSearch(t) && matchesRegion(t) && matchesCountry(t));
       if (regionOnly.length > 0) return { filteredTours: regionOnly, fallbackMode: "region-only" };
     }
 
@@ -84,7 +95,7 @@ export default function Tours() {
     if (hasFilters) return { filteredTours: tours, fallbackMode: "all" };
 
     return { filteredTours: tours, fallbackMode: null };
-  }, [tours, searchQuery, activeCategory, activeRegions, hasFilters]);
+  }, [tours, searchQuery, activeCategory, activeRegions, activeCountry, hasFilters]);
 
   const CATEGORY_COLORS: Record<string, { base: string; active: string }> = {
     "Adventure":           { base: "border-amber-300 text-amber-800 hover:bg-amber-50",         active: "bg-amber-800 text-white border-amber-800" },
@@ -212,6 +223,40 @@ export default function Tours() {
             })}
           </div>
         </div>
+
+        {/* Country Filter Chips */}
+        {usedCountries.length > 1 && (
+          <div className="mb-8">
+            <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2.5">
+              Country
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setActiveCountry(null)}
+                className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
+                  activeCountry === null
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "border-border text-muted-foreground hover:bg-muted/50"
+                }`}
+              >
+                Any
+              </button>
+              {usedCountries.map((country) => (
+                <button
+                  key={country}
+                  onClick={() => setActiveCountry((prev) => (prev === country ? null : country))}
+                  className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-all duration-150 ${
+                    activeCountry === country
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border text-muted-foreground hover:bg-muted/50"
+                  }`}
+                >
+                  {country}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Filter status bar */}
         {hasFilters && (

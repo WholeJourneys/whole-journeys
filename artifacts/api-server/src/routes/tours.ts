@@ -53,6 +53,7 @@ router.get("/tours/content", async (_req, res) => {
       imageUrl: string | null;
       seoTitle: string | null;
       seoDescription: string | null;
+      sortOrder: number | null;
     }> = {};
     for (const row of rows) {
       map[row.tourId] = {
@@ -65,6 +66,7 @@ router.get("/tours/content", async (_req, res) => {
         imageUrl: row.imageUrl ?? null,
         seoTitle: row.seoTitle ?? null,
         seoDescription: row.seoDescription ?? null,
+        sortOrder: row.sortOrder ?? null,
       };
     }
     res.json(map);
@@ -75,7 +77,7 @@ router.get("/tours/content", async (_req, res) => {
 
 router.put("/tours/content/:tourId", async (req, res) => {
   const { tourId } = req.params;
-  const { tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription } = req.body as {
+  const { tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription, sortOrder } = req.body as {
     tourName?: string;
     description?: string;
     highlights?: string[];
@@ -85,6 +87,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
     imageUrl?: string;
     seoTitle?: string;
     seoDescription?: string;
+    sortOrder?: number | null;
   };
 
   try {
@@ -101,6 +104,7 @@ router.put("/tours/content/:tourId", async (req, res) => {
         imageUrl: imageUrl ?? null,
         seoTitle: seoTitle ?? null,
         seoDescription: seoDescription ?? null,
+        sortOrder: sortOrder ?? null,
       })
       .onConflictDoUpdate({
         target: tourContentTable.tourId,
@@ -114,10 +118,11 @@ router.put("/tours/content/:tourId", async (req, res) => {
           imageUrl: imageUrl ?? null,
           seoTitle: seoTitle ?? null,
           seoDescription: seoDescription ?? null,
+          sortOrder: sortOrder ?? null,
           updatedAt: new Date(),
         },
       });
-    res.json({ tourId, tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription });
+    res.json({ tourId, tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription, sortOrder });
   } catch (err) {
     res.status(500).json({ error: "Failed to save tour content" });
   }

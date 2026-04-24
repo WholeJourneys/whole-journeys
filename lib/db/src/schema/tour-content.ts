@@ -11,6 +11,7 @@ export const tourContentTable = pgTable("tour_content", {
   imageUrl: text("image_url"),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
+  itineraryUrl: text("itinerary_url"),
   sortOrder: integer("sort_order"),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });

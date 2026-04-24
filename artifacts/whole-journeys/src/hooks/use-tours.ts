@@ -429,6 +429,7 @@ export function useTours() {
           imageUrl: content?.imageUrl ?? tour.imageUrl,
           seoTitle: content?.seoTitle ?? null,
           seoDescription: content?.seoDescription ?? null,
+          travefyUrl: content?.itineraryUrl || tour.travefyUrl,
           sortOrder: content?.sortOrder ?? (idx + 1) * 10,
         };
       });

@@ -565,7 +565,7 @@ function TourContentTab() {
   const saveCustomTour = useSaveCustomTour();
 
   // ── Travefy tour state (description + highlights + destination + groupSize + seo) ─
-  const [drafts, setDrafts] = useState<Record<string, { tourName: string; description: string; highlights: string[]; destination: string; country: string[]; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string; sortOrder: string }>>({});
+  const [drafts, setDrafts] = useState<Record<string, { tourName: string; description: string; highlights: string[]; destination: string; country: string[]; groupSize: string; imageUrl: string; seoTitle: string; seoDescription: string; itineraryUrl: string; sortOrder: string }>>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const [saveError, setSaveError] = useState<Record<string, boolean>>({});
   const [newHighlight, setNewHighlight] = useState<Record<string, string>>({});
@@ -667,13 +667,14 @@ function TourContentTab() {
       imageUrl: db?.imageUrl ?? "",
       seoTitle: db?.seoTitle ?? "",
       seoDescription: db?.seoDescription ?? "",
+      itineraryUrl: db?.itineraryUrl ?? "",
       sortOrder: db?.sortOrder != null ? String(db.sortOrder) : "",
     };
   }
 
   function getDraftById(tourId: string) {
     const tour = tours?.find((t) => t.id === tourId);
-    if (!tour) return { tourName: "", description: "", highlights: [], destination: "", country: [] as string[], groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "", sortOrder: "" };
+    if (!tour) return { tourName: "", description: "", highlights: [], destination: "", country: [] as string[], groupSize: "", imageUrl: "", seoTitle: "", seoDescription: "", itineraryUrl: "", sortOrder: "" };
     return getDraft(tour);
   }
 
@@ -681,7 +682,7 @@ function TourContentTab() {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), description: value } }));
   }
 
-  function setDraftField(tourId: string, key: "tourName" | "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription" | "sortOrder", value: string) {
+  function setDraftField(tourId: string, key: "tourName" | "destination" | "groupSize" | "imageUrl" | "seoTitle" | "seoDescription" | "itineraryUrl" | "sortOrder", value: string) {
     setDrafts((d) => ({ ...d, [tourId]: { ...getDraftById(tourId), [key]: value } }));
   }
 
@@ -713,7 +714,7 @@ function TourContentTab() {
     const draft = getDraftById(tourId);
     const sortOrderNum = draft.sortOrder !== "" ? parseInt(draft.sortOrder, 10) : null;
     saveTourContent.mutate(
-      { tourId, tourName: draft.tourName || null, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, country: draft.country, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null, sortOrder: isNaN(sortOrderNum as number) ? null : sortOrderNum },
+      { tourId, tourName: draft.tourName || null, description: draft.description, highlights: draft.highlights, destination: draft.destination || null, country: draft.country, groupSize: draft.groupSize || null, imageUrl: draft.imageUrl || null, seoTitle: draft.seoTitle || null, seoDescription: draft.seoDescription || null, itineraryUrl: draft.itineraryUrl || null, sortOrder: isNaN(sortOrderNum as number) ? null : sortOrderNum },
       {
         onSuccess: () => {
           setSaved((s) => ({ ...s, [tourId]: true }));
@@ -1136,6 +1137,29 @@ function TourContentTab() {
                   </div>
                 </div>
               </div>
+              {/* Itinerary URL Override */}
+              <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-2 bg-muted/20">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">"View Full Itinerary" Link</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Override where the "View Full Itinerary" button links to. Leave blank to use the default Travefy link.</p>
+                </div>
+                <input
+                  type="url"
+                  className={inputCls}
+                  value={draft.itineraryUrl}
+                  onChange={(e) => setDraftField(tour.id, "itineraryUrl", e.target.value)}
+                  placeholder="https://… or leave blank to use default Travefy link"
+                />
+                {draft.itineraryUrl && (
+                  <button
+                    onClick={() => setDraftField(tour.id, "itineraryUrl", "")}
+                    className="text-xs text-destructive hover:underline"
+                  >
+                    Clear override (revert to Travefy link)
+                  </button>
+                )}
+              </div>
+
               {/* SEO */}
               <div className="border border-dashed border-border/60 rounded-xl p-4 space-y-3 bg-muted/20">
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">SEO — Search Engine Snippet</p>

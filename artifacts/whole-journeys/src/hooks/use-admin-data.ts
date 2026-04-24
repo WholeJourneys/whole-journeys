@@ -146,6 +146,7 @@ export interface TourContent {
   imageUrl: string | null;
   seoTitle: string | null;
   seoDescription: string | null;
+  itineraryUrl: string | null;
   sortOrder: number | null;
 }
 
@@ -183,11 +184,11 @@ export function useUpdateTourSortOrder() {
 export function useSaveTourContent() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ tourId, tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription, sortOrder }: { tourId: string } & TourContent) => {
+    mutationFn: async ({ tourId, tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription, itineraryUrl, sortOrder }: { tourId: string } & TourContent) => {
       const res = await fetch(`${API}/tours/content/${tourId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription, sortOrder }),
+        body: JSON.stringify({ tourName, description, highlights, destination, country, groupSize, imageUrl, seoTitle, seoDescription, itineraryUrl, sortOrder }),
       });
       if (!res.ok) throw new Error(`Save failed (${res.status})`);
       return res.json();

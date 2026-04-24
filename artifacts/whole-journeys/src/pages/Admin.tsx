@@ -604,7 +604,7 @@ function TourContentTab() {
     if (customDrafts[tourId]) return customDrafts[tourId];
     const dbId = getDbId(tourId);
     const ct = rawCustomTours.find((c) => c.id === dbId);
-    return ct ?? { name: "", destination: "", region: "Europe", country: [], groupSize: "Private departures for 2+", categories: [], description: "", highlights: [], imageUrl: "", galleryImages: [], itineraryUrl: "", sortOrder: 0, active: true };
+    return ct ?? { name: "", destination: "", region: "Europe", country: [], groupSize: "Private departures for 2+", categories: [], description: "", highlights: [], imageUrl: "", galleryImages: [], itineraryUrl: "", viewItineraryUrl: "", sortOrder: 0, active: true };
   }
 
   function setCustomField<K extends keyof CustomTour>(tourId: string, key: K, value: CustomTour[K]) {
@@ -784,10 +784,10 @@ function TourContentTab() {
               </div>
               {/* Full form — only when expanded */}
               {isOpen && <div className="border-t border-border/50 p-4 space-y-5">
-                {/* Itinerary URL */}
+                {/* Auto-fill URL */}
                 <div>
                   <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
-                    Itinerary URL <span className="normal-case font-normal">(Travefy or any trip page)</span>
+                    Auto-Fill URL <span className="normal-case font-normal">(Travefy or any trip page — used to pull in title & image)</span>
                   </label>
                   <div className="flex gap-2">
                     <input
@@ -806,6 +806,22 @@ function TourContentTab() {
                     </button>
                   </div>
                   {fetchError[tour.id] && <p className="text-xs text-red-500 mt-1">{fetchError[tour.id]}</p>}
+                  <p className="text-xs text-muted-foreground mt-1">Only used for auto-filling the title and image — not shown to visitors.</p>
+                </div>
+
+                {/* View Full Itinerary link */}
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+                    "View Full Itinerary" Link <span className="normal-case font-normal">(Travefy, Dropbox, Google Doc, or any URL)</span>
+                  </label>
+                  <input
+                    type="url"
+                    className={inputCls}
+                    placeholder="https://… leave blank to use the Auto-Fill URL above"
+                    value={ct.viewItineraryUrl ?? ""}
+                    onChange={(e) => setCustomField(tour.id, "viewItineraryUrl", e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">This becomes the "View Full Itinerary" button visitors see. If blank, falls back to the Auto-Fill URL.</p>
                 </div>
 
                 {/* Name */}
@@ -1214,6 +1230,7 @@ const BLANK_CUSTOM_TOUR: CustomTour = {
   imageUrl: "",
   galleryImages: [],
   itineraryUrl: "",
+  viewItineraryUrl: "",
   sortOrder: 0,
   active: true,
 };
@@ -1260,10 +1277,10 @@ function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; on
   return (
     <div className="bg-muted/40 border border-border rounded-xl p-5 space-y-5">
 
-      {/* Itinerary URL + auto-fetch */}
+      {/* Auto-fill URL */}
       <div>
         <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
-          Itinerary URL <span className="normal-case font-normal">(Travefy link or any page with the trip details)</span>
+          Auto-Fill URL <span className="normal-case font-normal">(Travefy or any trip page — used to pull in title & image)</span>
         </label>
         <div className="flex gap-2">
           <input
@@ -1282,7 +1299,22 @@ function CustomTourForm({ initial, onSave, onCancel }: { initial: CustomTour; on
           </button>
         </div>
         {fetchError && <p className="text-xs text-red-500 mt-1">{fetchError}</p>}
-        <p className="text-xs text-muted-foreground mt-1">Paste the URL and click Auto-Fill to pull in the trip title and hero image automatically.</p>
+        <p className="text-xs text-muted-foreground mt-1">Paste the URL and click Auto-Fill to pull in the trip title and hero image automatically. This URL is only used for auto-filling — it is not shown to visitors.</p>
+      </div>
+
+      {/* View Full Itinerary link */}
+      <div>
+        <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground block mb-1.5">
+          "View Full Itinerary" Link <span className="normal-case font-normal">(Travefy, Dropbox, Google Doc, or any URL)</span>
+        </label>
+        <input
+          type="url"
+          className={inputCls}
+          placeholder="https://… leave blank to use the Auto-Fill URL above"
+          value={t.viewItineraryUrl}
+          onChange={(e) => set("viewItineraryUrl", e.target.value)}
+        />
+        <p className="text-xs text-muted-foreground mt-1">This becomes the "View Full Itinerary" button visitors see. Can be a Travefy link, a Dropbox PDF, a Google Doc — anything. If blank, falls back to the Auto-Fill URL above.</p>
       </div>
 
       {/* Name */}

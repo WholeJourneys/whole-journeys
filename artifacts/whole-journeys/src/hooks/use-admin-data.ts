@@ -243,6 +243,7 @@ export interface CustomTour {
   imageUrl: string;
   galleryImages: string[];
   itineraryUrl: string;
+  viewItineraryUrl: string;
   sortOrder: number;
   active: boolean;
 }

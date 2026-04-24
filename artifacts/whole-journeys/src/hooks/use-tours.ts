@@ -399,7 +399,7 @@ async function fetchCustomTours(): Promise<Tour[]> {
         highlights: r.highlights,
         imageUrl: r.imageUrl,
         galleryImages: r.galleryImages ?? [],
-        travefyUrl: r.itineraryUrl,
+        travefyUrl: r.viewItineraryUrl || r.itineraryUrl,
       }));
   } catch {
     return [];

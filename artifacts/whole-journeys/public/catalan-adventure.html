@@ -365,6 +365,25 @@
         function MapView() {
             return (
                 <div className="space-y-8">
+                    {/* Custom Google Map Link */}
+                    <a
+                        href="https://www.google.com/maps/d/u/0/edit?mid=1Zqz5o0E2Zmt5xtpsCe1geLQ8Gbrc6kY&usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between bg-gradient-to-r from-teal-600 to-blue-600 text-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:from-teal-500 hover:to-blue-500 transition-all group"
+                    >
+                        <div className="flex items-center space-x-4">
+                            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
+                                <Icon name="Map" className="w-6 h-6 text-white" />
+                            </div>
+                            <div>
+                                <p className="font-bold text-lg text-white">Open Full Interactive Map</p>
+                                <p className="text-teal-100 text-sm">All hotels & activity locations — tap any pin for details</p>
+                            </div>
+                        </div>
+                        <Icon name="ExternalLink" className="w-5 h-5 text-white/80 group-hover:text-white shrink-0 ml-4" />
+                    </a>
+
                     {/* Visual Route Map */}
                     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 overflow-hidden relative">
                         <h3 className="text-xl font-bold mb-6 flex items-center">

@@ -85,7 +85,6 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <SEO
-        title="Curated Experiential Travel"
         description="Thoughtfully designed extraordinary journeys for curious travelers. Explore signature walking tours in Europe and beyond, personally curated by Kathy Dragon — independent travel advisor and Virtuoso member."
         path="/"
       />

@@ -2,8 +2,8 @@ export function Option2() {
   const svgLarge = (size: number) => (
     <svg width={size} height={size} viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="180" height="180" rx="36" fill="#1E3A5C"/>
-      <path d="M22 148 L55 58 L82 108 L90 82 L98 108 L125 58 L158 148" stroke="white" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <path d="M22 148 L55 58 L82 108 L90 82 L98 108 L125 58 L158 148" stroke="#C4855A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+      <path d="M22 148 L55 58 L82 108 L90 82 L98 108 L125 58 L158 148" stroke="white" strokeWidth="13" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M22 148 L55 58 L82 108 L90 82 L98 108 L125 58 L158 148" stroke="#C4855A" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
     </svg>
   );
   return (

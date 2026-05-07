@@ -1,19 +1,16 @@
 export function Option6() {
-  const svgLarge = (size: number) => {
-    const s = size / 180;
-    return (
-      <svg width={size} height={size} viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="180" height="180" rx="36" fill="#1E3A5C"/>
-        <circle cx="90" cy="90" r="62" fill="#1E3A5C" stroke="white" strokeWidth="3"/>
-        <ellipse cx="90" cy="90" rx="30" ry="62" fill="none" stroke="white" strokeWidth="1.5" opacity="0.35"/>
-        <ellipse cx="90" cy="90" rx="62" ry="22" fill="none" stroke="white" strokeWidth="1.5" opacity="0.35"/>
-        <ellipse cx="90" cy="90" rx="62" ry="40" fill="none" stroke="white" strokeWidth="1" opacity="0.2"/>
-        <line x1="28" y1="90" x2="152" y2="90" stroke="white" strokeWidth="1.5" opacity="0.35"/>
-        <text x="90" y="99" fontFamily="Georgia, serif" fontSize="40" fontWeight="700" fill="white" textAnchor="middle" letterSpacing="-1">WJ</text>
-        <path d="M90 28 A62 62 0 0 1 152 90" stroke="#C4855A" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
-      </svg>
-    );
-  };
+  const svgLarge = (size: number) => (
+    <svg width={size} height={size} viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="180" height="180" rx="36" fill="#1E3A5C"/>
+      <circle cx="90" cy="90" r="62" stroke="white" strokeWidth="3"/>
+      <ellipse cx="90" cy="90" rx="30" ry="62" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+      <ellipse cx="90" cy="90" rx="62" ry="22" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+      <ellipse cx="90" cy="90" rx="62" ry="40" stroke="white" strokeWidth="1" opacity="0.2"/>
+      <line x1="28" y1="90" x2="152" y2="90" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+      <text x="90" y="99" fontFamily="Georgia, serif" fontSize="40" fontWeight="700" fill="white" textAnchor="middle" letterSpacing="-1">WJ</text>
+      <path d="M90 28 A62 62 0 0 1 152 90" stroke="#C4855A" strokeWidth="3.5" strokeLinecap="round"/>
+    </svg>
+  );
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center gap-6 p-8">
       <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center gap-5 w-56">

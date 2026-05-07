@@ -303,6 +303,27 @@
                         <Icon name="ExternalLink" className="w-5 h-5 text-white/80 group-hover:text-white shrink-0 ml-4" />
                     </a>
 
+                    {/* KML Download */}
+                    <div className="bg-white border border-slate-200 rounded-3xl p-5 flex items-center justify-between shadow-sm">
+                        <div className="flex items-center space-x-4">
+                            <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center shrink-0">
+                                <Icon name="MapPin" className="w-6 h-6 text-slate-500" />
+                            </div>
+                            <div>
+                                <p className="font-bold text-slate-800">Import All Pins to Google My Maps</p>
+                                <p className="text-slate-500 text-sm">Download the KML file → import into <a href="https://www.google.com/mymaps" target="_blank" className="underline text-teal-600">Google My Maps</a> to create your own custom map</p>
+                            </div>
+                        </div>
+                        <a
+                            href="/catalan-adventure-map.kml"
+                            download="catalan-adventure-map.kml"
+                            className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 text-white rounded-2xl hover:bg-teal-700 transition-all font-bold text-sm whitespace-nowrap ml-4"
+                        >
+                            <Icon name="ArrowRight" className="w-4 h-4" />
+                            Download KML
+                        </a>
+                    </div>
+
                     <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8 relative overflow-hidden">
                         <div className="relative z-10">
                             <h3 className="text-2xl font-black flex items-center text-slate-800 mb-2">

@@ -365,6 +365,26 @@
         function MapView() {
             return (
                 <div className="space-y-8">
+                    {/* KML Download */}
+                    <div className="bg-white border border-slate-200 rounded-2xl p-5 flex items-center justify-between shadow-sm">
+                        <div className="flex items-center space-x-4">
+                            <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center shrink-0">
+                                <Icon name="MapPin" className="w-6 h-6 text-slate-500" />
+                            </div>
+                            <div>
+                                <p className="font-bold text-slate-800">Import All Pins to Google My Maps</p>
+                                <p className="text-slate-500 text-sm">Download the KML file → import into <a href="https://www.google.com/mymaps" target="_blank" className="underline text-teal-600">Google My Maps</a> to create your own custom map</p>
+                            </div>
+                        </div>
+                        <a
+                            href="/catalan-adventure-map.kml"
+                            download="catalan-adventure-map.kml"
+                            className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 text-white rounded-xl hover:bg-teal-700 transition-all font-bold text-sm whitespace-nowrap ml-4"
+                        >
+                            ↓ Download KML
+                        </a>
+                    </div>
+
                     {/* Custom Google Map Link */}
                     <a
                         href="https://www.google.com/maps/d/u/0/edit?mid=1Zqz5o0E2Zmt5xtpsCe1geLQ8Gbrc6kY&usp=sharing"

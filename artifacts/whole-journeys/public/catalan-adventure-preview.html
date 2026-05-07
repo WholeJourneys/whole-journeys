@@ -143,47 +143,43 @@
                     <header className="bg-gradient-to-r from-blue-600 via-teal-700 to-slate-800 text-white pt-8 pb-8 px-6 shadow-lg">
                         <div className="max-w-6xl mx-auto">
 
-                            {/* ── Top row: ATTA/event left · Title + operator logo right ── */}
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-6 border-b border-white/20 gap-6">
+                            {/* ── Main header row ── */}
+                            <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6 pb-6 border-b border-white/20">
 
-                                {/* Left — ATTA + Adventure Elevate */}
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-white px-3 py-2 rounded-xl shadow-sm flex items-center justify-center h-12">
-                                        <img src="/atta-logo.png" alt="ATTA" className="h-full object-contain max-h-8" />
+                                {/* LEFT — Operator logo + trip title + guide info */}
+                                <div className="flex flex-col gap-3">
+                                    <div className="bg-white px-4 py-2 rounded-xl shadow-sm inline-flex items-center justify-start h-12 w-fit">
+                                        <img src="https://outdooradventour.com/wp-content/uploads/2025/08/Logo-Outdoor-Adventure-idiligrafic.png" alt="Outdoor Adventour" className="h-full object-contain max-h-8" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
                                     </div>
                                     <div>
-                                        <p className="text-white font-black text-base leading-tight tracking-wide uppercase">Adventure Elevate</p>
-                                        <p className="text-cyan-200 text-sm font-semibold tracking-widest uppercase">Europe · Catalonia</p>
-                                        <p className="text-teal-300 text-xs mt-0.5">19 – 21 May 2026</p>
+                                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white drop-shadow-md leading-tight">Sea to Peaks</h1>
+                                        <p className="text-cyan-100 text-xl font-light mt-1">A Catalan Multi-Activity Adventure</p>
+                                    </div>
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20 shadow-sm text-sm w-fit">
+                                        <p className="text-teal-200 text-xs font-bold uppercase tracking-widest mb-1">Itinerary · Outdoor Adventour</p>
+                                        <p className="font-bold text-white">Guide: Sílvia Vidal</p>
+                                        <p className="text-cyan-100">
+                                            <a href="tel:+34656590649" className="hover:underline">(+34) 656 590 649</a>
+                                            {' · '}
+                                            <a href="mailto:info@outdooradventour.com" className="hover:underline">info@outdooradventour.com</a>
+                                        </p>
                                     </div>
                                 </div>
 
-                                {/* Right — Trip title + Outdoor Adventour logo below */}
-                                <div className="flex flex-col items-start md:items-end gap-2">
-                                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white drop-shadow-md leading-tight">Sea to Peaks</h1>
-                                    <p className="text-cyan-100 text-base font-light mb-1">A Catalan Multi-Activity Adventure</p>
-                                    <div className="bg-white px-4 py-2 rounded-xl shadow-sm flex items-center justify-center h-11">
-                                        <img src="https://outdooradventour.com/wp-content/uploads/2025/08/Logo-Outdoor-Adventure-idiligrafic.png" alt="Outdoor Adventour" className="h-full object-contain max-h-7" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
+                                {/* RIGHT — ATTA + Adventure Elevate + Kathy credit + date + PDF */}
+                                <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
+                                    {/* ATTA + event */}
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-white px-3 py-2 rounded-xl shadow-sm flex items-center justify-center h-11">
+                                            <img src="/atta-logo.png" alt="ATTA" className="h-full object-contain max-h-7" />
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-white font-black text-base leading-tight tracking-wide uppercase">Adventure Elevate</p>
+                                            <p className="text-cyan-200 text-sm font-semibold tracking-widest uppercase">Europe · Catalonia</p>
+                                            <p className="text-teal-300 text-xs mt-0.5">19 – 21 May 2026</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            {/* ── Bottom row: guide info left · infographic credit + date right ── */}
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-
-                                {/* Left — Guide / itinerary (Adventour's) */}
-                                <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20 shadow-sm text-sm">
-                                    <p className="text-teal-200 text-xs font-bold uppercase tracking-widest mb-1">Itinerary · Outdoor Adventour</p>
-                                    <p className="font-bold text-white">Guide: Sílvia Vidal</p>
-                                    <p className="text-cyan-100">
-                                        <a href="tel:+34656590649" className="hover:underline">(+34) 656 590 649</a>
-                                        {' · '}
-                                        <a href="mailto:info@outdooradventour.com" className="hover:underline">info@outdooradventour.com</a>
-                                    </p>
-                                </div>
-
-                                {/* Right — Kathy credit + date + save PDF */}
-                                <div className="flex flex-col items-start md:items-end gap-3">
+                                    {/* Kathy credit */}
                                     <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20 shadow-sm text-sm text-right">
                                         <p className="text-teal-200 text-xs font-bold uppercase tracking-widest mb-1">Infographic designed by</p>
                                         <p className="font-bold text-white">Kathy Dragon, Whole Journeys</p>
@@ -193,6 +189,7 @@
                                             <a href="https://www.wholejourneys.com" target="_blank" rel="noopener noreferrer" className="hover:underline">wholejourneys.com</a>
                                         </p>
                                     </div>
+                                    {/* Date + PDF */}
                                     <div className="flex flex-wrap items-center gap-3">
                                         <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20 shadow-sm">
                                             <Icon name="Calendar" className="w-5 h-5 mr-2 text-teal-300" />

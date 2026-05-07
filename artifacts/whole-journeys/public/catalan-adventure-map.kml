@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Sea to Peaks: Catalan Adventure — May 14–18</name>
+    <description>All hotels, activities, and dining locations for the Whole Journeys Catalonia fam trip. Created by Kathy Dragon, Whole Journeys.</description>
+
+    <!-- Styles by category -->
+    <Style id="lodging">
+      <IconStyle>
+        <color>ffee5500</color>
+        <scale>1.2</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/shapes/lodging.png</href></Icon>
+      </IconStyle>
+      <LabelStyle><scale>0.9</scale></LabelStyle>
+    </Style>
+
+    <Style id="activity">
+      <IconStyle>
+        <color>ff00aa00</color>
+        <scale>1.1</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/shapes/hiking.png</href></Icon>
+      </IconStyle>
+      <LabelStyle><scale>0.9</scale></LabelStyle>
+    </Style>
+
+    <Style id="dining">
+      <IconStyle>
+        <color>ff0000ff</color>
+        <scale>1.1</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/shapes/dining.png</href></Icon>
+      </IconStyle>
+      <LabelStyle><scale>0.9</scale></LabelStyle>
+    </Style>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DAY 1 — Girona (May 14)                -->
+    <!-- ═══════════════════════════════════════ -->
+    <Folder>
+      <name>Day 1 — Girona (May 14)</name>
+
+      <Placemark>
+        <name>🍽 El Petit Racó de Salt (Dinner)</name>
+        <description>Day 1 — Included Dinner at 8:00 PM</description>
+        <styleUrl>#dining</styleUrl>
+        <Point><coordinates>2.7958,41.9792,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🏛 Girona Old Town — Temps de Flors</name>
+        <description>Day 1 — Annual flower festival in the historic old town</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>2.8237,42.0135,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🛏 Hotel B&amp;B Girona 3 — Night 1</name>
+        <description>Day 1 — Carrer de Miquel Martí i Pol, 11, 17190 Salt, Girona&#10;Phone: +34 900 53 31 47</description>
+        <styleUrl>#lodging</styleUrl>
+        <Point><coordinates>2.7903,41.9736,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DAY 2 — Costa Brava (May 15)           -->
+    <!-- ═══════════════════════════════════════ -->
+    <Folder>
+      <name>Day 2 — Costa Brava (May 15)</name>
+
+      <Placemark>
+        <name>🚣 Port Lligat — Sea Kayaking</name>
+        <description>Day 2 — Sea Kayaking ~2.5 hrs (Beginner-friendly)</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>3.2858,42.2772,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🍽 Cala Joncols — Lunch &amp; Coastal Hike</name>
+        <description>Day 2 — Lunch in the secluded cove + 3 km coastal hike</description>
+        <styleUrl>#dining</styleUrl>
+        <Point><coordinates>3.2178,42.2527,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🛏 Mas La Ferreria — Night 2</name>
+        <description>Day 2 — 4★ Rural Hotel&#10;Veïnat de Ferreria, s/n, 17813 La Vall de Bianya, Girona&#10;Phone: +34 972 29 00 81</description>
+        <styleUrl>#lodging</styleUrl>
+        <Point><coordinates>2.5098,42.1758,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DAY 3 — Garrotxa & Camprodon (May 16)  -->
+    <!-- ═══════════════════════════════════════ -->
+    <Folder>
+      <name>Day 3 — Garrotxa &amp; Camprodon (May 16)</name>
+
+      <Placemark>
+        <name>🎈 Vol de Coloms — Hot-Air Balloon</name>
+        <description>Day 3 — Hot-air balloon flight over volcanic landscape (~1.5 hrs) + traditional farmer's breakfast</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>2.5786,42.1519,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🚲 La Fageda d'en Jordà — E-Bike Ride</name>
+        <description>Day 3 — E-bike ride ~2 hrs through the beech forest</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>2.5539,42.1314,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🏰 Camprodon — Medieval Village</name>
+        <description>Day 3 — Guided exploration of medieval Camprodon</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>2.3714,42.3147,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🛏 Hotel La Coma — Night 3</name>
+        <description>Day 3 — Mountain Hotel&#10;Carrer de la Coma, s/n, 17869 Setcases, Girona&#10;Phone: +34 972 74 06 09</description>
+        <styleUrl>#lodging</styleUrl>
+        <Point><coordinates>2.2789,42.3786,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DAY 4 — Monastery & Transfer (May 17)  -->
+    <!-- ═══════════════════════════════════════ -->
+    <Folder>
+      <name>Day 4 — Monastery &amp; Transfer (May 17)</name>
+
+      <Placemark>
+        <name>⛪ Monestir de Sant Joan de les Abadesses</name>
+        <description>Day 4 — Monastery visit + cheese-tasting brunch &amp; local specialties</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>2.2969,42.2239,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🛏 Hotel Pessets — Night 4</name>
+        <description>Day 4 — Sort Area&#10;Av. de la Diputació, 3, 25560 Sort, Lleida&#10;Phone: +34 973 62 00 00</description>
+        <styleUrl>#lodging</styleUrl>
+        <Point><coordinates>1.1303,42.4083,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DAY 5 — Rivers & High Peaks (May 18)   -->
+    <!-- ═══════════════════════════════════════ -->
+    <Folder>
+      <name>Day 5 — Rivers &amp; High Peaks (May 18)</name>
+
+      <Placemark>
+        <name>🌊 La Rafting Company — Whitewater Rafting</name>
+        <description>Day 5 — Whitewater Rafting: 18 km, ~3 hrs (Class III–IV) on the Pallaresa River</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>1.1303,42.4083,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🍷 Celler Batlliu de Sort — Vineyard Lunch</name>
+        <description>Day 5 — Lunch at high-mountain vineyard</description>
+        <styleUrl>#dining</styleUrl>
+        <Point><coordinates>1.0900,42.3980,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🏔 Estany de Sant Maurici — National Park Hike</name>
+        <description>Day 5 — 3 km alpine hike (±82m) at the glacial lake in Aigüestortes National Park</description>
+        <styleUrl>#activity</styleUrl>
+        <Point><coordinates>1.0197,42.5806,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>🛏 Parador de Vielha — Night 5</name>
+        <description>Day 5 — 4★ Event Hotel in Val d'Aran&#10;Ctra. del Túnel, s/n, 25530 Vielha, Lleida&#10;Phone: +34 973 64 01 00</description>
+        <styleUrl>#lodging</styleUrl>
+        <Point><coordinates>0.7977,42.7027,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+  </Document>
+</kml>

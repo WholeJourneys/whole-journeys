@@ -1,0 +1,218 @@
+2026-05-07 06:26:26.62
+7a0de88e
+User
+{"level":30,"time":1778156786622,"pid":19,"hostname":"localhost","req":{"id":137,"method":"GET","url":"/api/auth/session"},"res":{"statusCode":404},"responseTime":0,"msg":"request completed"}
+2026-05-07 06:26:35.51
+7a0de88e
+User
+{"level":30,"time":1778156795517,"pid":19,"hostname":"localhost","req":{"id":138,"method":"GET","url":"/api/.env"},"res":{"statusCode":404},"responseTime":0,"msg":"request completed"}
+2026-05-07 08:27:33.57
+7a0de88e
+User
+{"level":30,"time":1778164053570,"pid":19,"hostname":"localhost","req":{"id":139,"method":"GET","url":"/api/contact"},"res":{"statusCode":404},"responseTime":0,"msg":"request completed"}
+2026-05-07 08:27:33.90
+7a0de88e
+User
+{"level":30,"time":1778164053907,"pid":19,"hostname":"localhost","req":{"id":140,"method":"GET","url":"/api/subscribe"},"res":{"statusCode":404},"responseTime":1,"msg":"request completed"}
+2026-05-07 08:27:42.82
+7a0de88e
+User
+{"level":30,"time":1778164062827,"pid":19,"hostname":"localhost","req":{"id":141,"method":"GET","url":"/api/user"},"res":{"statusCode":404},"responseTime":0,"msg":"request completed"}
+2026-05-07 08:27:42.99
+7a0de88e
+User
+{"level":30,"time":1778164062996,"pid":19,"hostname":"localhost","req":{"id":142,"method":"GET","url":"/api/admin"},"res":{"statusCode":404},"responseTime":1,"msg":"request completed"}
+2026-05-07 08:27:43.19
+7a0de88e
+User
+{"level":30,"time":1778164063192,"pid":19,"hostname":"localhost","req":{"id":143,"method":"GET","url":"/api/me"},"res":{"statusCode":404},"responseTime":0,"msg":"request completed"}
+2026-05-07 08:27:44.69
+7a0de88e
+User
+{"level":30,"time":1778164064694,"pid":19,"hostname":"localhost","req":{"id":144,"method":"GET","url":"/api/auth/session"},"res":{"statusCode":404},"responseTime":0,"msg":"request completed"}
+2026-05-07 08:27:51.35
+7a0de88e
+User
+{"level":30,"time":1778164071353,"pid":19,"hostname":"localhost","req":{"id":145,"method":"GET","url":"/api/.env"},"res":{"statusCode":404},"responseTime":1,"msg":"request completed"}
+2026-05-07 08:45:18.10
+7a0de88e
+System
+sending SIGTERM to artifact process artifact=artifacts/api-server
+2026-05-07 08:45:18.10
+7a0de88e
+System
+received signal, shutting down artifact processes signal=terminated
+2026-05-07 08:45:18.12
+7a0de88e
+System
+artifact process exited with error error=signal: terminated artifact=artifacts/api-server
+2026-05-07 08:45:18.12
+7a0de88e
+System
+all artifact processes stopped
+2026-05-07 08:45:18.12
+7a0de88e
+System
+main done, exiting
+2026-05-07 08:45:42.52
+7a0de88e
+System
+starting up user application
+2026-05-07 08:45:42.52
+7a0de88e
+System
+starting artifact processes for monorepo deployment
+2026-05-07 08:45:42.52
+7a0de88e
+System
+artifact mode enabled static=2 runnable=1
+2026-05-07 08:45:42.52
+7a0de88e
+System
+registered static handler for artifact publicDir=artifacts/whole-journeys/dist/public path=/
+2026-05-07 08:45:42.52
+7a0de88e
+System
+registered static handler for artifact path=/wj-seo/ publicDir=artifacts/wj-seo/dist/public
+2026-05-07 08:45:42.52
+7a0de88e
+System
+forwarding local port 0 to external port 80 (mapped as 1104)
+2026-05-07 08:45:42.52
+7a0de88e
+System
+waiting for runnable artifact ports ports=[8080]
+2026-05-07 08:45:42.53
+7a0de88e
+System
+baseline ports snapshot before artifact start ports=[1105 1106 1104]
+2026-05-07 08:45:42.53
+7a0de88e
+System
+starting artifact process port=8080 artifact=artifacts/api-server args=[node --enable-source-maps artifacts/api-server/dist/index.mjs]
+2026-05-07 08:45:42.53
+7a0de88e
+System
+starting artifact processes count=1
+2026-05-07 08:45:42.53
+7a0de88e
+System
+artifact process started artifact=artifacts/api-server pid=19
+2026-05-07 08:45:44.02
+7a0de88e
+System
+all artifact ports detected
+2026-05-07 08:45:44.02
+7a0de88e
+System
+artifact port detected port=8080 detected=1 expected=1
+2026-05-07 08:45:44.02
+7a0de88e
+System
+artifact processes running, waiting for signal or process exit
+2026-05-07 08:45:44.02
+7a0de88e
+User
+{"level":30,"time":1778165144026,"pid":19,"hostname":"localhost","port":8080,"msg":"Server listening"}
+2026-05-07 08:45:45.34
+7a0de88e
+User
+{"level":30,"time":1778165145346,"pid":19,"hostname":"localhost","req":{"id":1,"method":"GET","url":"/api/healthz"},"res":{"statusCode":200},"responseTime":8,"msg":"request completed"}
+2026-05-07 08:45:46.80
+7a0de88e
+User
+To prepare for this change:
+2026-05-07 08:45:46.80
+7a0de88e
+User
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+2026-05-07 08:45:46.80
+7a0de88e
+User
+(node:19) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+2026-05-07 08:45:50.67
+7a0de88e
+User
+{"level":30,"time":1778165150674,"pid":19,"hostname":"localhost","req":{"id":2,"method":"GET","url":"/api/tours/tags"},"res":{"statusCode":200},"responseTime":3878,"msg":"request completed"}
+2026-05-07 08:45:50.68
+7a0de88e
+User
+{"level":30,"time":1778165150681,"pid":19,"hostname":"localhost","req":{"id":5,"method":"GET","url":"/api/custom-tours"},"res":{"statusCode":200},"responseTime":3821,"msg":"request completed"}
+2026-05-07 08:45:51.71
+7a0de88e
+User
+{"level":30,"time":1778165151717,"pid":19,"hostname":"localhost","req":{"id":4,"method":"GET","url":"/api/specials"},"res":{"statusCode":200},"responseTime":4860,"msg":"request completed"}
+2026-05-07 08:45:51.72
+7a0de88e
+User
+{"level":30,"time":1778165151720,"pid":19,"hostname":"localhost","req":{"id":3,"method":"GET","url":"/api/tours/content"},"res":{"statusCode":200},"responseTime":4876,"msg":"request completed"}
+2026-05-07 08:45:53.22
+7a0de88e
+User
+{"level":30,"time":1778165153229,"pid":19,"hostname":"localhost","req":{"id":6,"method":"GET","url":"/api/uploads/img-1775753749867-2kes3q02078.jpg"},"res":{"statusCode":200},"responseTime":404,"msg":"request completed"}
+2026-05-07 08:59:33.86
+7a0de88e
+User
+{"level":30,"time":1778165973853,"pid":19,"hostname":"localhost","req":{"id":8,"method":"GET","url":"/api/tours/tags"},"res":{"statusCode":200},"responseTime":253,"msg":"request completed"}
+2026-05-07 08:59:33.86
+7a0de88e
+User
+{"level":30,"time":1778165973855,"pid":19,"hostname":"localhost","req":{"id":7,"method":"GET","url":"/api/custom-tours"},"res":{"statusCode":200},"responseTime":257,"msg":"request completed"}
+2026-05-07 08:59:33.86
+7a0de88e
+User
+{"level":30,"time":1778165973866,"pid":19,"hostname":"localhost","req":{"id":9,"method":"GET","url":"/api/tours/content"},"res":{"statusCode":200},"responseTime":265,"msg":"request completed"}
+2026-05-07 08:59:33.86
+7a0de88e
+User
+{"level":30,"time":1778165973867,"pid":19,"hostname":"localhost","req":{"id":10,"method":"GET","url":"/api/specials"},"res":{"statusCode":200},"responseTime":230,"msg":"request completed"}
+2026-05-07 08:59:34.52
+7a0de88e
+User
+{"level":30,"time":1778165974521,"pid":19,"hostname":"localhost","req":{"id":11,"method":"GET","url":"/api/uploads/img-1775753749867-2kes3q02078.jpg"},"res":{"statusCode":200},"responseTime":247,"msg":"request completed"}
+2026-05-07 09:32:16.07
+7a0de88e
+User
+{"level":30,"time":1778167936074,"pid":19,"hostname":"localhost","req":{"id":15,"method":"GET","url":"/api/tours/content"},"res":{"statusCode":200},"responseTime":957,"msg":"request completed"}
+2026-05-07 09:32:16.31
+7a0de88e
+User
+{"level":30,"time":1778167936312,"pid":19,"hostname":"localhost","req":{"id":14,"method":"GET","url":"/api/specials"},"res":{"statusCode":200},"responseTime":1196,"msg":"request completed"}
+2026-05-07 09:32:16.32
+7a0de88e
+User
+{"level":30,"time":1778167936326,"pid":19,"hostname":"localhost","req":{"id":12,"method":"GET","url":"/api/custom-tours"},"res":{"statusCode":200},"responseTime":1214,"msg":"request completed"}
+2026-05-07 09:32:16.50
+7a0de88e
+User
+{"level":30,"time":1778167936506,"pid":19,"hostname":"localhost","req":{"id":13,"method":"GET","url":"/api/tours/tags"},"res":{"statusCode":200},"responseTime":1391,"msg":"request completed"}
+2026-05-07 09:32:16.91
+7a0de88e
+User
+{"level":30,"time":1778167936915,"pid":19,"hostname":"localhost","req":{"id":16,"method":"GET","url":"/api/uploads/img-1775753749867-2kes3q02078.jpg"},"res":{"statusCode":200},"responseTime":320,"msg":"request completed"}
+2026-05-07 09:32:24.71
+7a0de88e
+User
+{"level":30,"time":1778167944710,"pid":19,"hostname":"localhost","req":{"id":17,"method":"GET","url":"/api/tours/content"},"res":{"statusCode":304},"responseTime":31,"msg":"request completed"}
+2026-05-07 09:32:24.72
+7a0de88e
+User
+{"level":30,"time":1778167944721,"pid":19,"hostname":"localhost","req":{"id":19,"method":"GET","url":"/api/tours/tags"},"res":{"statusCode":304},"responseTime":29,"msg":"request completed"}
+2026-05-07 09:32:24.72
+7a0de88e
+User
+{"level":30,"time":1778167944722,"pid":19,"hostname":"localhost","req":{"id":18,"method":"GET","url":"/api/specials"},"res":{"statusCode":304},"responseTime":32,"msg":"request completed"}
+2026-05-07 09:32:24.72
+7a0de88e
+User
+{"level":30,"time":1778167944726,"pid":19,"hostname":"localhost","req":{"id":20,"method":"GET","url":"/api/custom-tours"},"res":{"statusCode":304},"responseTime":28,"msg":"request completed"}
+2026-05-07 09:32:29.21
+7a0de88e
+User
+{"level":30,"time":1778167949216,"pid":19,"hostname":"localhost","req":{"id":21,"method":"GET","url":"/api/content"},"res":{"statusCode":304},"responseTime":108,"msg":"request completed"}
+
+Collapse
+
+Wrap
+
+Colors

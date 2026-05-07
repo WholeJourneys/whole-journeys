@@ -1,0 +1,115 @@
+2026-05-07T15:08:50Z info: Deployment: 973c8f5d-662c-4b58-a72d-acb9eb941a49
+2026-05-07T15:08:50Z info: Build: f8958e29-c001-4085-af12-3d47bef581ad
+2026-05-07T15:24:00Z info: Running Security Scan
+2026-05-07T15:24:32Z info: Security Scan Complete
+2026-05-07T15:30:53Z info: Installing packages
+--> pnpm install
+
+Scope: all 10 workspace projects
+
+
+   ╭─────────────────────────────────────────╮
+   │                                         │
+   │   Update available! 10.26.1 → 11.0.8.   │
+   │   Changelog: https://pnpm.io/v/11.0.8   │
+   │    To update, run: pnpm add -g pnpm     │
+   │                                         │
+   ╰─────────────────────────────────────────╯
+
+
+Lockfile is up to date, resolution step is skipped
+
+Progress: resolved 1, reused 0, downloaded 0, added 0
+
+Packages: +1 -1
++-
+
+Progress: resolved 1, reused 1, downloaded 0, added 0, done
+
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+
+. preinstall: Done
+
+Done in 3.5s using pnpm v10.26.1
+
+2026-05-07T15:30:57Z info: Starting Build
+
+> @workspace/api-server@0.0.0 build /home/runner/workspace/artifacts/api-server
+> node ./build.mjs
+
+
+
+  dist/index.mjs                       2.2mb ⚠️
+  dist/pino-worker.mjs               153.4kb
+  dist/pino-file.mjs                 142.1kb
+  dist/pino-pretty.mjs               114.6kb
+  dist/thread-stream-worker.mjs        7.3kb
+  dist/index.mjs.map                   3.7mb
+  dist/pino-worker.mjs.map           256.9kb
+  dist/pino-file.mjs.map             229.0kb
+  dist/pino-pretty.mjs.map           203.9kb
+  dist/thread-stream-worker.mjs.map   12.0kb
+
+⚡ Done in 304ms
+
+
+> @workspace/whole-journeys@0.0.0 build /home/runner/workspace/artifacts/whole-journeys
+> vite build --config vite.config.ts
+
+
+vite v7.3.1 building client environment for production...
+
+transforming...
+
+✓ 2264 modules transformed.
+
+rendering chunks...
+
+computing gzip size...
+
+dist/public/index.html                  19.40 kB │ gzip:   4.81 kB
+dist/public/assets/index-BtBrnKTh.css  134.90 kB │ gzip:  21.60 kB
+
+dist/public/assets/index-ZGRrxhXc.js   984.12 kB │ gzip: 301.22 kB
+✓ built in 4.89s
+
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+
+> @workspace/wj-seo@0.0.0 build /home/runner/workspace/artifacts/wj-seo
+> vite build --config vite.config.ts
+
+
+vite v7.3.1 building client environment for production...
+
+transforming...
+
+✓ 48 modules transformed.
+
+rendering chunks...
+
+computing gzip size...
+
+dist/public/index.html                   9.94 kB │ gzip:  3.30 kB
+
+dist/public/assets/index-ByWQHnAT.css   86.91 kB │ gzip: 14.49 kB
+dist/public/assets/index-Bn-8KMgS.js   280.60 kB │ gzip: 83.84 kB
+
+✓ built in 1.14s
+
+Removed all cached metadata files
+
+Removed 31540 files
+
+Removed 637 packages
+
+2026-05-07T15:34:42Z info: Pushing pid1 binary layer...
+2026-05-07T15:34:43Z info: Pushing Repl layer...
+2026-05-07T15:34:43Z info: Pushing hosting layer...
+2026-05-07T15:34:43Z info: Created hosting layer
+2026-05-07T15:34:44Z info: Created pid1 binary layer
+2026-05-07T15:35:35Z info: Created Repl layer

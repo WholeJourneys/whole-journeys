@@ -142,7 +142,10 @@
                 <div className="min-h-screen bg-slate-50 text-slate-800 font-sans pb-12">
                     <header className="bg-gradient-to-r from-blue-600 via-teal-700 to-slate-800 text-white pt-8 pb-8 px-6 shadow-lg">
                         <div className="max-w-6xl mx-auto">
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-white/20 gap-4">
+
+                            {/* ── Top row: ATTA/event left · Title + operator logo right ── */}
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-6 border-b border-white/20 gap-6">
+
                                 {/* Left — ATTA + Adventure Elevate */}
                                 <div className="flex items-center gap-4">
                                     <div className="bg-white px-3 py-2 rounded-xl shadow-sm flex items-center justify-center h-12">
@@ -154,28 +157,41 @@
                                         <p className="text-teal-300 text-xs mt-0.5">19 – 21 May 2026</p>
                                     </div>
                                 </div>
-                                {/* Right — Outdoor Adventour + Created by */}
+
+                                {/* Right — Trip title + Outdoor Adventour logo below */}
                                 <div className="flex flex-col items-start md:items-end gap-2">
-                                    <div className="bg-white px-4 py-2 rounded-xl shadow-sm flex items-center justify-center h-12">
-                                        <img src="https://outdooradventour.com/wp-content/uploads/2025/08/Logo-Outdoor-Adventure-idiligrafic.png" alt="Outdoor Adventour" className="h-full object-contain max-h-8" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
-                                    </div>
-                                    <div className="text-xs text-teal-100 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/10 shadow-sm uppercase tracking-tight">
-                                        Itinerary by <span className="font-bold text-white">Kathy Dragon, Whole Journeys</span>
+                                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white drop-shadow-md leading-tight">Sea to Peaks</h1>
+                                    <p className="text-cyan-100 text-base font-light mb-1">A Catalan Multi-Activity Adventure</p>
+                                    <div className="bg-white px-4 py-2 rounded-xl shadow-sm flex items-center justify-center h-11">
+                                        <img src="https://outdooradventour.com/wp-content/uploads/2025/08/Logo-Outdoor-Adventure-idiligrafic.png" alt="Outdoor Adventour" className="h-full object-contain max-h-7" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }} />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6">
-                                <div>
-                                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-2 text-white drop-shadow-md">Sea to Peaks</h1>
-                                    <h2 className="text-xl md:text-2xl font-light text-cyan-100 drop-shadow-sm">A Catalan Multi-Activity Adventure</h2>
+                            {/* ── Bottom row: guide info left · infographic credit + date right ── */}
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+
+                                {/* Left — Guide / itinerary (Adventour's) */}
+                                <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20 shadow-sm text-sm">
+                                    <p className="text-teal-200 text-xs font-bold uppercase tracking-widest mb-1">Itinerary · Outdoor Adventour</p>
+                                    <p className="font-bold text-white">Guide: Sílvia Vidal</p>
+                                    <p className="text-cyan-100">
+                                        <a href="tel:+34656590649" className="hover:underline">(+34) 656 590 649</a>
+                                        {' · '}
+                                        <a href="mailto:info@outdooradventour.com" className="hover:underline">info@outdooradventour.com</a>
+                                    </p>
                                 </div>
-                                <div className="mt-4 md:mt-0 flex flex-col items-start md:items-end gap-3">
-                                    {/* Guide Contact Info */}
-                                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20 shadow-sm text-sm">
-                                        <p className="text-teal-200 text-xs font-bold uppercase tracking-widest mb-1">Your Guide</p>
-                                        <p className="font-bold text-white">Sílvia Vidal — Outdoor Adventour</p>
-                                        <p className="text-cyan-100"><a href="tel:+34656590649" className="hover:underline">(+34) 656 590 649</a> · <a href="mailto:info@outdooradventour.com" className="hover:underline">info@outdooradventour.com</a></p>
+
+                                {/* Right — Kathy credit + date + save PDF */}
+                                <div className="flex flex-col items-start md:items-end gap-3">
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20 shadow-sm text-sm text-right">
+                                        <p className="text-teal-200 text-xs font-bold uppercase tracking-widest mb-1">Infographic designed by</p>
+                                        <p className="font-bold text-white">Kathy Dragon, Whole Journeys</p>
+                                        <p className="text-cyan-100">
+                                            <a href="mailto:kathy.dragon@wholejourneys.com" className="hover:underline">kathy.dragon@wholejourneys.com</a>
+                                            {' · '}
+                                            <a href="https://www.wholejourneys.com" target="_blank" rel="noopener noreferrer" className="hover:underline">wholejourneys.com</a>
+                                        </p>
                                     </div>
                                     <div className="flex flex-wrap items-center gap-3">
                                         <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20 shadow-sm">
@@ -189,6 +205,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </header>
 

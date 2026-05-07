@@ -1,12 +1,19 @@
 export function Option6() {
-  const svgLarge = (size: number) => (
-    <svg width={size} height={size} viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="180" height="180" rx="90" fill="#1E3A5C"/>
-      <rect x="12" y="12" width="156" height="156" rx="78" stroke="#C4855A" stroke-width="4" fill="none"/>
-      <rect x="22" y="22" width="136" height="136" rx="68" stroke="white" stroke-width="1" fill="none" opacity="0.3"/>
-      <text x="90" y="105" fontFamily="Georgia, serif" fontSize="66" fontWeight="700" fill="white" textAnchor="middle" letterSpacing="-2">WJ</text>
-    </svg>
-  );
+  const svgLarge = (size: number) => {
+    const s = size / 180;
+    return (
+      <svg width={size} height={size} viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="180" height="180" rx="36" fill="#1E3A5C"/>
+        <circle cx="90" cy="90" r="62" fill="#1E3A5C" stroke="white" strokeWidth="3"/>
+        <ellipse cx="90" cy="90" rx="30" ry="62" fill="none" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+        <ellipse cx="90" cy="90" rx="62" ry="22" fill="none" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+        <ellipse cx="90" cy="90" rx="62" ry="40" fill="none" stroke="white" strokeWidth="1" opacity="0.2"/>
+        <line x1="28" y1="90" x2="152" y2="90" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+        <text x="90" y="99" fontFamily="Georgia, serif" fontSize="40" fontWeight="700" fill="white" textAnchor="middle" letterSpacing="-1">WJ</text>
+        <path d="M90 28 A62 62 0 0 1 152 90" stroke="#C4855A" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+      </svg>
+    );
+  };
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center gap-6 p-8">
       <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center gap-5 w-56">
@@ -17,8 +24,8 @@ export function Option6() {
             <span>Whole Journeys</span>
           </div>
         </div>
-        <p className="text-sm font-semibold text-gray-800 text-center">Circle Emblem</p>
-        <p className="text-xs text-gray-500 text-center">WJ in layered circular crest</p>
+        <p className="text-sm font-semibold text-gray-800 text-center">Globe + WJ</p>
+        <p className="text-xs text-gray-500 text-center">Globe with WJ monogram overlay</p>
       </div>
     </div>
   );

@@ -2,5 +2,11 @@
 type ModuleMap = Record<string, () => Promise<Record<string, unknown>>>;
 export const modules: ModuleMap = {
   "./components/mockups/navbar-fonts/FontComparison.tsx": () => import("../components/mockups/navbar-fonts/FontComparison.tsx"),
-  "./components/mockups/navbar-fonts/IconOptions.tsx": () => import("../components/mockups/navbar-fonts/IconOptions.tsx")
+  "./components/mockups/navbar-fonts/IconOptions.tsx": () => import("../components/mockups/navbar-fonts/IconOptions.tsx"),
+  "./components/mockups/favicons/Option1.tsx": () => import("../components/mockups/favicons/Option1.tsx"),
+  "./components/mockups/favicons/Option2.tsx": () => import("../components/mockups/favicons/Option2.tsx"),
+  "./components/mockups/favicons/Option3.tsx": () => import("../components/mockups/favicons/Option3.tsx"),
+  "./components/mockups/favicons/Option4.tsx": () => import("../components/mockups/favicons/Option4.tsx"),
+  "./components/mockups/favicons/Option5.tsx": () => import("../components/mockups/favicons/Option5.tsx"),
+  "./components/mockups/favicons/Option6.tsx": () => import("../components/mockups/favicons/Option6.tsx")
 };

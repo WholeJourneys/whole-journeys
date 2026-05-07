@@ -158,15 +158,23 @@
                                     <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-2 text-white drop-shadow-md">Sea to Peaks</h1>
                                     <h2 className="text-xl md:text-2xl font-light text-cyan-100 drop-shadow-sm">A Catalan Multi-Activity Adventure</h2>
                                 </div>
-                                <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-3">
-                                    <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20 shadow-sm">
-                                        <Icon name="Calendar" className="w-5 h-5 mr-2 text-teal-300" />
-                                        <span className="font-medium text-white">May 14 - May 18</span>
+                                <div className="mt-4 md:mt-0 flex flex-col items-start md:items-end gap-3">
+                                    {/* Guide Contact Info */}
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20 shadow-sm text-sm">
+                                        <p className="text-teal-200 text-xs font-bold uppercase tracking-widest mb-1">Your Guide</p>
+                                        <p className="font-bold text-white">Sílvia Vidal — Outdoor Adventour</p>
+                                        <p className="text-cyan-100"><a href="tel:+34656590649" className="hover:underline">(+34) 656 590 649</a> · <a href="mailto:info@outdooradventour.com" className="hover:underline">info@outdooradventour.com</a></p>
                                     </div>
-                                    <button onClick={() => window.print()} className="flex items-center bg-teal-500 hover:bg-teal-400 text-white rounded-full px-4 py-2 shadow-md transition-colors print:hidden">
-                                        <Icon name="Printer" className="w-4 h-4 mr-2" />
-                                        <span className="font-medium">Save PDF</span>
-                                    </button>
+                                    <div className="flex flex-wrap items-center gap-3">
+                                        <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20 shadow-sm">
+                                            <Icon name="Calendar" className="w-5 h-5 mr-2 text-teal-300" />
+                                            <span className="font-medium text-white">May 14 – 18, 2026</span>
+                                        </div>
+                                        <button onClick={() => window.print()} className="flex items-center bg-teal-500 hover:bg-teal-400 text-white rounded-full px-4 py-2 shadow-md transition-colors print:hidden">
+                                            <Icon name="Printer" className="w-4 h-4 mr-2" />
+                                            <span className="font-medium">Save PDF</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

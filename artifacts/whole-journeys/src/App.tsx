@@ -10,6 +10,8 @@ import Hotels from "./pages/Hotels";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import TripInquiry from "./pages/TripInquiry";
 import Infographics from "./pages/Infographics";
+import ViaFrancigena from "./pages/ViaFrancigena";
+import CoastToCoast from "./pages/CoastToCoast";
 import NotFound from "./pages/not-found";
 
 const queryClient = new QueryClient({
@@ -33,6 +35,8 @@ function Router() {
       <Route path="/terms" component={TermsAndConditions} />
       <Route path="/inquiry" component={TripInquiry} />
       <Route path="/infographics" component={Infographics} />
+      <Route path="/infographics/via-francigena" component={ViaFrancigena} />
+      <Route path="/infographics/coast-to-coast" component={CoastToCoast} />
       <Route component={NotFound} />
     </Switch>
   );

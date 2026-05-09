@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import SEO from "../components/SEO";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -11,18 +12,20 @@ const itineraries = [
     location: "Tuscany · 2026",
     days: "6 Days",
     distance: "84.5 km",
-    href: "https://favorite-watery-triggers.replit.app/via-francigena",
+    href: "/infographics/via-francigena",
     accent: "bg-secondary",
+    internal: true,
   },
   {
     region: "England",
     title: "Coast to Coast",
     subtitle: "St Bees to Robin Hood's Bay",
-    location: "Northern England · 2028",
-    days: "14 Days",
+    location: "Northern England · 2026",
+    days: "15 Days",
     distance: "190.7 mi",
-    href: "https://favorite-watery-triggers.replit.app/coast-to-coast",
+    href: "/infographics/coast-to-coast",
     accent: "bg-primary",
+    internal: true,
   },
   {
     region: "Spain",
@@ -62,44 +65,39 @@ export default function Infographics() {
 
         <section className="max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {itineraries.map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className={`${item.accent} p-5 flex items-center justify-between`}>
-                  <span className="text-white/80 text-xs font-semibold tracking-widest uppercase">
-                    {item.region}
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                    <Map className="w-4 h-4 text-white" />
+            {itineraries.map((item) => {
+              const cardInner = (
+                <>
+                  <div className={`${item.accent} p-5 flex items-center justify-between`}>
+                    <span className="text-white/80 text-xs font-semibold tracking-widest uppercase">{item.region}</span>
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                      <Map className="w-4 h-4 text-white" />
+                    </div>
                   </div>
-                </div>
-
-                <div className="bg-white border border-gray-100 p-6 flex flex-col gap-3">
-                  <div>
-                    <h2 className="font-display text-2xl font-bold text-primary group-hover:text-secondary transition-colors">
-                      {item.title}
-                    </h2>
-                    <p className="text-gray-500 italic text-sm mt-0.5">{item.subtitle}</p>
-                    <p className="text-gray-400 text-xs uppercase tracking-wider mt-2">{item.location}</p>
+                  <div className="bg-white border border-gray-100 p-6 flex flex-col gap-3">
+                    <div>
+                      <h2 className="font-display text-2xl font-bold text-primary group-hover:text-secondary transition-colors">{item.title}</h2>
+                      <p className="text-gray-500 italic text-sm mt-0.5">{item.subtitle}</p>
+                      <p className="text-gray-400 text-xs uppercase tracking-wider mt-2">{item.location}</p>
+                    </div>
+                    <div className="flex items-center gap-4 text-sm text-gray-600 border-t border-gray-100 pt-3 mt-1">
+                      <span className="font-medium">{item.days}</span>
+                      <span className="text-gray-300">·</span>
+                      <span className="font-medium">{item.distance}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-secondary group-hover:gap-3 transition-all mt-1">
+                      View Itinerary <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
                   </div>
-
-                  <div className="flex items-center gap-4 text-sm text-gray-600 border-t border-gray-100 pt-3 mt-1">
-                    <span className="font-medium">{item.days}</span>
-                    <span className="text-gray-300">·</span>
-                    <span className="font-medium">{item.distance}</span>
-                  </div>
-
-                  <div className="flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-secondary group-hover:gap-3 transition-all mt-1">
-                    View Itinerary <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              </a>
-            ))}
+                </>
+              );
+              const cls = "group block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300";
+              return item.internal ? (
+                <Link key={item.title} href={item.href} className={cls}>{cardInner}</Link>
+              ) : (
+                <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>{cardInner}</a>
+              );
+            })}
           </div>
         </section>
       </main>

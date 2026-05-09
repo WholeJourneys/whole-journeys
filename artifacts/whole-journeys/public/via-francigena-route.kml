@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Via Francigena – San Miniato to Siena (Tuscany 2026)</name>
+    <description>The Heart of the Pilgrim's Way: San Miniato Alto to Siena. 6 stages, 84.5 km, 1,495m total ascent. Based on Sigeric of Canterbury's route (AD 994).</description>
+
+    <!-- Styles -->
+    <Style id="routeLine">
+      <LineStyle>
+        <color>ff0055b4</color>
+        <width>4</width>
+      </LineStyle>
+    </Style>
+    <Style id="startPin">
+      <IconStyle>
+        <color>ff00aa00</color>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/go.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.9</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="endPin">
+      <IconStyle>
+        <color>ff0000cc</color>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.9</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="waypointPin">
+      <IconStyle>
+        <color>ff0066ff</color>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/wht-circle.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.8</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="stageStart">
+      <IconStyle>
+        <color>ff1480fa</color>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/hiking.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.85</scale>
+      </LabelStyle>
+    </Style>
+
+    <!-- ===== STAGE WAYPOINTS ===== -->
+
+    <Placemark>
+      <name>Stage 1 – San Miniato Alto (Start)</name>
+      <description><![CDATA[<b>Arrival in San Miniato Alto</b><br/>Known as the 'jewel' of the Via Francigena. Famous for its medieval Seminary and prestigious white truffles.<br/><br/><b>Key Landmark:</b> The Seminary Square<br/><b>Distance:</b> Day 1 – arrival<br/><b>Sigeric Stage Verified ✓</b>]]></description>
+      <styleUrl>#startPin</styleUrl>
+      <Point>
+        <coordinates>10.8511,43.6836,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Pieve di Coiano (Stage 2 Waypoint)</name>
+      <description><![CDATA[<b>Notable waypoint on Stage 2</b><br/>Recorded by Sigeric in 990 AD. One of the historic churches along the Via Francigena in the Val d'Elsa.]]></description>
+      <styleUrl>#waypointPin</styleUrl>
+      <Point>
+        <coordinates>10.9100,43.6500,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stage 2 End – Gambassi Terme</name>
+      <description><![CDATA[<b>San Miniato → Gambassi Terme</b><br/>A significant trek through the Val d'Elsa. Passing Pieve di Coiano and Pieve a Chianni, both recorded by Sigeric in 990 AD.<br/><br/><b>Key Landmark:</b> Pieve di Coiano<br/><b>Distance:</b> 24 km | <b>Climb:</b> +400m | <b>Descent:</b> -220m<br/><b>Sigeric Stage Verified ✓</b>]]></description>
+      <styleUrl>#stageStart</styleUrl>
+      <Point>
+        <coordinates>10.9703,43.5608,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Sanctuary of Pancole (Stage 3 Waypoint)</name>
+      <description><![CDATA[<b>Sanctuary in Pancole</b><br/>Key landmark on the approach to San Gimignano. A place of pilgrimage along the Via Francigena.]]></description>
+      <styleUrl>#waypointPin</styleUrl>
+      <Point>
+        <coordinates>11.0200,43.4800,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stage 3 End – San Gimignano</name>
+      <description><![CDATA[<b>Gambassi Terme → San Gimignano</b><br/>Approaching the 'Manhattan of the Middle Ages'. This UNESCO World Heritage Site is world-renowned for its 13 surviving medieval stone towers.<br/><br/><b>Key Landmark:</b> Sanctuary in Pancole<br/><b>Distance:</b> 13.5 km | <b>Climb:</b> +350m | <b>Descent:</b> -350m<br/><b>Sigeric Stage Verified ✓</b>]]></description>
+      <styleUrl>#stageStart</styleUrl>
+      <Point>
+        <coordinates>11.0433,43.4676,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Abbey of Santa Maria a Conero (Stage 4 Waypoint)</name>
+      <description><![CDATA[<b>XI-century Abbey of Santa Maria a Conero</b><br/>A historic abbey along the classic Tuscan landscape section of the route, surrounded by vineyards and olive groves.]]></description>
+      <styleUrl>#waypointPin</styleUrl>
+      <Point>
+        <coordinates>11.0800,43.4100,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stage 4 End – Colle di Val d'Elsa</name>
+      <description><![CDATA[<b>San Gimignano → Colle Val d'Elsa</b><br/>A stunning path through classic Tuscan landscapes: vineyards, olive groves, and the XI-century Abbey of Santa Maria a Conero.<br/><br/><b>Key Landmark:</b> Abbey of Santa Maria<br/><b>Distance:</b> 12 km | <b>Climb:</b> +270m | <b>Descent:</b> -380m<br/><b>Sigeric Stage Verified ✓</b>]]></description>
+      <styleUrl>#stageStart</styleUrl>
+      <Point>
+        <coordinates>11.1228,43.4208,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stage 5 End – Monteriggioni</name>
+      <description><![CDATA[<b>Colle Val d'Elsa → Monteriggioni</b><br/>The iconic circular fortress of Monteriggioni, whose 'crown' of towers was so striking it was mentioned in Dante's Inferno.<br/><br/><b>Key Landmark:</b> Monteriggioni Fortress<br/><b>Distance:</b> 11–15 km | <b>Climb:</b> +175–250m | <b>Descent:</b> -110–190m<br/><b>Sigeric Stage Verified ✓</b>]]></description>
+      <styleUrl>#stageStart</styleUrl>
+      <Point>
+        <coordinates>11.2233,43.3886,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Porta Camollia – Traditional Entry to Siena</name>
+      <description><![CDATA[<b>Traditional pilgrim entry into Siena</b><br/>The historic gate through which pilgrims on the Via Francigena have traditionally entered Siena for centuries.]]></description>
+      <styleUrl>#waypointPin</styleUrl>
+      <Point>
+        <coordinates>11.3242,43.3270,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stage 6 End – Piazza del Campo, Siena (Finish)</name>
+      <description><![CDATA[<b>Monteriggioni → Siena</b><br/>Entering Siena through the traditional Porta Camollia. The trek concludes in the magnificent Piazza del Campo — one of Europe's greatest medieval squares.<br/><br/><b>Key Landmark:</b> Piazza del Campo<br/><b>Distance:</b> 20 km | <b>Climb:</b> +300m | <b>Descent:</b> -250m<br/><b>Sigeric Stage Verified ✓</b>]]></description>
+      <styleUrl>#endPin</styleUrl>
+      <Point>
+        <coordinates>11.3319,43.3183,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- ===== ROUTE LINE ===== -->
+
+    <Placemark>
+      <name>Via Francigena Route – San Miniato to Siena</name>
+      <description>Complete walking route. 84.5 km total, 6 stages, 1,495m total ascent.</description>
+      <styleUrl>#routeLine</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+          10.8511,43.6836,0
+          10.8700,43.6700,0
+          10.9000,43.6600,0
+          10.9100,43.6500,0
+          10.9300,43.6300,0
+          10.9500,43.6000,0
+          10.9703,43.5608,0
+          10.9900,43.5400,0
+          11.0100,43.5100,0
+          11.0200,43.4800,0
+          11.0350,43.4720,0
+          11.0433,43.4676,0
+          11.0600,43.4550,0
+          11.0800,43.4100,0
+          11.1000,43.4200,0
+          11.1228,43.4208,0
+          11.1500,43.4100,0
+          11.1800,43.4000,0
+          11.2000,43.3950,0
+          11.2233,43.3886,0
+          11.2500,43.3700,0
+          11.2800,43.3500,0
+          11.3000,43.3400,0
+          11.3242,43.3270,0
+          11.3280,43.3220,0
+          11.3319,43.3183,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+  </Document>
+</kml>

@@ -51,16 +51,22 @@ export default function Infographics() {
       <Navbar />
 
       <main className="flex-1">
-        <section className="bg-primary py-20 px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4 text-white/60 uppercase tracking-widest text-xs font-medium">
+        <section className="bg-primary py-24 px-4 text-center">
+          <div className="flex items-center justify-center gap-2 mb-6 text-white/60 uppercase tracking-widest text-xs font-medium">
             <Map className="w-4 h-4" />
             <span>Whole Journeys</span>
           </div>
-          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-3">
+          <h1 className="font-display text-5xl md:text-7xl font-bold text-white mb-4">
             Infographic Itineraries
           </h1>
-          <p className="text-white/60 italic text-lg" style={{ fontFamily: "'Great Vibes', cursive" }}>
+          <p className="text-white/80 italic text-4xl md:text-5xl mb-8" style={{ fontFamily: "'Great Vibes', cursive" }}>
             designed by Kathy
+          </p>
+          <p className="max-w-2xl mx-auto text-white/70 text-base md:text-lg leading-relaxed">
+            Each infographic is a living travel document — built to be read before you pack, 
+            carried on your phone while you walk, and shared with fellow travellers. 
+            Every hotel is one tap from Google Maps, every vegan lunch spot is linked, 
+            and the full route opens in your maps app. No PDFs to scroll, no spreadsheets to decipher.
           </p>
         </section>
 

@@ -9,6 +9,7 @@ import Picks from "./pages/Picks";
 import Hotels from "./pages/Hotels";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import TripInquiry from "./pages/TripInquiry";
+import Infographics from "./pages/Infographics";
 import NotFound from "./pages/not-found";
 
 const queryClient = new QueryClient({

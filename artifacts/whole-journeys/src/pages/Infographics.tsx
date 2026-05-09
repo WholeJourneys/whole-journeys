@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import SEO from "../components/SEO";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { ArrowRight, Map } from "lucide-react";
+import { ArrowRight, Map, Share2, Bookmark, MapPin } from "lucide-react";
 
 const itineraries = [
   {
@@ -105,6 +105,41 @@ export default function Infographics() {
                 <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>{cardInner}</a>
               );
             })}
+          </div>
+        </section>
+        <section className="bg-stone-50 border-t border-stone-100 py-16 px-4">
+          <div className="max-w-3xl mx-auto text-center mb-10">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary mb-2">Use on your phone</h2>
+            <p className="text-stone-500 text-sm">These itineraries are designed to live on your phone for the duration of the trip — no app download, no printing required.</p>
+          </div>
+          <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-6 flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Share2 className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="font-bold text-stone-800">Add to Home Screen</h3>
+              <p className="text-stone-500 text-sm leading-relaxed">
+                Open the itinerary in your browser, tap the <strong>Share</strong> button (iOS) or the <strong>⋮ menu</strong> (Android), then choose <strong>"Add to Home Screen."</strong> It opens instantly like an app — no URL to type.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-6 flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-secondary" />
+              </div>
+              <h3 className="font-bold text-stone-800">One-tap Maps &amp; Calls</h3>
+              <p className="text-stone-500 text-sm leading-relaxed">
+                Every hotel address opens directly in <strong>Google Maps</strong> for walking or driving directions. Every phone number is a tap-to-call link — no copying numbers out of a PDF.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-6 flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                <Bookmark className="w-5 h-5 text-amber-600" />
+              </div>
+              <h3 className="font-bold text-stone-800">Bookmark for Offline</h3>
+              <p className="text-stone-500 text-sm leading-relaxed">
+                Load the page on <strong>Wi-Fi before you set off</strong> each day — your browser caches it so the itinerary stays readable even in areas with no signal on the trail.
+              </p>
+            </div>
           </div>
         </section>
       </main>

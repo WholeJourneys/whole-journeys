@@ -63,10 +63,10 @@ export default function Infographics() {
             designed by Kathy
           </p>
           <p className="max-w-2xl mx-auto text-white/70 text-base md:text-lg leading-relaxed">
-            Each infographic is a living travel document — built to be read before you pack, 
-            carried on your phone while you walk, and shared with fellow travellers. 
-            Every hotel is one tap from Google Maps, every vegan lunch spot is linked, 
-            and the full route opens in your maps app. No PDFs to scroll, no spreadsheets to decipher.
+            I'm currently exploring designing Infographics as a fun way to view trip itineraries more visually. 
+            These live travel documents can be read before you pack, carried on your phone while you walk, 
+            and shared with friends and family. Every hotel is one tap from Google Maps, suggested visits 
+            and restaurants are linked, and the full route opens in your maps app. No PDFs to scroll, no spreadsheets to decipher.
           </p>
         </section>
 

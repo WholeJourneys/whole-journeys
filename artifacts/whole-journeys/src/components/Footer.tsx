@@ -78,6 +78,7 @@ export default function Footer() {
           <div className="flex gap-6">
             <Link href="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
             <Link href="/inquiry" className="hover:text-white transition-colors">Trip Inquiry</Link>
+            <a href="https://favorite-watery-triggers.replit.app" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Infografics</a>
           </div>
         </div>
       </div>

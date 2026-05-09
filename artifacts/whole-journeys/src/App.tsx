@@ -12,6 +12,7 @@ import TripInquiry from "./pages/TripInquiry";
 import Infographics from "./pages/Infographics";
 import ViaFrancigena from "./pages/ViaFrancigena";
 import CoastToCoast from "./pages/CoastToCoast";
+import CatalanAdventure from "./pages/CatalanAdventure";
 import NotFound from "./pages/not-found";
 
 const queryClient = new QueryClient({
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/infographics" component={Infographics} />
       <Route path="/infographics/via-francigena" component={ViaFrancigena} />
       <Route path="/infographics/coast-to-coast" component={CoastToCoast} />
+      <Route path="/infographics/catalan-adventure" component={CatalanAdventure} />
       <Route component={NotFound} />
     </Switch>
   );

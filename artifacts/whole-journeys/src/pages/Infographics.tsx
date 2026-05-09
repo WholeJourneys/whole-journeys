@@ -31,11 +31,12 @@ const itineraries = [
     region: "Spain",
     title: "Catalonian Way",
     subtitle: "A Catalan Multi-Activity Adventure",
-    location: "Catalonia · 2028",
+    location: "Catalonia · May 2026",
     days: "5 Days",
-    distance: "TBC",
-    href: "/catalan-adventure-preview.html",
+    distance: "Sea to Peaks",
+    href: "/infographics/catalan-adventure",
     accent: "bg-[#3D3B8E]",
+    internal: true,
   },
 ];
 

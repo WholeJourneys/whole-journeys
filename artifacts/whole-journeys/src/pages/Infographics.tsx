@@ -135,9 +135,9 @@ export default function Infographics() {
               <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
                 <Bookmark className="w-5 h-5 text-amber-600" />
               </div>
-              <h3 className="font-bold text-stone-800">Bookmark for Offline</h3>
+              <h3 className="font-bold text-stone-800">Works Fully Offline</h3>
               <p className="text-stone-500 text-sm leading-relaxed">
-                Load the page on <strong>Wi-Fi before you set off</strong> each day — your browser caches it so the itinerary stays readable even in areas with no signal on the trail.
+                Visit any itinerary page once on <strong>Wi-Fi</strong> and the app installs a service worker that saves everything to your device. After that, <strong>all pages work with no signal at all</strong> — no data, no roaming charges, no problem.
               </p>
             </div>
           </div>

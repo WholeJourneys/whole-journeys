@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import type { ReactElement } from "react";
 import React from "react";
+import Navbar from "../components/Navbar";
 
 const ROUTE_MAP = "https://www.google.com/maps/d/u/0/edit?mid=1m6MgV0QVg7yebyXiaJOplp3osHuKP0M&usp=sharing";
 
@@ -162,11 +163,22 @@ export default function ViaFrancigena() {
   const active = itinerary[activeDay - 1];
 
   return (
-    <div className="min-h-screen bg-[#fcfaf7] font-sans text-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-[#fcfaf7] font-sans text-slate-900">
+      <Navbar />
+      <nav className="print:hidden bg-white border-b border-amber-100 px-4 py-2.5">
+        <div className="max-w-6xl mx-auto flex items-center gap-2 text-xs font-semibold text-stone-400">
+          <Link href="/" className="hover:text-amber-700 transition-colors">Whole Journeys</Link>
+          <span>/</span>
+          <Link href="/infographics" className="hover:text-amber-700 transition-colors">Infographics</Link>
+          <span>/</span>
+          <span className="text-amber-700">Via Francigena</span>
+        </div>
+      </nav>
+      <div className="p-4 md:p-8">
       {/* Header */}
       <header className="max-w-6xl mx-auto mb-10 text-center relative">
         <div className="flex justify-between items-start mb-4">
-          <Link href="/infographics" className="text-[11px] font-black uppercase tracking-widest text-amber-500 hover:text-amber-700 transition-colors pt-4">← Back</Link>
+          <div className="pt-4 w-8" />
           <div className="flex flex-col items-center">
             <span className="text-amber-600 font-bold tracking-[0.2em] text-xs uppercase mb-2">Tuscany 2026</span>
             <h1 className="text-4xl md:text-6xl font-serif font-black text-amber-950 tracking-tight">Via Francigena</h1>
@@ -199,6 +211,12 @@ export default function ViaFrancigena() {
           </button>
         </div>
       </header>
+
+      <div className="print:hidden bg-white border-b border-amber-100 px-6 py-3 mb-6">
+        <div className="max-w-6xl mx-auto">
+          <Link href="/infographics" className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-700 hover:text-amber-900 transition-colors">← Back to Infographics</Link>
+        </div>
+      </div>
 
       {/* Route Visualization */}
       <div className="max-w-6xl mx-auto mb-10 print:hidden">
@@ -361,6 +379,7 @@ export default function ViaFrancigena() {
           </div>
         </div>
       </footer>
+      </div>{/* end p-4 md:p-8 */}
     </div>
   );
 }

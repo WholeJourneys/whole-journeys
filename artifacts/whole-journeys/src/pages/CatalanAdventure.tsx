@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { MapPin, BedDouble, Printer, Phone, ExternalLink, Mail, Globe, Info, Clock, Car, Mountain, Wind, Bike, Landmark, Utensils, Sunrise, Droplets, Navigation } from "lucide-react";
+import Navbar from "../components/Navbar";
 
 interface Activity { icon: string; text: string; }
 interface Hotel { name: string; note: string; address: string; phone: string; url: string; }
@@ -111,11 +112,21 @@ export default function CatalanAdventure() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans pb-12">
+      <Navbar />
+      <nav className="print:hidden bg-white border-b border-slate-100 px-4 py-2.5">
+        <div className="max-w-4xl mx-auto flex items-center gap-2 text-xs font-semibold text-stone-400">
+          <Link href="/" className="hover:text-teal-700 transition-colors">Whole Journeys</Link>
+          <span>/</span>
+          <Link href="/infographics" className="hover:text-teal-700 transition-colors">Infographics</Link>
+          <span>/</span>
+          <span className="text-teal-700">Catalonian Way</span>
+        </div>
+      </nav>
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-600 via-teal-700 to-slate-800 text-white pt-8 pb-8 px-6 shadow-lg">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-white/20 gap-4">
-            <Link href="/infographics" className="text-[11px] font-black uppercase tracking-widest text-teal-200 hover:text-white transition-colors print:hidden">← Infographics</Link>
+            <div />
             <div className="flex items-center gap-3">
               <div className="text-sm text-teal-50 bg-white/10 px-4 py-2 rounded-full border border-white/10">
                 Infographic by <span className="font-bold text-white">Kathy Dragon, Whole Journeys</span>
@@ -165,6 +176,12 @@ export default function CatalanAdventure() {
           </div>
         </div>
       </header>
+
+      <div className="print:hidden bg-white border-b border-slate-100 px-6 py-3">
+        <div className="max-w-4xl mx-auto">
+          <Link href="/infographics" className="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700 hover:text-teal-900 transition-colors">← Back to Infographics</Link>
+        </div>
+      </div>
 
       {/* Tab Nav */}
       <div className="max-w-4xl mx-auto px-4 pt-8 pb-2 print:hidden">

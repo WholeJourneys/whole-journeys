@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { MapPin, BedDouble, Utensils, Printer, Mountain, Navigation, Info, ExternalLink, Mail, Globe, Leaf, Phone } from "lucide-react";
+import Navbar from "../components/Navbar";
 
 interface Hotel { name: string; address: string; phone: string; mapsQuery: string; rooms?: string; }
 interface VeganSpot { label: string; name: string; mapsQuery?: string; }
@@ -177,9 +178,18 @@ export default function CoastToCoast() {
 
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-800 antialiased">
+      <Navbar />
+      <nav className="print:hidden bg-white border-b border-stone-100 px-4 py-2.5">
+        <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-semibold text-stone-400">
+          <Link href="/" className="hover:text-emerald-700 transition-colors">Whole Journeys</Link>
+          <span>/</span>
+          <Link href="/infographics" className="hover:text-emerald-700 transition-colors">Infographics</Link>
+          <span>/</span>
+          <span className="text-emerald-700">Coast to Coast</span>
+        </div>
+      </nav>
       {/* Header */}
       <header className="bg-gradient-to-r from-emerald-700 to-blue-800 text-white py-16 px-6 text-center shadow-xl relative">
-        <Link href="/infographics" className="absolute top-6 left-6 text-[11px] font-black uppercase tracking-widest text-emerald-200 hover:text-white transition-colors print:hidden">← Back</Link>
         <a href="/coast-to-coast.pdf" download className="absolute top-6 right-6 print:hidden p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition" title="Download PDF"><Printer size={18} className="text-white"/></a>
         <div className="text-5xl mb-4">🥾 🎒 🌊</div>
         <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight">Coast to Coast Adventure</h1>
@@ -202,6 +212,12 @@ export default function CoastToCoast() {
           </a>
         </div>
       </header>
+
+      <div className="print:hidden bg-white border-b border-stone-100 px-6 py-3">
+        <div className="max-w-7xl mx-auto">
+          <Link href="/infographics" className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-900 transition-colors">← Back to Infographics</Link>
+        </div>
+      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-14">
         {/* Summary Stats */}

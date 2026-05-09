@@ -7,14 +7,18 @@ interface Hotel { name: string; address: string; phone: string; mapsQuery: strin
 interface VeganSpot { label: string; name: string; mapsQuery?: string; }
 interface DayData {
   day: number; date: string; label: string; from: string; to: string;
-  miles: number | null; hotel: Hotel | null; terrain: string; history: string;
+  miles: number | null; hotel: Hotel | null; hotels?: Hotel[]; terrain: string; history: string;
   veganEats: VeganSpot[]; notes?: string;
 }
 
 const days: DayData[] = [
   {
     day: 1, date: "08 Jun", label: "Arrival", from: "Manchester Airport", to: "St. Bees", miles: null,
-    hotel: { name: "The Manor / Stonehouse Farm", address: "Main St, St Bees, CA27 0DE", phone: "01946 820587 / 01946 822224", mapsQuery: "The Manor St Bees Cumbria", rooms: "1x Twin, 2x Dbl/Single (Stonehouse), 1x Dbl/Single (The Manor)" },
+    hotel: null,
+    hotels: [
+      { name: "The Manor", address: "Main St, St Bees, CA27 0DE", phone: "01946 820587", mapsQuery: "The Manor St Bees Cumbria", rooms: "1x Dbl/Single (Craig)" },
+      { name: "Stonehouse Farm", address: "Main St, St Bees, CA27 0DE", phone: "01946 822224", mapsQuery: "Stonehouse Farm St Bees Cumbria", rooms: "1x Twin, 2x Dbl/Single" },
+    ],
     terrain: "Coastal village setting.",
     history: "The hike begins at St Bees Priory (founded 1120). Tradition dictates dipping your boots in the Irish Sea and picking up a pebble to carry to the opposite coast.",
     veganEats: [{ label: "Dinner", name: "The Manor — dedicated vegan options at your accommodation" }],
@@ -306,25 +310,32 @@ export default function CoastToCoast() {
                     </div>
                   )}
 
-                  {/* Hotel */}
-                  {active.hotel && (
+                  {/* Hotel(s) */}
+                  {(active.hotel || (active.hotels && active.hotels.length > 0)) && (
                     <div className="border-t border-stone-100 pt-5">
                       <div className="flex items-center gap-2 text-stone-500 font-black uppercase text-xs tracking-widest mb-3"><BedDouble size={14}/> Tonight's Stay</div>
-                      <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4">
-                        <p className="font-black text-indigo-900 text-lg">{active.hotel.name}</p>
-                        <p className="text-xs text-stone-500 mt-0.5">{active.hotel.address}</p>
-                        {active.hotel.rooms && (
-                          <p className="text-xs font-semibold text-indigo-600 mt-1 mb-3">🛏 {active.hotel.rooms}</p>
-                        )}
-                        {!active.hotel.rooms && <div className="mb-3" />}
-                        <div className="flex flex-wrap gap-3">
-                          <a href={`tel:${active.hotel.phone.replace(/[^0-9]/g, "")}`} className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 hover:text-indigo-900 transition-colors">
-                            <Phone size={13}/> {active.hotel.phone}
-                          </a>
-                          <a href={gmaps(active.hotel.mapsQuery)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 hover:text-indigo-900 transition-colors">
-                            <MapPin size={13}/> View on Google Maps <ExternalLink size={10}/>
-                          </a>
-                        </div>
+                      <div className="space-y-3">
+                        {(active.hotels ?? (active.hotel ? [active.hotel] : [])).map((h, i, arr) => (
+                          <div key={i} className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4">
+                            {arr.length > 1 && (
+                              <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-1">Option {i + 1}</p>
+                            )}
+                            <p className="font-black text-indigo-900 text-lg">{h.name}</p>
+                            <p className="text-xs text-stone-500 mt-0.5">{h.address}</p>
+                            {h.rooms && (
+                              <p className="text-xs font-semibold text-indigo-600 mt-1 mb-3">🛏 {h.rooms}</p>
+                            )}
+                            {!h.rooms && <div className="mb-3" />}
+                            <div className="flex flex-wrap gap-3">
+                              <a href={`tel:${h.phone.replace(/[^0-9]/g, "")}`} className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 hover:text-indigo-900 transition-colors">
+                                <Phone size={13}/> {h.phone}
+                              </a>
+                              <a href={gmaps(h.mapsQuery)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 hover:text-indigo-900 transition-colors">
+                                <MapPin size={13}/> View on Google Maps <ExternalLink size={10}/>
+                              </a>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}

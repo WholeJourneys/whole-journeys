@@ -303,27 +303,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* INFOGRAPHICS PROMO */}
-      <section className="py-16 bg-[#1E3A5C]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="text-white">
-              <span className="text-[#C4855A] font-medium tracking-widest uppercase text-sm mb-2 block">New</span>
-              <h2 className="text-3xl md:text-4xl font-display mb-3">Visual Trip Itineraries</h2>
-              <p className="text-white/70 text-base max-w-xl leading-relaxed">
-                Explore beautifully designed, day-by-day itinerary infographics — with maps, hotels, and daily route details — for select Whole Journeys trips.
-              </p>
-            </div>
-            <Link
-              href="/infographics"
-              className="flex-shrink-0 inline-flex items-center gap-2 px-8 py-4 bg-[#C4855A] text-white font-medium tracking-wide uppercase rounded-sm hover:bg-[#b37548] transition-colors whitespace-nowrap"
-            >
-              View Infographics <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* VALUE PROPS */}
       <section className="py-20 bg-background border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -353,6 +332,13 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* INFOGRAPHICS — quiet link */}
+      <div className="bg-background border-t border-border py-6 text-center">
+        <Link href="/infographics" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary transition-colors">
+          View visual trip itineraries <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
+      </div>
 
       <Footer />
 

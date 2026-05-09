@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { MapPin, BedDouble, Utensils, Printer, Mountain, Navigation, Info, ExternalLink, Mail, Globe, Leaf, Phone } from "lucide-react";
 
-interface Hotel { name: string; address: string; phone: string; mapsQuery: string; }
+interface Hotel { name: string; address: string; phone: string; mapsQuery: string; rooms?: string; }
 interface VeganSpot { label: string; name: string; mapsQuery?: string; }
 interface DayData {
   day: number; date: string; label: string; from: string; to: string;
@@ -14,7 +14,7 @@ interface DayData {
 const days: DayData[] = [
   {
     day: 1, date: "08 Jun", label: "Arrival", from: "Manchester Airport", to: "St. Bees", miles: null,
-    hotel: { name: "The Manor / Stonehouse Farm", address: "Main St, St Bees, CA27 0DE", phone: "01946 820587 / 01946 822224", mapsQuery: "The Manor St Bees Cumbria" },
+    hotel: { name: "The Manor / Stonehouse Farm", address: "Main St, St Bees, CA27 0DE", phone: "01946 820587 / 01946 822224", mapsQuery: "The Manor St Bees Cumbria", rooms: "1x Twin, 2x Dbl/Single (Stonehouse), 1x Dbl/Single (The Manor)" },
     terrain: "Coastal village setting.",
     history: "The hike begins at St Bees Priory (founded 1120). Tradition dictates dipping your boots in the Irish Sea and picking up a pebble to carry to the opposite coast.",
     veganEats: [{ label: "Dinner", name: "The Manor — dedicated vegan options at your accommodation" }],
@@ -22,7 +22,7 @@ const days: DayData[] = [
   },
   {
     day: 2, date: "09 Jun", label: "Day 1", from: "St. Bees", to: "Ennerdale", miles: 14.0,
-    hotel: { name: "Ennerdale Country Hotel", address: "Main St, Cleator Moor, CA23 3DT", phone: "01946 813907", mapsQuery: "Ennerdale Country Hotel Cleator Moor" },
+    hotel: { name: "Ennerdale Country Hotel", address: "Main St, Cleator Moor, CA23 3DT", phone: "01946 813907", mapsQuery: "Ennerdale Country Hotel Cleator Moor", rooms: "1x Twin, 1x Dbl/Single, 2x Single" },
     terrain: "High red coastal cliffs, farmland, and forestry tracks.",
     history: "You cross into the Lake District National Park. Ennerdale Water is the most remote of the lakes, serving as a peaceful reservoir.",
     veganEats: [
@@ -33,7 +33,7 @@ const days: DayData[] = [
   },
   {
     day: 3, date: "10 Jun", label: "Day 2", from: "Ennerdale", to: "Rosthwaite", miles: 14.5,
-    hotel: { name: "Glaramara Hotel", address: "Seatoller, Borrowdale, Nr Keswick, CA12", phone: "01768 777222", mapsQuery: "Glaramara Hotel Seatoller Borrowdale" },
+    hotel: { name: "Glaramara Hotel", address: "Seatoller, Borrowdale, Nr Keswick, CA12", phone: "01768 777222", mapsQuery: "Glaramara Hotel Seatoller Borrowdale", rooms: "1x Twin, 3x Single" },
     terrain: "Rugged mountains, steep passes (Black Sail / Loft Beck), and rocky trails.",
     history: "Borrowdale is famed for its green slate and historic graphite mining, which started the pencil industry in nearby Keswick in the 1500s.",
     veganEats: [
@@ -44,7 +44,7 @@ const days: DayData[] = [
   },
   {
     day: 4, date: "11 Jun", label: "Day 3", from: "Rosthwaite", to: "Glenridding", miles: 18.0,
-    hotel: { name: "Ullswater Inn", address: "A592, Penrith, CA11 0PB, Glenridding", phone: "01915 803610", mapsQuery: "Ullswater Inn Glenridding" },
+    hotel: { name: "Ullswater Inn", address: "A592, Penrith, CA11 0PB, Glenridding", phone: "01915 803610", mapsQuery: "Ullswater Inn Glenridding", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "High mountain passes (Grisedale Tarn), steep ascents and descents.",
     history: "You hike in the shadow of Helvellyn, England's 3rd highest peak. This area is steeped in 19th-century lead mining history.",
     veganEats: [
@@ -54,7 +54,7 @@ const days: DayData[] = [
   },
   {
     day: 5, date: "12 Jun", label: "Day 4", from: "Glenridding", to: "Shap", miles: 16.0,
-    hotel: { name: "Kings Arms Hotel", address: "Main Street, Shap, CA10 3NU", phone: "01931 716277", mapsQuery: "Kings Arms Hotel Shap Cumbria" },
+    hotel: { name: "Kings Arms Hotel", address: "Main Street, Shap, CA10 3NU", phone: "01931 716277", mapsQuery: "Kings Arms Hotel Shap Cumbria", rooms: "1x Twin, 3x Single" },
     terrain: "High ridges (Kidsty Pike — highest point at 780m), boggy moorland, and Haweswater lakeshore.",
     history: "Shap marks the geological transition from volcanic Lake District rocks to the limestone of the Pennines. Look for the ruins of Shap Abbey, founded in 1199.",
     veganEats: [
@@ -64,7 +64,7 @@ const days: DayData[] = [
   },
   {
     day: 6, date: "13 Jun", label: "Day 5", from: "Shap", to: "Kirkby Stephen", miles: 21.0,
-    hotel: { name: "Jolly Farmers Guest House", address: "High Street, Kirkby Stephen, CA17 4SH", phone: "01768 371063", mapsQuery: "Jolly Farmers Guest House Kirkby Stephen" },
+    hotel: { name: "Jolly Farmers Guest House", address: "High Street, Kirkby Stephen, CA17 4SH", phone: "01768 371063", mapsQuery: "Jolly Farmers Guest House Kirkby Stephen", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "Rolling grassy moors, limestone pavements, and farmland paths.",
     history: "Kirkby Stephen is a historic market town granted a charter in 1353. A vital stop for drovers moving cattle from Scotland.",
     veganEats: [
@@ -74,7 +74,7 @@ const days: DayData[] = [
   },
   {
     day: 7, date: "14 Jun", label: "Day 6", from: "Kirkby Stephen", to: "Keld", miles: 12.0,
-    hotel: { name: "Keld Lodge", address: "Keld, DL11 6LL", phone: "01748 886259", mapsQuery: "Keld Lodge Keld Yorkshire" },
+    hotel: { name: "Keld Lodge", address: "Keld, DL11 6LL", phone: "01748 886259", mapsQuery: "Keld Lodge Keld Yorkshire", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "Exposed high moorland, peat bogs, and steep descents.",
     history: "You pass the Nine Standards — a line of mysterious dry-stone cairns on the ridge. Their origin is unknown, but they have stood for centuries.",
     veganEats: [
@@ -84,7 +84,7 @@ const days: DayData[] = [
   },
   {
     day: 8, date: "15 Jun", label: "Day 7", from: "Keld", to: "Reeth", miles: 11.0,
-    hotel: { name: "The Burgoyne Hotel", address: "The Green, Reeth, DL11 6SN", phone: "01748 884292", mapsQuery: "The Burgoyne Hotel Reeth" },
+    hotel: { name: "The Burgoyne Hotel", address: "The Green, Reeth, DL11 6SN", phone: "01748 884292", mapsQuery: "The Burgoyne Hotel Reeth", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "Valley floor walking, old lead mine ruins, and grassy meadows.",
     history: "'Capital of Swaledale.' Reeth was a booming 18th-century lead mining town. The vast village green was designed for markets and fairs.",
     veganEats: [
@@ -94,7 +94,7 @@ const days: DayData[] = [
   },
   {
     day: 9, date: "16 Jun", label: "Day 8", from: "Reeth", to: "Richmond", miles: 11.0,
-    hotel: { name: "66 Frenchgate", address: "Frenchgate, Richmond, DL10 7AG", phone: "01748 823421", mapsQuery: "66 Frenchgate Richmond Yorkshire" },
+    hotel: { name: "66 Frenchgate", address: "Frenchgate, Richmond, DL10 7AG", phone: "01748 823421", mapsQuery: "66 Frenchgate Richmond Yorkshire", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "Wooded valleys, riverside paths along the River Swale.",
     history: "Richmond is dominated by Richmond Castle, a massive Norman fortress built in 1071 to subdue rebellions in the North.",
     veganEats: [
@@ -104,14 +104,14 @@ const days: DayData[] = [
   },
   {
     day: 10, date: "17 Jun", label: "Rest Day", from: "Richmond", to: "Richmond", miles: 0,
-    hotel: { name: "66 Frenchgate", address: "Frenchgate, Richmond, DL10 7AG", phone: "01748 823421", mapsQuery: "66 Frenchgate Richmond Yorkshire" },
+    hotel: { name: "66 Frenchgate", address: "Frenchgate, Richmond, DL10 7AG", phone: "01748 823421", mapsQuery: "66 Frenchgate Richmond Yorkshire", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "Cobblestone streets and town exploration.",
     history: "Visit the Georgian Theatre Royal, built in 1788 — Britain's most complete surviving Georgian playhouse.",
     veganEats: [{ label: "All Day", name: "The Station Cafe, Richmond (in the old railway station)", mapsQuery: "The Station Cafe Richmond North Yorkshire" }]
   },
   {
     day: 11, date: "18 Jun", label: "Day 9", from: "Richmond", to: "Ingleby Cross", miles: 23.0,
-    hotel: { name: "Park House Country Guesthouse", address: "Ingleby Cross, DL6 3PE", phone: "01609 882899", mapsQuery: "Park House Country Guesthouse Ingleby Cross" },
+    hotel: { name: "Park House Country Guesthouse", address: "Ingleby Cross, DL6 3PE", phone: "01609 882899", mapsQuery: "Park House Country Guesthouse Ingleby Cross", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "Very flat farmland, quiet country lanes, and field boundaries.",
     history: "This flat stretch connects the Dales to the Moors. Near the end you pass close to Mount Grace Priory, a 14th-century Carthusian monastery.",
     veganEats: [
@@ -121,7 +121,7 @@ const days: DayData[] = [
   },
   {
     day: 12, date: "19 Jun", label: "Day 10", from: "Ingleby Cross", to: "Blakey", miles: 21.0,
-    hotel: { name: "Fox and Hounds Inn", address: "45 Brook Lane, Ainthorpe, YO21 2LD", phone: "01287 660218", mapsQuery: "Fox and Hounds Inn Ainthorpe" },
+    hotel: { name: "Fox and Hounds Inn", address: "45 Brook Lane, Ainthorpe, YO21 2LD", phone: "01287 660218", mapsQuery: "Fox and Hounds Inn Ainthorpe", rooms: "1x Twin, 2x Dbl/Single, 1x Pod" },
     terrain: "Steep wooded escarpments, expansive open heather moorland.",
     history: "High on the moors, the Lion Inn (Blakey Ridge) is a 16th-century freehouse — the 4th highest pub in England.",
     veganEats: [
@@ -132,7 +132,7 @@ const days: DayData[] = [
   },
   {
     day: 13, date: "20 Jun", label: "Day 11", from: "Blakey", to: "Grosmont", miles: 13.75,
-    hotel: { name: "The Station Tavern", address: "Front Street, Grosmont, YO22 5PA", phone: "01947 501629", mapsQuery: "Station Tavern Grosmont" },
+    hotel: { name: "The Station Tavern", address: "Front Street, Grosmont, YO22 5PA", phone: "01947 501629", mapsQuery: "Station Tavern Grosmont", rooms: "2x Twin (John sharing to avoid transfer), 1x Dbl/Single" },
     terrain: "Flat old railway tracks, heather moorland, and descending into valleys.",
     history: "Grosmont is famous for the North Yorkshire Moors Railway, a heritage steam railway on tracks dating back to the 1830s.",
     veganEats: [
@@ -143,7 +143,7 @@ const days: DayData[] = [
   },
   {
     day: 14, date: "21 Jun", label: "Day 12", from: "Grosmont", to: "Robin Hood's Bay", miles: 15.5,
-    hotel: { name: "Victoria Hotel", address: "Station Road, Robin Hood's Bay, YO22 4RL", phone: "01947 880205", mapsQuery: "Victoria Hotel Robin Hoods Bay" },
+    hotel: { name: "Victoria Hotel", address: "Station Road, Robin Hood's Bay, YO22 4RL", phone: "01947 880205", mapsQuery: "Victoria Hotel Robin Hoods Bay", rooms: "1x Twin, 3x Dbl/Single" },
     terrain: "Riverside paths, undulating coastal cliffs leading down to the North Sea.",
     history: "Robin Hood's Bay was a notorious 18th-century smuggling hub with hidden tunnels connecting houses. Finish by dropping your pebble in the North Sea.",
     veganEats: [
@@ -176,7 +176,7 @@ export default function CoastToCoast() {
       {/* Header */}
       <header className="bg-gradient-to-r from-emerald-700 to-blue-800 text-white py-16 px-6 text-center shadow-xl relative">
         <Link href="/infographics" className="absolute top-6 left-6 text-[11px] font-black uppercase tracking-widest text-emerald-200 hover:text-white transition-colors print:hidden">← Back</Link>
-        <button onClick={() => window.print()} className="absolute top-6 right-6 print:hidden p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition"><Printer size={18} className="text-white"/></button>
+        <a href="/coast-to-coast.pdf" download className="absolute top-6 right-6 print:hidden p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition" title="Download PDF"><Printer size={18} className="text-white"/></a>
         <div className="text-5xl mb-4">🥾 🎒 🌊</div>
         <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight">Coast to Coast Adventure</h1>
         <p className="text-xl font-light text-emerald-100">St. Bees to Robin Hood's Bay · June 8–22, 2026</p>
@@ -224,6 +224,26 @@ export default function CoastToCoast() {
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-green-500 inline-block"></span>Easy (&lt;16 mi)</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-orange-500 inline-block"></span>Moderate (16–19 mi)</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-red-500 inline-block"></span>Hard (20+ mi)</span>
+          </div>
+        </section>
+
+        {/* Accommodation Breakdown */}
+        <section className="bg-white rounded-3xl shadow-xl p-6 lg:p-10 border border-stone-100">
+          <h2 className="text-2xl font-bold text-stone-800 mb-2">Accommodation &amp; Logistics</h2>
+          <p className="text-stone-500 text-sm mb-8">Your evenings are spent in a carefully curated selection of traditional English establishments. The daily <a href="https://www.sherpavan.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-stone-700">Sherpa Van</a> service collects your 20kg bags by <strong>8:30 AM</strong> and delivers them to your next destination by <strong>4:30 PM</strong>, so you hike with only a light daypack.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { pct: "50%", emoji: "🏨", label: "Historic Hotels & Inns", desc: "Classic pubs and inns like The Manor and Fox & Hounds — hearty meals and local ales." },
+              { pct: "36%", emoji: "🏡", label: "Guest Houses", desc: "Cozy, family-run B&Bs like Stonehouse Farm and 66 Frenchgate with home-cooked breakfasts." },
+              { pct: "14%", emoji: "🌿", label: "Lodges", desc: "Moorland lodges like Keld Lodge situated right on the trails." },
+            ].map(({ pct, emoji, label, desc }) => (
+              <div key={label} className="flex flex-col gap-2 bg-stone-50 rounded-2xl p-5 border border-stone-100">
+                <div className="text-3xl">{emoji}</div>
+                <div className="text-2xl font-black text-emerald-700">{pct}</div>
+                <div className="font-bold text-stone-800 text-sm">{label}</div>
+                <div className="text-xs text-stone-500 leading-relaxed">{desc}</div>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -292,7 +312,11 @@ export default function CoastToCoast() {
                       <div className="flex items-center gap-2 text-stone-500 font-black uppercase text-xs tracking-widest mb-3"><BedDouble size={14}/> Tonight's Stay</div>
                       <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4">
                         <p className="font-black text-indigo-900 text-lg">{active.hotel.name}</p>
-                        <p className="text-xs text-stone-500 mt-0.5 mb-3">{active.hotel.address}</p>
+                        <p className="text-xs text-stone-500 mt-0.5">{active.hotel.address}</p>
+                        {active.hotel.rooms && (
+                          <p className="text-xs font-semibold text-indigo-600 mt-1 mb-3">🛏 {active.hotel.rooms}</p>
+                        )}
+                        {!active.hotel.rooms && <div className="mb-3" />}
                         <div className="flex flex-wrap gap-3">
                           <a href={`tel:${active.hotel.phone.replace(/[^0-9]/g, "")}`} className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 hover:text-indigo-900 transition-colors">
                             <Phone size={13}/> {active.hotel.phone}

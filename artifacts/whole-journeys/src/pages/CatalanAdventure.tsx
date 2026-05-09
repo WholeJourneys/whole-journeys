@@ -137,6 +137,14 @@ export default function CatalanAdventure() {
               <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
                 <span className="font-medium text-sm">Level 2+ (Easy Active)</span>
               </div>
+              <a
+                href="https://www.google.com/maps/d/edit?mid=1cHINraNVWMPCkzYchdHiqkmx3LHKdvg&usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="print:hidden flex items-center gap-2 bg-white text-teal-800 font-black text-xs uppercase tracking-widest px-4 py-2 rounded-full shadow-md hover:bg-teal-50 transition-colors"
+              >
+                <Navigation size={15} /> Full Route Map
+              </a>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

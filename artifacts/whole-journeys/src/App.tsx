@@ -32,6 +32,7 @@ function Router() {
       <Route path="/admin" component={Admin} />
       <Route path="/terms" component={TermsAndConditions} />
       <Route path="/inquiry" component={TripInquiry} />
+      <Route path="/infographics" component={Infographics} />
       <Route component={NotFound} />
     </Switch>
   );

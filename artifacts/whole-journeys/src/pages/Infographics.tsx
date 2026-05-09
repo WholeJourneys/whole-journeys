@@ -31,7 +31,7 @@ const itineraries = [
     location: "Catalonia · 2028",
     days: "5 Days",
     distance: "TBC",
-    href: "https://favorite-watery-triggers.replit.app/catalonian",
+    href: "/catalan-adventure-preview.html",
     accent: "bg-[#3D3B8E]",
   },
 ];

@@ -184,7 +184,7 @@ export default function CoastToCoast() {
         <div className="text-5xl mb-4">🥾 🎒 🌊</div>
         <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight">Coast to Coast Adventure</h1>
         <p className="text-xl font-light text-emerald-100">St. Bees to Robin Hood's Bay · June 8–22, 2026</p>
-        <div className="mt-6 flex justify-center print:hidden">
+        <div className="mt-6 flex flex-wrap justify-center gap-3 print:hidden">
           <a
             href="https://www.google.com/maps/d/edit?mid=1EVNrO4953exogoNFGkIAvNJ4B_XiI4c&usp=sharing"
             target="_blank"
@@ -192,6 +192,13 @@ export default function CoastToCoast() {
             className="inline-flex items-center gap-2 bg-white text-emerald-800 font-black text-sm uppercase tracking-widest px-6 py-3 rounded-2xl shadow-lg hover:bg-emerald-50 transition-colors"
           >
             <Navigation size={18} /> View Full Route on Google Maps
+          </a>
+          <a
+            href="/coast-to-coast.pdf"
+            download="Coast-to-Coast-Adventure.pdf"
+            className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-black text-sm uppercase tracking-widest px-6 py-3 rounded-2xl shadow-lg hover:bg-white/20 transition-colors"
+          >
+            <Printer size={18} /> Download PDF
           </a>
         </div>
       </header>

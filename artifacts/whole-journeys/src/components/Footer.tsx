@@ -39,6 +39,9 @@ export default function Footer() {
               <li>
                 <Link href="/inquiry" className="text-white/70 hover:text-secondary transition-colors font-light">Trip Inquiry Form</Link>
               </li>
+              <li>
+                <Link href="/infographics" className="text-white/70 hover:text-secondary transition-colors font-light">Infographics</Link>
+              </li>
             </ul>
           </div>
 

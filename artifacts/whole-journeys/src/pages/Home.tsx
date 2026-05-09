@@ -333,13 +333,6 @@ export default function Home() {
       </section>
 
 
-      {/* INFOGRAPHICS — quiet link */}
-      <div className="bg-background border-t border-border py-6 text-center">
-        <Link href="/infographics" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary transition-colors">
-          View visual trip itineraries <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
-      </div>
-
       <Footer />
 
       <TourModal

@@ -263,7 +263,12 @@ export default function CoastToCoast() {
                     <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${activeDay === d.day ? "bg-emerald-600 text-emerald-100" : "bg-stone-100 text-stone-500"}`}>{d.date}</span>
                     <span className="text-[11px] font-mono opacity-60">{d.miles != null && d.miles > 0 ? `${d.miles} mi` : d.miles === 0 ? "Rest" : ""}</span>
                   </div>
-                  <p className="font-bold text-sm mt-1 leading-tight">{d.label !== "Arrival" && d.label !== "Departure" && d.label !== "Rest Day" ? `${d.from} → ${d.to}` : d.label === "Rest Day" ? `Rest — ${d.to}` : d.label}</p>
+                  <p className="font-bold text-sm mt-1 leading-tight">
+                    {d.label === "Rest Day" ? `Rest — ${d.to}`
+                      : d.label === "Arrival" ? `🚐 Arrival: ${d.from} → ${d.to}`
+                      : d.label === "Departure" ? `🚐 Departure: ${d.from} → ${d.to}`
+                      : `${d.from} → ${d.to}`}
+                  </p>
                 </button>
               ))}
             </div>
@@ -275,7 +280,8 @@ export default function CoastToCoast() {
                 <div className="bg-gradient-to-r from-emerald-700 to-blue-800 text-white p-6">
                   <p className="text-emerald-200 text-xs font-black uppercase tracking-widest mb-1">{active.date} · {active.label}</p>
                   <h3 className="text-2xl md:text-3xl font-extrabold">
-                    {active.label === "Arrival" || active.label === "Departure" ? active.label
+                    {active.label === "Arrival" ? `🚐 ${active.from} → ${active.to}`
+                      : active.label === "Departure" ? `🚐 ${active.from} → ${active.to}`
                       : active.label === "Rest Day" ? `Rest Day — Richmond`
                       : `${active.from} → ${active.to}`}
                   </h3>
